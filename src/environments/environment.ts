@@ -1,8 +1,17 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import {secret} from './secret.environment';
 
 export const environment = {
+  DOMAIN: secret.DOMAIN,
+  PORT: secret.PORT,
+  DB_HOST: secret.DB_HOST,
+  DB_NAME: secret.DB_NAME,
+  DB_USER: secret.DB_USER,
+  DB_PASSWORD: secret.DB_PASSWORD,
+  DB_PORT: secret.DB_PORT,
+  
   production: false
 };
 
