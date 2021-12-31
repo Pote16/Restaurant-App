@@ -46,5 +46,5 @@ testem.log
 Thumbs.db
 
 #Environment Variables:
-./environments/secret.environment.ts
-.config.index.ts
+/src/environments/secret.environment.ts
+config.index.ts
