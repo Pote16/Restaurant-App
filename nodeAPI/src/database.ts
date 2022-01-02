@@ -20,23 +20,23 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
     dialect: "mariadb",
     host: DB_HOST,
     port: DB_PORT,
-    logging: false, //logging: log,
+    logging: true, //logging: log,
 });
 
 
-export interface IOrderedItem {
+export interface IOrderedItemDB {
     orderID: number;
     itemID: number;
     number: number;
     orderItemSatusID: number;
 }
 
-export interface IOrderItemStatus {
+export interface IOrderItemStatusDB {
     orderItemStatusID: number;
     name: string;
 }
 
-export interface IOrder {
+export interface IOrderDB {
     orderID: number;
     orderStatusID: number;
     orderDate: Date;
@@ -46,23 +46,23 @@ export interface IOrder {
     totalAmount: number;
 }
 
-export interface IOrderStatus {
+export interface IOrderStatusDB {
     orderStatusID: number;
     name: string;
 }
 
-export interface IUser {
+export interface IUserDB {
     userID: number;
     name: string;
     password: string;
 }
 
-export interface IUserRole {
+export interface IUserRoleDB {
     roleID: number;
     name: String;
 }
 
-export interface IMenuItem {
+export interface IMenuItemDB {
     itemID: number;
     title: string;
     desc: string;
@@ -70,25 +70,25 @@ export interface IMenuItem {
     status: string;
 }
 
-export interface IMenuCategory {
+export interface IMenuCategoryDB {
     categoryID: number;
     title: string;
     desc: string;
 }
 
-export interface IAllergens {
+export interface IAllergensDB {
     allergenID: number;
     name: string;
 }
 
-export interface ITable {
+export interface ITableDB {
     tableID: number;
     anzahlPlatz: number;
     beschreibung: string;
 }
 
 
-export class User extends Model<IUser> implements IUser {
+export class User extends Model<IUserDB> implements IUserDB {
     userID!: number;
     name!: string;
     password!: string;
@@ -103,7 +103,7 @@ User.init(
         },
         name: {
             type: DataTypes.STRING(100),
-            allowNull: false
+            allowNull: false,
         },
         password: {
             type: DataTypes.STRING(100),
@@ -117,7 +117,7 @@ User.init(
 );
 
 
-export class UserRole extends Model<IUserRole> implements IUserRole {
+export class UserRole extends Model<IUserRoleDB> implements IUserRoleDB {
     roleID!: number;
     name!: String;
 }
@@ -140,7 +140,7 @@ UserRole.init(
     }
 );
 
-export class Table extends Model<ITable> implements ITable {
+export class Table extends Model<ITableDB> implements ITableDB {
     tableID!: number;
     anzahlPlatz!: number;
     beschreibung!: string;
@@ -168,7 +168,7 @@ Table.init(
     }
 );
 
-export class OrderStatus extends Model<IOrderStatus> implements IOrderStatus {
+export class OrderStatus extends Model<IOrderStatusDB> implements IOrderStatusDB {
     orderStatusID!: number;
     name!: string;
 }
@@ -191,7 +191,7 @@ OrderStatus.init(
     }
 );
 
-export class OrderItemStatus extends Model<IOrderItemStatus> implements IOrderItemStatus {
+export class OrderItemStatus extends Model<IOrderItemStatusDB> implements IOrderItemStatusDB {
     orderItemStatusID!: number;
     name!: string;
 }
@@ -217,7 +217,7 @@ OrderItemStatus.init(
 
 
 
-export class MenuCategory extends Model<IMenuCategory> implements IMenuCategory {
+export class MenuCategory extends Model<IMenuCategoryDB> implements IMenuCategoryDB {
     categoryID!: number;
     title!: string;
     desc!: string;
@@ -243,7 +243,7 @@ MenuCategory.init(
     }
 );
 
-export class Allergens extends Model<IAllergens> implements IAllergens {
+export class Allergens extends Model<IAllergensDB> implements IAllergensDB {
     allergenID!: number;
     name!: string;
 }
@@ -265,7 +265,7 @@ Allergens.init(
     }
 );
 
-export class MenuItem extends Model<IMenuItem> implements IMenuItem {
+export class MenuItem extends Model<IMenuItemDB> implements IMenuItemDB {
     itemID!: number;
     title!: string;
     desc!: string;
@@ -300,8 +300,8 @@ MenuItem.init(
 );
 
 export class Order
-    extends Model<IOrder>
-    implements IOrder {
+    extends Model<IOrderDB>
+    implements IOrderDB {
     orderID!: number;
     orderStatusID!: number;
     orderDate!: Date;
@@ -309,10 +309,6 @@ export class Order
     paymentReference!: string;
     paymentToken!: string;
     totalAmount!: number;
-
-    // timestamps!
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
 }
 
 Order.init(
@@ -330,7 +326,10 @@ Order.init(
                 key: "orderStatusID",
             }
         },
-        orderDate: { type: DataTypes.DATE },
+        orderDate: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
         tableID: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
@@ -351,8 +350,8 @@ Order.init(
 
 
 export class OrderedItem
-    extends Model<IOrderedItem>
-    implements IOrderedItem {
+    extends Model<IOrderedItemDB>
+    implements IOrderedItemDB {
     public orderID!: number;
     public itemID!: number;
     public number!: number;
@@ -363,7 +362,6 @@ OrderedItem.init(
     {
         orderID: {
             type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
             primaryKey: true,
             references: {
                 model: Order,
@@ -384,7 +382,7 @@ OrderedItem.init(
         },
 
         orderItemSatusID: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             references: {
                 model: OrderItemStatus,
@@ -401,31 +399,34 @@ OrderedItem.init(
 
 
 //Assosiation Tables
-MenuItem.belongsToMany(Allergens, { through: 'Allergen_Assosiations' });
-Allergens.belongsToMany(MenuItem, { through: 'Allergen_Assosiations' });
+MenuItem.belongsToMany(Allergens, { through: 'allergen_assosiations' });
+Allergens.belongsToMany(MenuItem, { through: 'allergen_assosiations' });
 
-MenuItem.belongsToMany(MenuCategory, { through: 'Category_Assosiations' });
-MenuCategory.belongsToMany(MenuItem, { through: 'Category_Assosiations' });
+MenuItem.belongsToMany(MenuCategory, { through: 'category_assosiations' });
+MenuCategory.belongsToMany(MenuItem, { through: 'category_assosiations' });
 
-UserRole.belongsToMany(User, { through: 'User_Role_Assosiations' });
-User.belongsToMany(UserRole, { through: 'Category_Assosiations' });
+UserRole.belongsToMany(User, { through: 'user_role_assosiations' });
+User.belongsToMany(UserRole, { through: 'user_role_assosiations' });
 
 
 export async function init(): Promise<void> {
     try {
         await sequelize.authenticate();
         logger.info("Database Connection has been established successfully.");
+        await sequelize.sync({ force: true }); //force: true overrides table if model is different. 
 
-        await OrderItemStatus.sync({ force: true }); //{ force: true }
-        await OrderStatus.sync({ force: true });
-        await Table.sync({ force: true });
-        await MenuItem.sync({ force: true });
-        await MenuCategory.sync({ force: true });
-        await Allergens.sync({ force: true });
-        await UserRole.sync({ force: true });
-        await User.sync({ force: true });
-        await Order.sync({ force: true });
-        await OrderedItem.sync({ force: true });
+        /*         
+            await OrderItemStatus.sync({ force: true }); //{ force: true }
+            await OrderStatus.sync({ force: true });
+            await Table.sync({ force: true });
+            await MenuItem.sync({ force: true });
+            await MenuCategory.sync({ force: true });
+            await Allergens.sync({ force: true });
+            await UserRole.sync({ force: true });
+            await User.sync({ force: true });
+            await Order.sync({ force: true });
+            await OrderedItem.sync({ force: true }); 
+        */
         console.log("Database Connection has been established successfully.");
     } catch (error) {
         logger.error("init() failed with -->", error);
