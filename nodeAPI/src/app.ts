@@ -5,11 +5,16 @@ import { init } from "./database";
 import { router } from "./router";
 import { applogger } from "./Logger";
 
+const cors = require('cors')
+const bodyParser = require('body-parser');
 const app = express();
-app.use(express.json());
+
+app.use(cors()); // allow all origins -> Access-Control-Allow-Origin: *
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(urlencoded({ extended: true }));
-app.use(router);
 app.use(express.static("public"));
+app.use(router);
 
 
 const PORT = process.env.PORT || 3000;
@@ -22,8 +27,6 @@ if (
 ) {
     throw new Error("Missing DB_USER or DB_PASSWORD or DB_NAME environment or AES_KEY variable.");
 }
-
-console.log("Test");
 
 async function startDBCon() {
     await init();
