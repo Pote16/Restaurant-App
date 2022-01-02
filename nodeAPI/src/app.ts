@@ -18,12 +18,9 @@ const DOMAIN = process.env.DOMAIN || `localhost:${PORT}`;
 if (
     !process.env.DB_USER ||
     !process.env.DB_PASSWORD ||
-    !process.env.DB_NAME ||
-    !process.env.AES_KEY
+    !process.env.DB_NAME
 ) {
-    throw new Error(
-        "Missing DB_USER or DB_PASSWORD or DB_NAME environment or AES_KEY variable."
-    );
+    throw new Error("Missing DB_USER or DB_PASSWORD or DB_NAME environment or AES_KEY variable.");
 }
 
 console.log("Test");
