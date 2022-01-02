@@ -1,4 +1,5 @@
-import { DataTypes, INTEGER, Model, Sequelize } from "sequelize";
+
+import { DataTypes, Model, Sequelize } from "sequelize";
 import { dblogger } from "./Logger";
 
 const DB_HOST = process.env.DB_HOST || "localhost";
@@ -80,6 +81,12 @@ export interface IAllergens {
     name: string;
 }
 
+export interface ITable {
+    tableID: number;
+    anzahlPlatz: number;
+    beschreibung: string;
+}
+
 
 export class User extends Model<IUser> implements IUser {
     userID!: number;
@@ -90,11 +97,18 @@ export class User extends Model<IUser> implements IUser {
 User.init(
     {
         userID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
             primaryKey: true,
         },
-        name: { type: DataTypes.STRING(100) },
-        password: { type: DataTypes.STRING(100) },
+        name: {
+            type: DataTypes.STRING(100),
+            allowNull: false
+        },
+        password: {
+            type: DataTypes.STRING(100),
+            allowNull: false
+        },
     },
     {
         tableName: "user",
@@ -111,15 +125,45 @@ export class UserRole extends Model<IUserRole> implements IUserRole {
 UserRole.init(
     {
         roleID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
             primaryKey: true,
         },
         name: {
             type: DataTypes.STRING(30),
+            allowNull: false
         }
     },
     {
         tableName: "user_role",
+        sequelize,
+    }
+);
+
+export class Table extends Model<ITable> implements ITable {
+    tableID!: number;
+    anzahlPlatz!: number;
+    beschreibung!: string;
+}
+
+Table.init(
+    {
+        tableID: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        anzahlPlatz: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            defaultValue: 0
+        },
+        beschreibung: {
+            type: DataTypes.STRING(30),
+            allowNull: false,
+        }
+    },
+    {
+        tableName: "table",
         sequelize,
     }
 );
@@ -132,11 +176,13 @@ export class OrderStatus extends Model<IOrderStatus> implements IOrderStatus {
 OrderStatus.init(
     {
         orderStatusID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
             primaryKey: true,
         },
         name: {
             type: DataTypes.STRING(30),
+            allowNull: false,
         }
     },
     {
@@ -153,15 +199,102 @@ export class OrderItemStatus extends Model<IOrderItemStatus> implements IOrderIt
 OrderItemStatus.init(
     {
         orderItemStatusID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
             primaryKey: true,
         },
         name: {
             type: DataTypes.STRING(30),
+            allowNull: false,
         }
     },
     {
         tableName: "orderitem_status",
+        sequelize,
+    }
+);
+
+
+
+
+export class MenuCategory extends Model<IMenuCategory> implements IMenuCategory {
+    categoryID!: number;
+    title!: string;
+    desc!: string;
+}
+
+MenuCategory.init(
+    {
+        categoryID: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        title: {
+            type: DataTypes.STRING(30), allowNull: false
+        },
+        desc: {
+            type: DataTypes.STRING(500), allowNull: false
+        }
+    },
+    {
+        tableName: "menu_category",
+        sequelize,
+    }
+);
+
+export class Allergens extends Model<IAllergens> implements IAllergens {
+    allergenID!: number;
+    name!: string;
+}
+
+Allergens.init(
+    {
+        allergenID: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        name: {
+            type: DataTypes.STRING(30), allowNull: false
+        }
+    },
+    {
+        tableName: "allergen",
+        sequelize,
+    }
+);
+
+export class MenuItem extends Model<IMenuItem> implements IMenuItem {
+    itemID!: number;
+    title!: string;
+    desc!: string;
+    price!: number;
+    status!: string;
+}
+
+MenuItem.init(
+    {
+        itemID: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        title: {
+            type: DataTypes.STRING(30), allowNull: false
+        },
+        desc: {
+            type: DataTypes.STRING(30), allowNull: false
+        },
+        price: {
+            type: DataTypes.DOUBLE, allowNull: false
+        },
+        status: {
+            type: DataTypes.STRING(30), allowNull: false
+        }
+    },
+    {
+        tableName: "menu_item",
         sequelize,
     }
 );
@@ -186,20 +319,29 @@ Order.init(
     {
         orderID: {
             type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
             primaryKey: true,
         },
         orderStatusID: {
-            type: DataTypes.STRING(20),
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
             references: {
-                model: OrderStatus.tableName,
-                key: OrderStatus.primaryKeyAttribute,
+                model: OrderStatus,
+                key: "orderStatusID",
             }
         },
         orderDate: { type: DataTypes.DATE },
-        tableID: { type: DataTypes.INTEGER },
-        paymentReference: { type: DataTypes.STRING(100) },
-        paymentToken: { type: DataTypes.STRING(100) },
-        totalAmount: { type: DataTypes.DOUBLE },
+        tableID: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+            references: {
+                model: Table,
+                key: "tableID",
+            }
+        },
+        paymentReference: { type: DataTypes.STRING(50), allowNull: false },
+        paymentToken: { type: DataTypes.STRING(50), allowNull: false },
+        totalAmount: { type: DataTypes.DOUBLE, allowNull: false },
     },
     {
         tableName: "order",
@@ -207,85 +349,6 @@ Order.init(
     }
 );
 
-
-export class MenuCategory extends Model<IMenuCategory> implements IMenuCategory {
-    categoryID!: number;
-    title!: string;
-    desc!: string;
-}
-
-MenuCategory.init(
-    {
-        categoryID: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-        },
-        title!: {
-            type: DataTypes.STRING(30),
-        },
-        desc: {
-            type: DataTypes.STRING(500),
-        }
-    },
-    {
-        tableName: "menu_category",
-        sequelize,
-    }
-);
-
-export class Allergens extends Model<IAllergens> implements IAllergens {
-    allergenID!: number;
-    name!: string;
-}
-
-Allergens.init(
-    {
-        allergenID: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-        },
-        name: {
-            type: DataTypes.STRING(30),
-        }
-    },
-    {
-        tableName: "allergen",
-        sequelize,
-    }
-);
-
-export class MenuItem extends Model<IMenuItem> implements IMenuItem {
-    itemID!: number;
-    title!: string;
-    desc!: string;
-    price!: number;
-    status!: string;
-}
-
-MenuItem.init(
-    {
-        itemID: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-        },
-        title: {
-            type: DataTypes.STRING(30),
-        },
-        desc: {
-            type: DataTypes.STRING(30),
-        },
-        price: {
-            type: DataTypes.DOUBLE,
-        },
-        status: {
-            type: DataTypes.STRING(30),
-        }
-    },
-    {
-        tableName: "menu_item",
-        sequelize,
-    }
-);
 
 export class OrderedItem
     extends Model<IOrderedItem>
@@ -300,29 +363,32 @@ OrderedItem.init(
     {
         orderID: {
             type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
             primaryKey: true,
             references: {
-                model: Order.tableName,
-                key: Order.primaryKeyAttribute,
+                model: Order,
+                key: "orderID",
             },
         },
         itemID: {
             type: DataTypes.INTEGER.UNSIGNED,
             primaryKey: true,
             references: {
-                model: MenuItem.tableName,
-                key: MenuItem.primaryKeyAttribute,
+                model: MenuItem,
+                key: "itemID",
             }
         },
         number: {
             type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false
         },
 
         orderItemSatusID: {
             type: DataTypes.NUMBER,
+            allowNull: false,
             references: {
-                model: OrderItemStatus.tableName,
-                key: OrderItemStatus.primaryKeyAttribute,
+                model: OrderItemStatus,
+                key: "orderItemStatusID",
             }
         },
     },
@@ -331,6 +397,8 @@ OrderedItem.init(
         sequelize,
     }
 );
+
+
 
 //Assosiation Tables
 MenuItem.belongsToMany(Allergens, { through: 'Allergen_Assosiations' });
@@ -348,15 +416,16 @@ export async function init(): Promise<void> {
         await sequelize.authenticate();
         logger.info("Database Connection has been established successfully.");
 
-        await OrderItemStatus.sync(); //{ force: true }
-        await OrderedItem.sync();
-        await OrderStatus.sync();
-        await UserRole.sync();
-        await User.sync();
-        await MenuCategory.sync();
-        await Allergens.sync();
-        await MenuItem.sync();
-        await Order.sync();
+        await OrderItemStatus.sync({ force: true }); //{ force: true }
+        await OrderStatus.sync({ force: true });
+        await Table.sync({ force: true });
+        await MenuItem.sync({ force: true });
+        await MenuCategory.sync({ force: true });
+        await Allergens.sync({ force: true });
+        await UserRole.sync({ force: true });
+        await User.sync({ force: true });
+        await Order.sync({ force: true });
+        await OrderedItem.sync({ force: true });
         console.log("Database Connection has been established successfully.");
     } catch (error) {
         logger.error("init() failed with -->", error);
