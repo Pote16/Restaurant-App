@@ -39,7 +39,7 @@ export interface IOrderItemStatusDB {
 export interface IOrderDB {
     orderID: number;
     orderStatusID: number;
-    orderDate: Date;
+    orderDate: number;
     tableID: number;
     paymentReference: string;
     paymentToken: string;
@@ -304,7 +304,7 @@ export class Order
     implements IOrderDB {
     orderID!: number;
     orderStatusID!: number;
-    orderDate!: Date;
+    orderDate!: number;
     tableID!: number;
     paymentReference!: string;
     paymentToken!: string;
