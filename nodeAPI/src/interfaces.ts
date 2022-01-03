@@ -1,8 +1,8 @@
 
 export interface IOrderAPI {
     orderId: number;
-    status: string;
-    orderDate: Date;
+    status: number;
+    orderDate: number;
     tableId: number;
     paymentReference: string;
     paymentToken: string;
@@ -13,7 +13,7 @@ export interface IOrderAPI {
 export interface IOrderedItemAPI {
     itemId: number;
     number: number;
-    status: string;
+    status: number;
 }
 
 export interface IUserAPI {
