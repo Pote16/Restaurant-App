@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Order, OrderedItem } from "./database";
-import { IOrderAPI, IMenuCategoryAPI, IMenuItemAPI, IOrderedItemAPI, IUserAPI } from "./interfaces"
-import { dblogger } from "./Logger";
+import { Order, OrderedItem } from "../database";
+import { IOrderAPI, IMenuCategoryAPI, IMenuItemAPI, IOrderedItemAPI, IUserAPI } from "../interfaces"
+import { dblogger } from "../Logger";
 
 const logger = dblogger;
 

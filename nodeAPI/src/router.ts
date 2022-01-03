@@ -1,23 +1,24 @@
 import { Router } from "express";
-import * as handler from "./restaurantAPI";
+import * as orderHandler from "./handlers/restaurantAPI";
+import * as menuItemHandler from "./handlers/menuItemAPI";
 export const router = Router();
 
 
 //Orders API
-router.get('/orders', handler.getOrders);
-router.post('/orders', handler.postOrders); //post a new order
-router.delete('/orders', handler.deleteOrders); //delte all orders
+router.get('/orders', orderHandler.getOrders);
+router.post('/orders', orderHandler.postOrders); //post a new order
+router.delete('/orders', orderHandler.deleteOrders); //delte all orders
 
-router.get('/order/:id', handler.getOrderByID);
-router.put('/orders/:id', handler.putOrderByID); //update single Order
-router.delete('/orders/:id', handler.deleteOrderByID);
+router.get('/order/:id', orderHandler.getOrderByID);
+router.put('/orders/:id', orderHandler.putOrderByID); //update single Order
+router.delete('/orders/:id', orderHandler.deleteOrderByID);
 
 //TODO: Users API
 
 //TODO: CategoryAPI
 
 //TODO: MenuItemAPI
-
+router.get('/menuItems', menuItemHandler.getMenuItems);
 //TODO: TableAPI
 
 
