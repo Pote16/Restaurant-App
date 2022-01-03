@@ -1,6 +1,7 @@
 
 import { DataTypes, Model, Sequelize } from "sequelize";
 import { dblogger } from "./Logger";
+import * as sample from "./sampledata"
 
 const DB_HOST = process.env.DB_HOST || "localhost";
 const DB_USER = process.env.DB_USER as string;
@@ -67,7 +68,7 @@ export interface IMenuItemDB {
     title: string;
     desc: string;
     price: number;
-    status: string;
+    status: number;
 }
 
 export interface IMenuCategoryDB {
@@ -87,6 +88,33 @@ export interface ITableDB {
     beschreibung: string;
 }
 
+export interface IMenuItemStatusDB {
+    id: number;
+    name: string;
+}
+
+export class MenuItemStatus extends Model<IMenuItemStatusDB> implements IMenuItemStatusDB {
+    id!: number;
+    name!: string;
+}
+
+MenuItemStatus.init(
+    {
+        id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        name: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+        }
+    },
+    {
+        tableName: "menuitem_status",
+        sequelize,
+    }
+);
 
 export class User extends Model<IUserDB> implements IUserDB {
     userID!: number;
@@ -270,7 +298,7 @@ export class MenuItem extends Model<IMenuItemDB> implements IMenuItemDB {
     title!: string;
     desc!: string;
     price!: number;
-    status!: string;
+    status!: number;
 }
 
 MenuItem.init(
@@ -281,16 +309,16 @@ MenuItem.init(
             primaryKey: true,
         },
         title: {
-            type: DataTypes.STRING(30), allowNull: false
+            type: DataTypes.STRING(200), allowNull: false
         },
         desc: {
-            type: DataTypes.STRING(30), allowNull: false
+            type: DataTypes.STRING(1000), allowNull: false
         },
         price: {
             type: DataTypes.DOUBLE, allowNull: false
         },
         status: {
-            type: DataTypes.STRING(30), allowNull: false
+            type: DataTypes.INTEGER.UNSIGNED, allowNull: false
         }
     },
     {
@@ -414,7 +442,7 @@ export async function init(): Promise<void> {
         await sequelize.authenticate();
         logger.info("Database Connection has been established successfully.");
         await sequelize.sync({ force: true }); //force: true overrides table if model is different. 
-
+        uploadSampleData();
         /*         
             await OrderItemStatus.sync({ force: true }); //{ force: true }
             await OrderStatus.sync({ force: true });
@@ -432,4 +460,19 @@ export async function init(): Promise<void> {
         logger.error("init() failed with -->", error);
         console.log("Error Database Connection" + error);
     }
+}
+
+
+export async function uploadSampleData(): Promise<void> {
+    await OrderItemStatus.bulkCreate(sample.SamplesOrderItemStatus, { returning: true });
+    await OrderStatus.bulkCreate(sample.SamplesOrderStatus, { returning: true });
+    await Table.bulkCreate(sample.SamplesTable, { returning: true });
+    await MenuItemStatus.bulkCreate(sample.SamplesMenuItemStatus, { returning: true });
+    await MenuItem.bulkCreate(sample.SampleMenuItems, { returning: true });
+    await MenuCategory.bulkCreate(sample.SamplesMenuCategory, { returning: true });
+    await Allergens.bulkCreate(sample.SampleAllergens, { returning: true });
+    await UserRole.bulkCreate(sample.SamplesUserRole, { returning: true });
+    await User.bulkCreate(sample.SampleUser, { returning: true });
+    await Order.bulkCreate(sample.SampleOrders, { returning: true });
+    await OrderedItem.bulkCreate(sample.SampleOrderedItem, { returning: true });
 }
