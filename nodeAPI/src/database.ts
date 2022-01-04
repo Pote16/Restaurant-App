@@ -1,5 +1,5 @@
 
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { Association, DataTypes, HasManyGetAssociationsMixin, Model, Sequelize, HasManyAddAssociationMixin, HasManyCountAssociationsMixin, HasManyCreateAssociationMixin, HasManyHasAssociationMixin } from "sequelize";
 import { dblogger } from "./Logger";
 import * as sample from "./sampledata"
 
@@ -21,7 +21,7 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
     dialect: "mariadb",
     host: DB_HOST,
     port: DB_PORT,
-    logging: true, //logging: log,
+    logging: false, //logging: log,
 });
 
 
@@ -116,10 +116,54 @@ MenuItemStatus.init(
     }
 );
 
+export class UserRole extends Model<IUserRoleDB> implements IUserRoleDB {
+    roleID!: number;
+    name!: String;
+}
+
+UserRole.init(
+    {
+        roleID: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        name: {
+            type: DataTypes.STRING(30),
+            allowNull: false
+        }
+    },
+    {
+        tableName: "user_role",
+        sequelize,
+    }
+);
+
 export class User extends Model<IUserDB> implements IUserDB {
     userID!: number;
     name!: string;
     password!: string;
+
+    // timestamps!
+    declare readonly createdAt: Date;
+    declare readonly updatedAt: Date;
+
+    // Since TS cannot determine model association at compile time
+    // we have to declare them here purely virtually
+    // these will not exist until `Model.init` was called.
+    declare getUserRole: HasManyGetAssociationsMixin<UserRole>; // Note the null assertions!
+    declare addUserRole: HasManyAddAssociationMixin<UserRole[], number>;
+    declare addUserRoles: HasManyAddAssociationMixin<UserRole[], number>;
+    declare hasUserRole: HasManyHasAssociationMixin<UserRole[], number>;
+    declare countUserRole: HasManyCountAssociationsMixin;
+    declare createUserRole: HasManyCreateAssociationMixin<UserRole>;
+
+    // You can also pre-declare possible inclusions, these will only be populated if you
+    // actively include a relation.
+    declare readonly userroles?: UserRole[]; // Note this is optional since it's only populated when explicitly requested in code
+    declare static associations: {
+        userroles: Association<User, UserRole>;
+    };
 }
 
 User.init(
@@ -144,29 +188,6 @@ User.init(
     }
 );
 
-
-export class UserRole extends Model<IUserRoleDB> implements IUserRoleDB {
-    roleID!: number;
-    name!: String;
-}
-
-UserRole.init(
-    {
-        roleID: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        name: {
-            type: DataTypes.STRING(30),
-            allowNull: false
-        }
-    },
-    {
-        tableName: "user_role",
-        sequelize,
-    }
-);
 
 export class Table extends Model<ITableDB> implements ITableDB {
     tableID!: number;
@@ -299,6 +320,41 @@ export class MenuItem extends Model<IMenuItemDB> implements IMenuItemDB {
     desc!: string;
     price!: number;
     status!: number;
+
+    // timestamps!
+    declare readonly createdAt: Date;
+    declare readonly updatedAt: Date;
+
+    // Since TS cannot determine model association at compile time
+    // we have to declare them here purely virtually
+    // these will not exist until `Model.init` was called.
+    declare getAllergens: HasManyGetAssociationsMixin<Allergens>; // Note the null assertions!
+    declare addAllergens: HasManyAddAssociationMixin<Allergens[], number>;
+    declare hasAllergens: HasManyHasAssociationMixin<Allergens, number>;
+    declare countAllergens: HasManyCountAssociationsMixin;
+    declare createAllergens: HasManyCreateAssociationMixin<Allergens>;
+
+    declare getMenuCategory: HasManyGetAssociationsMixin<MenuCategory>; // Note the null assertions!
+    declare addMenuCategories: HasManyAddAssociationMixin<MenuCategory[], number>;
+    declare addMenuCategory: HasManyAddAssociationMixin<MenuCategory, number>
+    declare hasMenuCategory: HasManyHasAssociationMixin<MenuCategory, number>;
+    declare countMenuCategory: HasManyCountAssociationsMixin;
+    declare createMenuCategory: HasManyCreateAssociationMixin<MenuCategory>;
+
+    declare getMenuItemStauts: HasManyGetAssociationsMixin<MenuItemStatus>; // Note the null assertions!
+    declare addMenuItemStatus: HasManyAddAssociationMixin<MenuItemStatus, number>;
+
+    // You can also pre-declare possible inclusions, these will only be populated if you
+    // actively include a relation.
+    declare readonly allergens?: Allergens[]; // Note this is optional since it's only populated when explicitly requested in code
+    declare readonly menucategories?: MenuCategory[]; // Note this is optional since it's only populated when explicitly requested in code
+    declare readonly menuitemstatus?: MenuItemStatus;
+
+    declare static associations: {
+        allergens: Association<MenuItem, Allergens>;
+        menucategories: Association<MenuItem, MenuCategory>;
+        menuitemstatus: Association<MenuItem, MenuItemStatus>;
+    };
 }
 
 MenuItem.init(
@@ -337,6 +393,27 @@ export class Order
     paymentReference!: string;
     paymentToken!: string;
     totalAmount!: number;
+
+    declare getOrderedItems: HasManyGetAssociationsMixin<OrderedItem>; // Note the null assertions!
+    declare addOrderedItems: HasManyAddAssociationMixin<OrderedItem[], number>;
+    declare hasOrderedItems: HasManyHasAssociationMixin<OrderedItem[], number>;
+    declare countOrderedItems: HasManyCountAssociationsMixin;
+    declare createOrderedItem: HasManyCreateAssociationMixin<OrderedItem>;
+
+    declare getOrderStatus: HasManyGetAssociationsMixin<OrderStatus>; // Note the null assertions!
+    declare addOrderStatus: HasManyAddAssociationMixin<OrderStatus, number>;
+    declare getTable: HasManyGetAssociationsMixin<Table>;
+    declare addTable: HasManyAddAssociationMixin<Table, number>;
+
+    declare readonly ordereditems?: Allergens[];
+    declare readonly orderstatus?: OrderStatus;
+    declare readonly table?: Table;
+    declare static associations: {
+        ordereditems: Association<Order, OrderedItem>;
+        orderstatus: Association<Order, OrderStatus>;
+        table: Association<Order, Table>;
+    };
+
 }
 
 Order.init(
@@ -436,6 +513,27 @@ MenuCategory.belongsToMany(MenuItem, { through: 'category_assosiations' });
 UserRole.belongsToMany(User, { through: 'user_role_assosiations' });
 User.belongsToMany(UserRole, { through: 'user_role_assosiations' });
 
+Order.hasMany(OrderedItem, {
+    sourceKey: "orderID",
+    foreignKey: "orderID"
+});
+
+Order.hasOne(OrderStatus, {
+    sourceKey: "orderStatusID",
+    foreignKey: "orderStatusID"
+});
+
+Order.hasOne(Table, {
+    sourceKey: "tableID",
+    foreignKey: "tableID"
+});
+
+MenuItem.hasOne(MenuItemStatus, {
+    sourceKey: "status",
+    foreignKey: "id"
+});
+
+
 
 export async function init(): Promise<void> {
     try {
@@ -464,15 +562,30 @@ export async function init(): Promise<void> {
 
 
 export async function uploadSampleData(): Promise<void> {
-    await OrderItemStatus.bulkCreate(sample.SamplesOrderItemStatus, { returning: true });
-    await OrderStatus.bulkCreate(sample.SamplesOrderStatus, { returning: true });
-    await Table.bulkCreate(sample.SamplesTable, { returning: true });
-    await MenuItemStatus.bulkCreate(sample.SamplesMenuItemStatus, { returning: true });
-    await MenuItem.bulkCreate(sample.SampleMenuItems, { returning: true });
-    await MenuCategory.bulkCreate(sample.SamplesMenuCategory, { returning: true });
-    await Allergens.bulkCreate(sample.SampleAllergens, { returning: true });
-    await UserRole.bulkCreate(sample.SamplesUserRole, { returning: true });
-    await User.bulkCreate(sample.SampleUser, { returning: true });
+    let u: number;
+
+    await OrderItemStatus.bulkCreate(sample.SamplesOrderItemStatus, { returning: false });
+    await OrderStatus.bulkCreate(sample.SamplesOrderStatus, { returning: false });
+    await Table.bulkCreate(sample.SamplesTable, { returning: false });
+    await MenuItemStatus.bulkCreate(sample.SamplesMenuItemStatus, { returning: false });
+    let menucategories = await MenuCategory.bulkCreate(sample.SamplesMenuCategory, { returning: true });
+    let allergens = await Allergens.bulkCreate(sample.SampleAllergens, { returning: true });
+    let menuItems = await MenuItem.bulkCreate(sample.SampleMenuItems, { returning: true });
+
+    for (let i = 0; i < menuItems.length; i++) {
+        menuItems[i].addAllergens(allergens);
+        u = Math.floor(Math.random() * 2);
+        menuItems[i].addMenuCategories([menucategories[u], menucategories[u + 1],]);
+    }
+
+    let userroles = await UserRole.bulkCreate(sample.SamplesUserRole, { returning: true });
+    let newUsers = await User.bulkCreate(sample.SampleUser, { returning: true });
+
+    for (let i = 0; i < newUsers.length; i++) {
+        u = Math.floor(Math.random() * userroles.length);
+        newUsers[i].addUserRoles([userroles[u]]);
+    }
+
     await Order.bulkCreate(sample.SampleOrders, { returning: true });
     await OrderedItem.bulkCreate(sample.SampleOrderedItem, { returning: true });
 }
