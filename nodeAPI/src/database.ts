@@ -25,10 +25,7 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
 });
 
 
-// ----------------- Model Definitions -------------
-
-
-
+// ---- Model Definitions -------------
 //---------------    MenuItem Status  ---------------------------------- 
 
 export interface IMenuItemStatusDB {
@@ -584,20 +581,10 @@ export async function init(): Promise<void> {
         await sequelize.authenticate();
         logger.info("Database Connection has been established successfully.");
         await sequelize.sync({ force: true }); //force: true overrides table if model is different. 
+        logger.info("Database initialized");
         uploadSampleData();
-        /*         
-            await OrderItemStatus.sync({ force: true }); //{ force: true }
-            await OrderStatus.sync({ force: true });
-            await Table.sync({ force: true });
-            await MenuItem.sync({ force: true });
-            await MenuCategory.sync({ force: true });
-            await Allergens.sync({ force: true });
-            await UserRole.sync({ force: true });
-            await User.sync({ force: true });
-            await Order.sync({ force: true });
-            await OrderedItem.sync({ force: true }); 
-        */
-        console.log("Database Connection has been established successfully.");
+        console.log("Database initialized.");
+
     } catch (error) {
         logger.error("init() failed with -->", error);
         console.log("Error Database Connection" + error);
