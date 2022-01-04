@@ -1,5 +1,5 @@
 
-import { Association, DataTypes, HasManyGetAssociationsMixin, Model, Sequelize, HasManyAddAssociationMixin, HasManyCountAssociationsMixin, HasManyCreateAssociationMixin, HasManyHasAssociationMixin } from "sequelize";
+import { Association, DataTypes, HasManyGetAssociationsMixin, Model, Sequelize, HasManyAddAssociationMixin, HasManyCountAssociationsMixin, HasManyCreateAssociationMixin, HasManyHasAssociationMixin, Optional } from "sequelize";
 import { dblogger } from "./Logger";
 import * as sample from "./sampledata"
 
@@ -21,72 +21,15 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
     dialect: "mariadb",
     host: DB_HOST,
     port: DB_PORT,
-    logging: false, //logging: log,
+    logging: true, //logging: log,
 });
 
 
-export interface IOrderedItemDB {
-    orderID: number;
-    itemID: number;
-    number: number;
-    orderItemSatusID: number;
-}
+// ----------------- Model Definitions -------------
 
-export interface IOrderItemStatusDB {
-    orderItemStatusID: number;
-    name: string;
-}
 
-export interface IOrderDB {
-    orderID: number;
-    orderStatusID: number;
-    orderDate: number;
-    tableID: number;
-    paymentReference: string;
-    paymentToken: string;
-    totalAmount: number;
-}
 
-export interface IOrderStatusDB {
-    orderStatusID: number;
-    name: string;
-}
-
-export interface IUserDB {
-    userID: number;
-    name: string;
-    password: string;
-}
-
-export interface IUserRoleDB {
-    roleID: number;
-    name: String;
-}
-
-export interface IMenuItemDB {
-    itemID: number;
-    title: string;
-    desc: string;
-    price: number;
-    status: number;
-}
-
-export interface IMenuCategoryDB {
-    categoryID: number;
-    title: string;
-    desc: string;
-}
-
-export interface IAllergensDB {
-    allergenID: number;
-    name: string;
-}
-
-export interface ITableDB {
-    tableID: number;
-    anzahlPlatz: number;
-    beschreibung: string;
-}
+//---------------    MenuItem Status  ---------------------------------- 
 
 export interface IMenuItemStatusDB {
     id: number;
@@ -116,6 +59,13 @@ MenuItemStatus.init(
     }
 );
 
+//---------------    User Role   ---------------------------------- 
+
+export interface IUserRoleDB {
+    roleID: number;
+    name: String;
+}
+
 export class UserRole extends Model<IUserRoleDB> implements IUserRoleDB {
     roleID!: number;
     name!: String;
@@ -138,6 +88,17 @@ UserRole.init(
         sequelize,
     }
 );
+
+
+
+//---------------    User   ---------------------------------- 
+
+export interface IUserDB {
+    userID: number;
+    name: string;
+    password: string;
+}
+
 
 export class User extends Model<IUserDB> implements IUserDB {
     userID!: number;
@@ -189,10 +150,18 @@ User.init(
 );
 
 
-export class Table extends Model<ITableDB> implements ITableDB {
+//---------------    Table  ---------------------------------- 
+export interface ITableDB {
+    tableID: number;
+    anzahlPlatz: number;
+    beschreibung: string | null; // optinal value
+}
+interface ITableDBCreationAttributes extends Optional<ITableDB, "tableID"> { }
+
+export class Table extends Model<ITableDB, ITableDBCreationAttributes> implements ITableDB {
     tableID!: number;
     anzahlPlatz!: number;
-    beschreibung!: string;
+    beschreibung!: string | null;
 }
 
 Table.init(
@@ -217,6 +186,15 @@ Table.init(
     }
 );
 
+
+//---------------    Order Status   ---------------------------------- 
+
+export interface IOrderStatusDB {
+    orderStatusID: number;
+    name: string;
+}
+export interface IOrderStatusCreationAttributes extends Optional<IOrderStatusDB, "orderStatusID"> { }
+
 export class OrderStatus extends Model<IOrderStatusDB> implements IOrderStatusDB {
     orderStatusID!: number;
     name!: string;
@@ -240,7 +218,16 @@ OrderStatus.init(
     }
 );
 
-export class OrderItemStatus extends Model<IOrderItemStatusDB> implements IOrderItemStatusDB {
+
+//---------------    Orderitem Status  ---------------------------------- 
+
+export interface IOrderItemStatusDB {
+    orderItemStatusID: number;
+    name: string;
+}
+export interface IOrderItemStatusUserCreationAttributes extends Optional<IOrderItemStatusDB, "orderItemStatusID"> { }
+
+export class OrderItemStatus extends Model<IOrderItemStatusDB, IOrderItemStatusUserCreationAttributes> implements IOrderItemStatusDB {
     orderItemStatusID!: number;
     name!: string;
 }
@@ -266,7 +253,15 @@ OrderItemStatus.init(
 
 
 
-export class MenuCategory extends Model<IMenuCategoryDB> implements IMenuCategoryDB {
+//---------------    Menu Category   ---------------------------------- 
+export interface IMenuCategoryDB {
+    categoryID: number;
+    title: string;
+    desc: string;
+}
+interface IMenuCategoryDBCreationAttributes extends Optional<IMenuCategoryDB, "categoryID"> { }
+
+export class MenuCategory extends Model<IMenuCategoryDB, IMenuCategoryDBCreationAttributes> implements IMenuCategoryDB {
     categoryID!: number;
     title!: string;
     desc!: string;
@@ -292,7 +287,14 @@ MenuCategory.init(
     }
 );
 
-export class Allergens extends Model<IAllergensDB> implements IAllergensDB {
+//---------------    Allergens   ---------------------------------- 
+export interface IAllergensDB {
+    allergenID: number;
+    name: string;
+}
+interface IAllergensDBCreationAttributes extends Optional<IAllergensDB, "allergenID"> { }
+
+export class Allergens extends Model<IAllergensDB, IAllergensDBCreationAttributes> implements IAllergensDB {
     allergenID!: number;
     name!: string;
 }
@@ -314,7 +316,20 @@ Allergens.init(
     }
 );
 
-export class MenuItem extends Model<IMenuItemDB> implements IMenuItemDB {
+
+
+//---------------    Menu Item   ---------------------------------- 
+
+export interface IMenuItemDB {
+    itemID: number;
+    title: string;
+    desc: string;
+    price: number;
+    status: number;
+}
+interface IMenuItemDBCreationAttributes extends Optional<IMenuItemDB, "itemID"> { }
+
+export class MenuItem extends Model<IMenuItemDB, IMenuItemDBCreationAttributes> implements IMenuItemDB {
     itemID!: number;
     title!: string;
     desc!: string;
@@ -383,8 +398,22 @@ MenuItem.init(
     }
 );
 
+
+//---------------    Order   ---------------------------------- 
+
+export interface IOrderDB {
+    orderID: number;
+    orderStatusID: number;
+    orderDate: number;
+    tableID: number;
+    paymentReference: string;
+    paymentToken: string;
+    totalAmount: number;
+}
+export interface IOrderCreationAttributes extends Optional<IOrderDB, "orderID"> { }
+
 export class Order
-    extends Model<IOrderDB>
+    extends Model<IOrderDB, IOrderCreationAttributes>
     implements IOrderDB {
     orderID!: number;
     orderStatusID!: number;
@@ -398,7 +427,7 @@ export class Order
     declare addOrderedItems: HasManyAddAssociationMixin<OrderedItem[], number>;
     declare hasOrderedItems: HasManyHasAssociationMixin<OrderedItem[], number>;
     declare countOrderedItems: HasManyCountAssociationsMixin;
-    declare createOrderedItem: HasManyCreateAssociationMixin<OrderedItem>;
+    declare createOrderedItems: HasManyCreateAssociationMixin<OrderedItem>;
 
     declare getOrderStatus: HasManyGetAssociationsMixin<OrderStatus>; // Note the null assertions!
     declare addOrderStatus: HasManyAddAssociationMixin<OrderStatus, number>;
@@ -454,6 +483,15 @@ Order.init(
 );
 
 
+//---------------    Ordered Item   ---------------------------------- 
+
+export interface IOrderedItemDB {
+    orderID: number;
+    itemID: number;
+    number: number;
+    orderItemSatusID: number;
+}
+
 export class OrderedItem
     extends Model<IOrderedItemDB>
     implements IOrderedItemDB {
@@ -462,6 +500,7 @@ export class OrderedItem
     public number!: number;
     public orderItemSatusID!: number;
 }
+
 
 OrderedItem.init(
     {
@@ -503,7 +542,8 @@ OrderedItem.init(
 
 
 
-//Assosiation Tables
+//------------ Assosiation Tables ---------------------------------
+
 MenuItem.belongsToMany(Allergens, { through: 'allergen_assosiations' });
 Allergens.belongsToMany(MenuItem, { through: 'allergen_assosiations' });
 
@@ -515,25 +555,29 @@ User.belongsToMany(UserRole, { through: 'user_role_assosiations' });
 
 Order.hasMany(OrderedItem, {
     sourceKey: "orderID",
-    foreignKey: "orderID"
+    foreignKey: "orderID",
 });
 
 Order.hasOne(OrderStatus, {
     sourceKey: "orderStatusID",
-    foreignKey: "orderStatusID"
+    foreignKey: "orderStatusID",
+    constraints: false
 });
 
 Order.hasOne(Table, {
     sourceKey: "tableID",
-    foreignKey: "tableID"
+    foreignKey: "tableID",
+    constraints: false
 });
 
 MenuItem.hasOne(MenuItemStatus, {
     sourceKey: "status",
-    foreignKey: "id"
+    foreignKey: "id",
+    constraints: false
 });
 
 
+//----------------- Initialize Model ---------------------------
 
 export async function init(): Promise<void> {
     try {
@@ -560,6 +604,8 @@ export async function init(): Promise<void> {
     }
 }
 
+
+// ----------------------- Sample Data import -------------------------------------
 
 export async function uploadSampleData(): Promise<void> {
     let u: number;
