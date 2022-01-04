@@ -6,7 +6,7 @@ import { dblogger } from "./Logger";
 const logger = dblogger;
 
 
-//Handle Orders
+//@TODO Handle Orders
 export async function getOrders(req: Request, res: Response) {
     try {
         let ordersAnswer: IOrderAPI[] = [];
@@ -15,12 +15,6 @@ export async function getOrders(req: Request, res: Response) {
 
         for (let order of orders) {
             let ordereditems = await order.getOrderedItems();
-            /* 
-            let ordereditems: OrderedItem[] = await OrderedItem.findAll({
-                where: {
-                    orderID: order.orderID
-                }
-            }); */
 
             let orderedItemsAnswer: IOrderedItemAPI[] = [];
             for (let orderitem of ordereditems) {
@@ -64,7 +58,7 @@ export async function postOrders(req: Request, res: Response) {
     try {
         let order = req.body as IOrderAPI;
 
-        const neworder = await Order.create({
+        let neworder = await Order.create({
             orderStatusID: req.body.status,
             orderDate: order.orderDate | Date.now(),
             tableID: order.tableId,
@@ -73,26 +67,15 @@ export async function postOrders(req: Request, res: Response) {
             totalAmount: order.totalAmount
         });
 
-        await neworder.createOrderedItems({
-            orderID: 1,
-            itemID: 6,
-            number: 1,
-            orderItemSatusID: 1
-        });
-
-        /*         
         for (let item of order.orderedItems) {
-                    await neworder.createOrderedItems({
-                        orderID: neworder.orderID,
-                        itemID: item.itemId,
-                        number: item.number,
-                        orderItemSatusID: item.status
-                    });
-                }
-        */
-
+            await OrderedItem.create({
+                orderID: neworder.orderID,
+                itemID: item.itemId,
+                number: item.number,
+                orderItemSatusID: item.status
+            });
+        }
         res.status(200).json(neworder);
-
     } catch (error) {
         logger.error(error);
         res.status(400).send("failed");
@@ -101,13 +84,13 @@ export async function postOrders(req: Request, res: Response) {
 
 export async function getOrderByID(req: Request, res: Response) {
     let ordersAnswer: IOrderAPI;
-    let orderedItemsAnswer: IOrderedItemAPI | any = {};
+    let orderedItemsAnswer: IOrderedItemAPI[] = [];
 
     try {
         let order = await Order.findByPk(req.params.id);
         if (order) {
-
             let ordereditems = await order.getOrderedItems();
+
             for (let orderitem of ordereditems) {
                 orderedItemsAnswer.push({
                     itemId: orderitem.itemID,
@@ -165,6 +148,7 @@ export async function deleteOrderByID(req: Request, res: Response) {
         if (order) {
             order.destroy();
         }
+        res.status(200).send("deleted order");
     } catch (error) {
         logger.error(error);
         res.status(400).send("failed");
@@ -173,7 +157,6 @@ export async function deleteOrderByID(req: Request, res: Response) {
 
 
 //Handle MenuItems
-
 
 
 
