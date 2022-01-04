@@ -33,7 +33,9 @@ export interface IMenuItemStatusDB {
     name: string;
 }
 
-export class MenuItemStatus extends Model<IMenuItemStatusDB> implements IMenuItemStatusDB {
+interface IMenuItemStatusDBCreationAttributes extends Optional<IMenuItemStatusDB, "id"> { }
+
+export class MenuItemStatus extends Model<IMenuItemStatusDB, IMenuItemStatusDBCreationAttributes> implements IMenuItemStatusDB {
     id!: number;
     name!: string;
 }
@@ -63,7 +65,9 @@ export interface IUserRoleDB {
     name: String;
 }
 
-export class UserRole extends Model<IUserRoleDB> implements IUserRoleDB {
+interface IUserRoleDBCreationAttributes extends Optional<IUserRoleDB, "roleID"> { }
+
+export class UserRole extends Model<IUserRoleDB, IUserRoleDBCreationAttributes> implements IUserRoleDB {
     roleID!: number;
     name!: String;
 }
@@ -96,8 +100,9 @@ export interface IUserDB {
     password: string;
 }
 
+interface IUserDBCreationAttributes extends Optional<IUserDB, "userID"> { }
 
-export class User extends Model<IUserDB> implements IUserDB {
+export class User extends Model<IUserDB, IUserDBCreationAttributes> implements IUserDB {
     userID!: number;
     name!: string;
     password!: string;
