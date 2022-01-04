@@ -8,7 +8,7 @@ router.get('/orders', handler.getOrders);
 router.post('/orders', handler.postOrders); //post a new order
 router.delete('/orders', handler.deleteOrders); //delte all orders
 
-router.get('/order/:id', handler.getOrderByID);
+router.get('/orders/:id', handler.getOrderByID);
 router.put('/orders/:id', handler.putOrderByID); //update single Order
 router.delete('/orders/:id', handler.deleteOrderByID);
 
