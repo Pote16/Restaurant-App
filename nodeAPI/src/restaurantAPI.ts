@@ -9,25 +9,27 @@ const logger = dblogger;
 //Handle Orders
 export async function getOrders(req: Request, res: Response) {
     try {
-        let ordersAnswer = [{}];
-        let orders: IOrderDB[] = await Order.findAll();
+        let ordersAnswer: IOrderAPI[] = [];
 
-        orders.forEach(async (order) => {
-            let orderditems: OrderedItem[] = await OrderedItem.findAll({
+        let orders = await Order.findAll();
+
+        for (let order of orders) {
+            let ordereditems = await order.getOrderedItems();
+            /* 
+            let ordereditems: OrderedItem[] = await OrderedItem.findAll({
                 where: {
                     orderID: order.orderID
                 }
-            });
+            }); */
 
-            let orderedItemsAnswer = [{}];
-
-            orderditems.forEach(orderitem => {
+            let orderedItemsAnswer: IOrderedItemAPI[] = [];
+            for (let orderitem of ordereditems) {
                 orderedItemsAnswer.push({
                     itemId: orderitem.itemID,
                     number: orderitem.number,
                     status: orderitem.orderItemSatusID
                 });
-            });
+            }
 
             ordersAnswer.push({
                 orderId: order.orderID,
@@ -39,7 +41,10 @@ export async function getOrders(req: Request, res: Response) {
                 totalAmount: order.totalAmount,
                 orderedItems: orderedItemsAnswer,
             });
-        });
+
+        };
+
+        console.log(ordersAnswer);
 
         res.status(200).json(ordersAnswer);
     } catch (error) {
@@ -56,16 +61,7 @@ export async function postOrders(req: Request, res: Response) {
     try {
         let order = req.body as IOrderAPI;
 
-        let newOrderDB = {
-            orderStatusID: order.status,
-            orderDate: order.orderDate,
-            tableID: order.tableId,
-            paymentReference: order.paymentReference,
-            paymentToken: order.paymentToken,
-            totalAmount: order.totalAmount,
-        }
-
-        await Order.create({
+        let neworder = await Order.create({
             orderID: 1,
             orderStatusID: order.status,
             orderDate: order.orderDate | Date.now(),
@@ -75,14 +71,14 @@ export async function postOrders(req: Request, res: Response) {
             totalAmount: order.totalAmount
         });
 
-        order.orderedItems.forEach(async (orderitem) => {
-            await OrderedItem.create({
-                orderID: order.orderId,
-                itemID: orderitem.itemId,
-                number: orderitem.number,
-                orderItemSatusID: orderitem.status
+        for (let item of order.orderedItems) {
+            await neworder.createOrderedItem({
+                orderID: neworder._attributes.orderID,
+                itemID: item.itemId,
+                number: item.number,
+                orderItemSatusID: item.status
             });
-        });
+        }
 
         res.status(200).send("created new Order");
 
@@ -93,30 +89,21 @@ export async function postOrders(req: Request, res: Response) {
 }
 
 export async function getOrderByID(req: Request, res: Response) {
-    let ordersAnswer = {};
-    let orderedItemsAnswer = [{}];
+    let ordersAnswer: IOrderAPI;
+    let orderedItemsAnswer: IOrderedItemAPI | any = {};
 
     try {
-        let order = await Order.findOne({
-            where: {
-                orderID: req.params.id
-            }
-        });
-
+        let order = await Order.findByPk(req.params.id);
         if (order) {
-            let ordereditems = await OrderedItem.findAll({
-                where: {
-                    orderID: req.params.id
-                }
-            });
 
-            ordereditems.forEach(orderitem => {
+            let ordereditems = await order.getOrderedItems();
+            for (let orderitem of ordereditems) {
                 orderedItemsAnswer.push({
                     itemId: orderitem.itemID,
                     number: orderitem.number,
                     status: orderitem.orderItemSatusID
                 });
-            });
+            }
 
             ordersAnswer = {
                 orderId: order.orderID,
@@ -129,6 +116,7 @@ export async function getOrderByID(req: Request, res: Response) {
                 orderedItems: orderedItemsAnswer,
             };
             res.status(200).json(ordersAnswer);
+
         } else {
             res.status(200).send("Invalid Order Number");
         }
