@@ -9,9 +9,9 @@ router.get('/orders', orderHandler.getOrders);
 router.post('/orders', orderHandler.postOrders); //post a new order
 router.delete('/orders', orderHandler.deleteOrders); //delte all orders
 
-router.get('/order/:id', orderHandler.getOrderByID);
-router.put('/orders/:id', orderHandler.putOrderByID); //update single Order
-router.delete('/orders/:id', orderHandler.deleteOrderByID);
+router.get('/orders/:id', handler.getOrderByID);
+router.put('/orders/:id', handler.putOrderByID); //update single Order
+router.delete('/orders/:id', handler.deleteOrderByID);
 
 //TODO: Users API
 
@@ -20,5 +20,9 @@ router.delete('/orders/:id', orderHandler.deleteOrderByID);
 //TODO: MenuItemAPI
 router.get('/menuItems', menuItemHandler.getMenuItems);
 //TODO: TableAPI
+
+
+//TODO: TableAPI  :Dominik
+//TODO: Statuse Get und Post  :Dominik
 
 

@@ -54,6 +54,7 @@ config.index.ts
 /nodeAPI/.env
 /nodeAPI/debugdb.log
 /nodeAPI/debug.log
+
 /nodeAPI/dist
 /nodeAPI/node_modules
 /nodeAPI/package-lock.json
