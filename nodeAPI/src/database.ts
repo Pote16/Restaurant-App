@@ -175,11 +175,10 @@ Table.init(
         },
         anzahlPlatz: {
             type: DataTypes.INTEGER.UNSIGNED,
-            defaultValue: 0
+            defaultValue: 2
         },
         beschreibung: {
             type: DataTypes.STRING(30),
-            allowNull: false,
         }
     },
     {
@@ -345,7 +344,7 @@ export class MenuItem extends Model<IMenuItemDB, IMenuItemDBCreationAttributes> 
     // Since TS cannot determine model association at compile time
     // we have to declare them here purely virtually
     // these will not exist until `Model.init` was called.
-    declare getAllergens: HasManyGetAssociationsMixin<Allergens>; // Note the null assertions!
+    declare getAllergens: HasManyGetAssociationsMixin<Allergens[]>; // Note the null assertions!
     declare addAllergens: HasManyAddAssociationMixin<Allergens[], number>;
     declare hasAllergens: HasManyHasAssociationMixin<Allergens, number>;
     declare countAllergens: HasManyCountAssociationsMixin;

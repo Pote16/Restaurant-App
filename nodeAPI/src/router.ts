@@ -18,6 +18,8 @@ router.delete('/orders/:id', handler.deleteOrderByID);
 
 //TODO: MenuItemAPI
 
-//TODO: TableAPI
+
+//TODO: TableAPI  :Dominik
+//TODO: Statuse Get und Post  :Dominik
 
 
