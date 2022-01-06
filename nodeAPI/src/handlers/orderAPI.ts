@@ -167,9 +167,3 @@ export async function getOrderStatusList(req: Request, res: Response) {
     }
 }
 
-
-//Handle MenuItems
-
-
-
-//Helper Functions
