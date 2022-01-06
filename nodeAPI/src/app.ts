@@ -26,9 +26,13 @@ app.use("/orders", ordersRoutes);
 const tablesRoutes = require("./tables/routes")(express.Router());
 app.use("/tables", tablesRoutes);
 
+//TODO: CategoryAPI
+const categoryRoutes = require("./menuCategories/routes")(express.Router());
+app.use("/categories", categoryRoutes);
+
 //TODO: Statuse Get und Post  :Dominik
 //TODO: Users API
-//TODO: CategoryAPI
+
 
 
 const PORT = process.env.PORT || 3000;
