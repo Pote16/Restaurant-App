@@ -48,7 +48,7 @@ export async function getOrders(req: Request, res: Response) {
 }
 
 export async function deleteOrders(req: Request, res: Response) {
-    OrderStatus.destroy({
+    Order.destroy({
         where: {},
         truncate: true
     });
@@ -155,9 +155,15 @@ export async function deleteOrderByID(req: Request, res: Response) {
     }
 }
 
+export async function getOrderStatusList(req: Request, res: Response) {
+    try {
+        let orderStatusList = await OrderStatus.findAll();
+        if(orderStatusList){
+            res.status(200).json(orderStatusList)
+        }
+    } catch (error) {
+        logger.error(error);
+        res.status(400).send("failed");
+    }
+}
 
-//Handle MenuItems
-
-
-
-//Helper Functions
