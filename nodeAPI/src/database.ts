@@ -10,7 +10,7 @@ import {
   HasManyCreateAssociationMixin,
   HasManyHasAssociationMixin,
   Optional,
-  BelongsToManyGetAssociationsMixin, BelongsToManyAddAssociationsMixin
+  BelongsToManyGetAssociationsMixin, HasManyRemoveAssociationMixin
 } from "sequelize";
 import { dblogger } from "./Logger";
 import * as sample from "./sampledata"
@@ -361,13 +361,15 @@ export class MenuItem extends Model<IMenuItemDB, IMenuItemDBCreationAttributes> 
     declare hasAllergens: HasManyHasAssociationMixin<Allergens, number>;
     declare countAllergens: HasManyCountAssociationsMixin;
     declare createAllergens: HasManyCreateAssociationMixin<Allergens>;
+    declare removeAllergens: HasManyRemoveAssociationMixin<Allergens[], number>;
 
-    declare getMenuCategories: BelongsToManyGetAssociationsMixin<MenuCategory[]>; // Note the null assertions!
+    declare getMenuCategories: BelongsToManyGetAssociationsMixin<MenuCategory>; // Note the null assertions!
     declare addMenuCategories: HasManyAddAssociationMixin<MenuCategory[], number>;
     declare addMenuCategory: HasManyAddAssociationMixin<MenuCategory, number>
     declare hasMenuCategory: HasManyHasAssociationMixin<MenuCategory, number>;
     declare countMenuCategory: HasManyCountAssociationsMixin;
     declare createMenuCategory: HasManyCreateAssociationMixin<MenuCategory>;
+    declare removeMenuCategories: HasManyRemoveAssociationMixin<MenuCategory[], number>;
 
     declare getMenuItemStauts: HasManyGetAssociationsMixin<MenuItemStatus>; // Note the null assertions!
     declare addMenuItemStatus: HasManyAddAssociationMixin<MenuItemStatus, number>;

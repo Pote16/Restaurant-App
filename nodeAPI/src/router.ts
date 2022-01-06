@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as orderHandler from "./handlers/restaurantAPI";
 import * as menuItemHandler from "./handlers/menuItemAPI";
+import {deleteMenuItemByID, deleteMenuItems, postMenuItem, putMenuItemByID} from "./handlers/menuItemAPI";
 export const router = Router();
 
 
@@ -17,8 +18,13 @@ router.delete('/orders/:id', orderHandler.deleteOrderByID);
 
 //TODO: CategoryAPI
 
-//TODO: MenuItemAPI
 router.get('/menuItems', menuItemHandler.getMenuItems);
+router.delete('/menuItems', menuItemHandler.deleteMenuItems);
+router.post('/menuItems', menuItemHandler.postMenuItem);
+
+router.get('/menuItems/:id', menuItemHandler.getMenuItemByID);
+router.delete('/menuItems/:id', menuItemHandler.deleteMenuItemByID);
+router.put('/menuItems/:id', menuItemHandler.putMenuItemByID);
 //TODO: TableAPI
 
 
