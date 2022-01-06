@@ -22,13 +22,15 @@ router.delete('/orders/:id', orderHandler.deleteOrderByID);
 
 //TODO: MenuItemAPI
 router.get('/menuItems', menuItemHandler.getMenuItems);
-//TODO: TableAPI
+
 
 
 //TODO: TableAPI  :Dominik
-
-router.get('/tableItems', tableHandler.getTables);
-router.post('/tableItems', tableHandler.postTable);
+router.get('/tables', tableHandler.getTables);
+router.post('/tables', tableHandler.postTable);
+router.get('/tables/:id', tableHandler.getTableByID);
+router.put('/tables/:id', tableHandler.putTableByID);
+router.delete('/tables/:id', tableHandler.deleteTableByID);
 
 //TODO: Statuse Get und Post  :Dominik
 
