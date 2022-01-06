@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import express, { urlencoded } from "express";
 import { init } from "./database";
-import { router } from "./router";
 import { applogger } from "./Logger";
 
 const cors = require('cors')
@@ -14,7 +13,22 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use(router);
+
+const authentication_routes = require("./auth/routes")(express.Router());
+app.use("/authentication", authentication_routes);
+
+const menuItemRoutes = require("./menuItems/routes")(express.Router());
+app.use("/menuItems", menuItemRoutes);
+
+const ordersRoutes = require("./orders/routes")(express.Router());
+app.use("/orders", ordersRoutes);
+
+const tablesRoutes = require("./tables/routes")(express.Router());
+app.use("/tables", tablesRoutes);
+
+//TODO: Statuse Get und Post  :Dominik
+//TODO: Users API
+//TODO: CategoryAPI
 
 
 const PORT = process.env.PORT || 3000;
