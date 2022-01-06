@@ -29,8 +29,8 @@ export interface IMenuItemAPI {
     desc: string;
     price: number;
     category: number[];
-    allergens: string[];
-    status: string;
+    allergens: number[];
+    status: number;
 }
 
 

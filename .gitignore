@@ -54,6 +54,9 @@ config.index.ts
 /nodeAPI/.env
 /nodeAPI/debugdb.log
 /nodeAPI/debug.log
+/nodeAPI/src/debug.log
+/nodeAPI/src/debugd.log
+/nodeAPI/src/debugdb.log
 
 /nodeAPI/dist
 /nodeAPI/node_modules
