@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import {MenuItem, MenuCategory, Order, OrderedItem, Allergens} from "../database";
-import {IMenuItemAPI, IOrderAPI} from "../interfaces"
+import {MenuItem, MenuCategory, Allergens} from "../database";
+import {IMenuItemAPI} from "../interfaces"
 import { dblogger } from "../Logger";
-import {where} from "sequelize";
 
 const logger = dblogger;
 
