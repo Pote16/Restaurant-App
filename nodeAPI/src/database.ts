@@ -26,7 +26,7 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
 
 
 // ---- Model Definitions -------------
-//---------------    MenuItem Status  ---------------------------------- 
+//---------------    MenuItem Status  ----------------------------------
 
 export interface IMenuItemStatusDB {
     id: number;
@@ -58,7 +58,7 @@ MenuItemStatus.init(
     }
 );
 
-//---------------    User Role   ---------------------------------- 
+//---------------    User Role   ----------------------------------
 
 export interface IUserRoleDB {
     roleID: number;
@@ -92,7 +92,7 @@ UserRole.init(
 
 
 
-//---------------    User   ---------------------------------- 
+//---------------    User   ----------------------------------
 
 export interface IUserDB {
     userID: number;
@@ -152,7 +152,7 @@ User.init(
 );
 
 
-//---------------    Table  ---------------------------------- 
+//---------------    Table  ----------------------------------
 export interface ITableDB {
     tableID: number;
     anzahlPlatz: number;
@@ -188,7 +188,7 @@ Table.init(
 );
 
 
-//---------------    Order Status   ---------------------------------- 
+//---------------    Order Status   ----------------------------------
 
 export interface IOrderStatusDB {
     orderStatusID: number;
@@ -220,7 +220,7 @@ OrderStatus.init(
 );
 
 
-//---------------    Orderitem Status  ---------------------------------- 
+//---------------    Orderitem Status  ----------------------------------
 
 export interface IOrderItemStatusDB {
     orderItemStatusID: number;
@@ -254,7 +254,7 @@ OrderItemStatus.init(
 
 
 
-//---------------    Menu Category   ---------------------------------- 
+//---------------    Menu Category   ----------------------------------
 export interface IMenuCategoryDB {
     categoryID: number;
     title: string;
@@ -288,7 +288,7 @@ MenuCategory.init(
     }
 );
 
-//---------------    Allergens   ---------------------------------- 
+//---------------    Allergens   ----------------------------------
 export interface IAllergensDB {
     allergenID: number;
     name: string;
@@ -319,7 +319,7 @@ Allergens.init(
 
 
 
-//---------------    Menu Item   ---------------------------------- 
+//---------------    Menu Item   ----------------------------------
 
 export interface IMenuItemDB {
     itemID: number;
@@ -350,7 +350,7 @@ export class MenuItem extends Model<IMenuItemDB, IMenuItemDBCreationAttributes> 
     declare countAllergens: HasManyCountAssociationsMixin;
     declare createAllergens: HasManyCreateAssociationMixin<Allergens>;
 
-    declare getMenuCategory: HasManyGetAssociationsMixin<MenuCategory>; // Note the null assertions!
+    declare getMenuCategorys: HasManyGetAssociationsMixin<MenuCategory>; // Note the null assertions!
     declare addMenuCategories: HasManyAddAssociationMixin<MenuCategory[], number>;
     declare addMenuCategory: HasManyAddAssociationMixin<MenuCategory, number>
     declare hasMenuCategory: HasManyHasAssociationMixin<MenuCategory, number>;
@@ -363,12 +363,12 @@ export class MenuItem extends Model<IMenuItemDB, IMenuItemDBCreationAttributes> 
     // You can also pre-declare possible inclusions, these will only be populated if you
     // actively include a relation.
     declare readonly allergens?: Allergens[]; // Note this is optional since it's only populated when explicitly requested in code
-    declare readonly menucategories?: MenuCategory[]; // Note this is optional since it's only populated when explicitly requested in code
+    declare readonly menuCategory?: MenuCategory[]; // Note this is optional since it's only populated when explicitly requested in code
     declare readonly menuitemstatus?: MenuItemStatus;
 
     declare static associations: {
         allergens: Association<MenuItem, Allergens>;
-        menucategories: Association<MenuItem, MenuCategory>;
+        menuCategory: Association<MenuItem, MenuCategory>;
         menuitemstatus: Association<MenuItem, MenuItemStatus>;
     };
 }
@@ -400,7 +400,7 @@ MenuItem.init(
 );
 
 
-//---------------    Order   ---------------------------------- 
+//---------------    Order   ----------------------------------
 
 export interface IOrderDB {
     orderID: number;
@@ -435,7 +435,7 @@ export class Order
     declare getTable: HasManyGetAssociationsMixin<Table>;
     declare addTable: HasManyAddAssociationMixin<Table, number>;
 
-    declare readonly ordereditems?: Allergens[];
+    declare readonly ordereditems?: OrderedItem[];
     declare readonly orderstatus?: OrderStatus;
     declare readonly table?: Table;
     declare static associations: {
@@ -484,7 +484,7 @@ Order.init(
 );
 
 
-//---------------    Ordered Item   ---------------------------------- 
+//---------------    Ordered Item   ----------------------------------
 
 export interface IOrderedItemDB {
     orderID: number;
@@ -584,7 +584,7 @@ export async function init(): Promise<void> {
     try {
         await sequelize.authenticate();
         logger.info("Database Connection has been established successfully.");
-        await sequelize.sync({ force: true }); //force: true overrides table if model is different. 
+        await sequelize.sync({ force: true }); //force: true overrides table if model is different.
         logger.info("Database initialized");
         uploadSampleData();
         console.log("Database initialized.");

@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.
 
+`docker run --name=db-webtechProjekt -e MYSQL_ROOT_PASSWORD=securepassword -e MYSQL_DATABASE=restaurantdb -p 3306:3306 -d mariadb`
+
+`docker run --name phpMyAdmin-webtechProjekt -d --link db-webtechProjekt:db -p 8080:80 phpmyadmin/phpmyadmin`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
