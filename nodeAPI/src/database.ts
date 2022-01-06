@@ -1,5 +1,17 @@
 
-import { Association, DataTypes, HasManyGetAssociationsMixin, Model, Sequelize, HasManyAddAssociationMixin, HasManyCountAssociationsMixin, HasManyCreateAssociationMixin, HasManyHasAssociationMixin, Optional } from "sequelize";
+import {
+  Association,
+  DataTypes,
+  HasManyGetAssociationsMixin,
+  Model,
+  Sequelize,
+  HasManyAddAssociationMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyHasAssociationMixin,
+  Optional,
+  BelongsToManyGetAssociationsMixin, BelongsToManyAddAssociationsMixin
+} from "sequelize";
 import { dblogger } from "./Logger";
 import * as sample from "./sampledata"
 
@@ -344,13 +356,13 @@ export class MenuItem extends Model<IMenuItemDB, IMenuItemDBCreationAttributes> 
     // Since TS cannot determine model association at compile time
     // we have to declare them here purely virtually
     // these will not exist until `Model.init` was called.
-    declare getAllergens: HasManyGetAssociationsMixin<Allergens[]>; // Note the null assertions!
+    declare getAllergens: BelongsToManyGetAssociationsMixin<Allergens>; // Note the null assertions!
     declare addAllergens: HasManyAddAssociationMixin<Allergens[], number>;
     declare hasAllergens: HasManyHasAssociationMixin<Allergens, number>;
     declare countAllergens: HasManyCountAssociationsMixin;
     declare createAllergens: HasManyCreateAssociationMixin<Allergens>;
 
-    declare getMenuCategorys: HasManyGetAssociationsMixin<MenuCategory>; // Note the null assertions!
+    declare getMenuCategories: BelongsToManyGetAssociationsMixin<MenuCategory[]>; // Note the null assertions!
     declare addMenuCategories: HasManyAddAssociationMixin<MenuCategory[], number>;
     declare addMenuCategory: HasManyAddAssociationMixin<MenuCategory, number>
     declare hasMenuCategory: HasManyHasAssociationMixin<MenuCategory, number>;
@@ -363,12 +375,12 @@ export class MenuItem extends Model<IMenuItemDB, IMenuItemDBCreationAttributes> 
     // You can also pre-declare possible inclusions, these will only be populated if you
     // actively include a relation.
     declare readonly allergens?: Allergens[]; // Note this is optional since it's only populated when explicitly requested in code
-    declare readonly menuCategory?: MenuCategory[]; // Note this is optional since it's only populated when explicitly requested in code
+    declare readonly menuCategorys?: MenuCategory[]; // Note this is optional since it's only populated when explicitly requested in code
     declare readonly menuitemstatus?: MenuItemStatus;
 
     declare static associations: {
         allergens: Association<MenuItem, Allergens>;
-        menuCategory: Association<MenuItem, MenuCategory>;
+        menuCategorys: Association<MenuItem, MenuCategory>;
         menuitemstatus: Association<MenuItem, MenuItemStatus>;
     };
 }

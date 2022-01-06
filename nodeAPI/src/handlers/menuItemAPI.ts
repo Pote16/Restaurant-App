@@ -10,10 +10,12 @@ export async function getMenuItems(req: Request, res: Response) {
       let menuItems: MenuItem[] = await MenuItem.findAll();
       let retArray = [];
       for (let menuItem of menuItems) {
-        let categories = await menuItem.getMenuCategorys();
+        let categories = await menuItem.getMenuCategories();
+        let allergens = await menuItem.getAllergens();
         retArray.push({
           "item": menuItem,
-          "categories": categories
+          "categories": categories,
+          "allergens": allergens
         });
       }
       res.status(200).json(retArray);
