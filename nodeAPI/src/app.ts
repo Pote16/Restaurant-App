@@ -26,12 +26,16 @@ app.use("/orders", ordersRoutes);
 const tablesRoutes = require("./tables/routes")(express.Router());
 app.use("/tables", tablesRoutes);
 
-//TODO: CategoryAPI
 const categoryRoutes = require("./menuCategories/routes")(express.Router());
 app.use("/categories", categoryRoutes);
 
 //TODO: Statuse Get und Post  :Dominik
-//TODO: Users API
+
+const userRoutes = require("./users/routes")(express.Router());
+app.use("/users", userRoutes);
+
+const userRolesRoutes = require("./userRoles/routes")(express.Router());
+app.use("/userroles", userRolesRoutes);
 
 
 

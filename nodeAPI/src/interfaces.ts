@@ -19,8 +19,18 @@ export interface IOrderedItemAPI {
 export interface IUserAPI {
     userID: number;
     name: string;
-    role: string[];
-    password: string;
+    roles: number[];
+}
+
+export interface ISecretUserAPI {
+  name: string;
+  password: string;
+  roles: number[];
+}
+
+export interface IUserRoleAPI {
+  roleID: number;
+  name: string;
 }
 
 export interface IMenuItemAPI {

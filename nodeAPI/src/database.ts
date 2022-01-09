@@ -74,14 +74,14 @@ MenuItemStatus.init(
 
 export interface IUserRoleDB {
     roleID: number;
-    name: String;
+    name: string;
 }
 
 interface IUserRoleDBCreationAttributes extends Optional<IUserRoleDB, "roleID"> { }
 
 export class UserRole extends Model<IUserRoleDB, IUserRoleDBCreationAttributes> implements IUserRoleDB {
     roleID!: number;
-    name!: String;
+    name!: string;
 }
 
 UserRole.init(
@@ -126,12 +126,13 @@ export class User extends Model<IUserDB, IUserDBCreationAttributes> implements I
     // Since TS cannot determine model association at compile time
     // we have to declare them here purely virtually
     // these will not exist until `Model.init` was called.
-    declare getUserRole: HasManyGetAssociationsMixin<UserRole>; // Note the null assertions!
-    declare addUserRole: HasManyAddAssociationMixin<UserRole[], number>;
+    declare getUserRoles: BelongsToManyGetAssociationsMixin<UserRole>; // Note the null assertions!
+    declare addUserRole: HasManyAddAssociationMixin<UserRole, number>;
     declare addUserRoles: HasManyAddAssociationMixin<UserRole[], number>;
     declare hasUserRole: HasManyHasAssociationMixin<UserRole[], number>;
     declare countUserRole: HasManyCountAssociationsMixin;
     declare createUserRole: HasManyCreateAssociationMixin<UserRole>;
+    declare removeUserRoles: HasManyRemoveAssociationMixin<UserRole[], number>;
 
     // You can also pre-declare possible inclusions, these will only be populated if you
     // actively include a relation.
