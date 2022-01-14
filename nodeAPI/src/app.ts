@@ -29,13 +29,14 @@ app.use("/tables", tablesRoutes);
 const categoryRoutes = require("./menuCategories/routes")(express.Router());
 app.use("/categories", categoryRoutes);
 
-//TODO: Statuse Get und Post  :Dominik
-
 const userRoutes = require("./users/routes")(express.Router());
 app.use("/users", userRoutes);
 
 const userRolesRoutes = require("./userRoles/routes")(express.Router());
 app.use("/userroles", userRolesRoutes);
+
+const guestRequestsRoutes = require("./guestRequest/routes")(express.Router());
+app.use("/guestRequest", guestRequestsRoutes);
 
 
 

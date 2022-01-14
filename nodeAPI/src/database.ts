@@ -557,6 +557,63 @@ OrderedItem.init(
 );
 
 
+//---------------    Guest Request   ----------------------------------
+
+export interface IGuestReguestDB {
+    guestReguestID: number;
+    status: number;
+    tableID: number;
+}
+
+interface IGuestReguestDBCreationAttributes extends Optional<IGuestReguestDB, "guestReguestID"> { }
+
+export class GuestReguest extends Model<IGuestReguestDB, IGuestReguestDBCreationAttributes> implements IGuestReguestDB {
+    guestReguestID!: number;
+    status!: number;
+    tableID!: number;
+
+    // timestamps!
+    declare readonly createdAt: Date;
+    declare readonly updatedAt: Date;
+
+    declare getTable: HasManyGetAssociationsMixin<Table>;
+    declare addTable: HasManyAddAssociationMixin<Table, number>;
+
+    declare readonly table?: Table;
+    declare static associations: {
+        table: Association<Order, Table>;
+    };
+}
+
+GuestReguest.init(
+    {
+        guestReguestID: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        status: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+        },
+        tableID: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+            references: {
+                model: Table,
+                key: "tableID",
+            }
+        },
+    },
+    {
+        tableName: "guest_request",
+        sequelize,
+    }
+);
+
+
+
+
 
 //------------ Assosiation Tables ---------------------------------
 
@@ -589,6 +646,12 @@ Order.hasOne(Table, {
 MenuItem.hasOne(MenuItemStatus, {
     sourceKey: "status",
     foreignKey: "id",
+    constraints: false
+});
+
+GuestReguest.hasOne(Table, {
+    sourceKey: "tableID",
+    foreignKey: "tableID",
     constraints: false
 });
 

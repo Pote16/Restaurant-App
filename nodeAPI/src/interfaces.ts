@@ -49,3 +49,9 @@ export interface IMenuCategoryAPI {
     title: string;
     desc: string;
 }
+
+export interface IGuestRequestAPI {
+    guestReguestID: number;
+    status: number;
+    tableID: number;
+}
