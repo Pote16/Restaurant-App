@@ -36,7 +36,7 @@ const userRolesRoutes = require("./userRoles/routes")(express.Router());
 app.use("/userroles", userRolesRoutes);
 
 const guestRequestsRoutes = require("./guestRequest/routes")(express.Router());
-app.use("/guestRequest", guestRequestsRoutes);
+app.use("/guestrequest", guestRequestsRoutes);
 
 
 
