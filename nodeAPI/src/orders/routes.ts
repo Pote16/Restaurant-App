@@ -14,7 +14,7 @@ module.exports = (router: Router) => {
 
   router.get('/:id/items',authenticator.isAuthorized, orderHandler.getOrderedItems);
   router.post('/:id/items',authenticator.isAuthorized, orderHandler.postOrderedItems);
-  router.get('/:id/items/itemId',authenticator.isAuthorized, orderHandler.getOrderedItemByID);
+  router.get('/:id/items/:itemId',authenticator.isAuthorized, orderHandler.getOrderedItemByID);
   router.put('/:id/items/:itemId',authenticator.isAuthorized, orderHandler.putOrderedItemByID);
   router.delete('/:id/items/:itemId',authenticator.isAuthorized, orderHandler.deleteOrderedItemByID);
 
