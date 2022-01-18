@@ -506,7 +506,7 @@ export interface IOrderedItemDB {
     itemID: number;
     number: number;
     orderItemSatusID: number;
-    text: string;
+    text?: string;
 }
 export interface IOrderedItemsCreationAttributes extends Optional<IOrderedItemDB, "text"> { }
 
