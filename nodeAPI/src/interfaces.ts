@@ -11,9 +11,11 @@ export interface IOrderAPI {
 }
 
 export interface IOrderedItemAPI {
+    orderId?: number;
     itemId: number;
     number: number;
     status: number;
+    text: string;
 }
 
 export interface IUserAPI {

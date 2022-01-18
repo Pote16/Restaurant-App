@@ -1,16 +1,16 @@
 
 import {
-  Association,
-  DataTypes,
-  HasManyGetAssociationsMixin,
-  Model,
-  Sequelize,
-  HasManyAddAssociationMixin,
-  HasManyCountAssociationsMixin,
-  HasManyCreateAssociationMixin,
-  HasManyHasAssociationMixin,
-  Optional,
-  BelongsToManyGetAssociationsMixin, HasManyRemoveAssociationMixin
+    Association,
+    DataTypes,
+    HasManyGetAssociationsMixin,
+    Model,
+    Sequelize,
+    HasManyAddAssociationMixin,
+    HasManyCountAssociationsMixin,
+    HasManyCreateAssociationMixin,
+    HasManyHasAssociationMixin,
+    Optional,
+    BelongsToManyGetAssociationsMixin, HasManyRemoveAssociationMixin
 } from "sequelize";
 import { dblogger } from "./Logger";
 import * as sample from "./sampledata"
@@ -506,15 +506,18 @@ export interface IOrderedItemDB {
     itemID: number;
     number: number;
     orderItemSatusID: number;
+    text: string;
 }
+export interface IOrderedItemsCreationAttributes extends Optional<IOrderedItemDB, "text"> { }
 
 export class OrderedItem
-    extends Model<IOrderedItemDB>
+    extends Model<IOrderedItemDB, IOrderedItemsCreationAttributes>
     implements IOrderedItemDB {
     public orderID!: number;
     public itemID!: number;
     public number!: number;
     public orderItemSatusID!: number;
+    public text!: string;
 }
 
 
@@ -548,6 +551,10 @@ OrderedItem.init(
                 model: OrderItemStatus,
                 key: "orderItemStatusID",
             }
+        },
+        text: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
     },
     {

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Order, OrderedItem, IOrderDB, OrderStatus } from "../database";
+import { Order, OrderedItem, IOrderDB, OrderStatus, OrderItemStatus } from "../database";
 import { IOrderAPI, IMenuCategoryAPI, IMenuItemAPI, IOrderedItemAPI, IUserAPI, } from "../interfaces"
 import { dblogger } from "../Logger";
 
@@ -21,7 +21,8 @@ export async function getOrders(req: Request, res: Response) {
                 orderedItemsAnswer.push({
                     itemId: orderitem.itemID,
                     number: orderitem.number,
-                    status: orderitem.orderItemSatusID
+                    status: orderitem.orderItemSatusID,
+                    text: orderitem.text
                 });
             }
 
@@ -72,7 +73,8 @@ export async function postOrders(req: Request, res: Response) {
                 orderID: neworder.orderID,
                 itemID: item.itemId,
                 number: item.number,
-                orderItemSatusID: item.status
+                orderItemSatusID: item.status,
+                text: item.text
             });
         }
         res.status(200).json(neworder);
@@ -95,7 +97,8 @@ export async function getOrderByID(req: Request, res: Response) {
                 orderedItemsAnswer.push({
                     itemId: orderitem.itemID,
                     number: orderitem.number,
-                    status: orderitem.orderItemSatusID
+                    status: orderitem.orderItemSatusID,
+                    text: orderitem.text
                 });
             }
 
@@ -146,7 +149,7 @@ export async function deleteOrderByID(req: Request, res: Response) {
     try {
         let order = await Order.findByPk(req.params.id);
         if (order) {
-            order.destroy();
+            await order.destroy();
         }
         res.status(200).send("deleted order");
     } catch (error) {
@@ -158,7 +161,7 @@ export async function deleteOrderByID(req: Request, res: Response) {
 export async function getOrderStatusList(req: Request, res: Response) {
     try {
         let orderStatusList = await OrderStatus.findAll();
-        if(orderStatusList){
+        if (orderStatusList) {
             res.status(200).json(orderStatusList)
         }
     } catch (error) {
@@ -166,4 +169,137 @@ export async function getOrderStatusList(req: Request, res: Response) {
         res.status(400).send("failed");
     }
 }
+
+export async function getOrderedItems(req: Request, res: Response) {
+    try {
+        let orderedItemsAnswer: IOrderedItemAPI[] = [];
+
+        let order = await Order.findByPk(req.params.id)
+
+        if (order) {
+            let ordereditems = await order.getOrderedItems();
+
+            for (let orderitem of ordereditems) {
+                orderedItemsAnswer.push({
+                    itemId: orderitem.itemID,
+                    number: orderitem.number,
+                    status: orderitem.orderItemSatusID,
+                    text: orderitem.text
+                });
+            }
+            res.status(200).json(orderedItemsAnswer);
+        } else {
+            res.status(400).send("Order not found!");
+        }
+
+
+    } catch (error) {
+        logger.error(error);
+        res.status(400).send("failed");
+    }
+}
+
+export async function postOrderedItems(req: Request, res: Response) {
+    try {
+        let item = req.body as IOrderedItemAPI;
+
+        await OrderedItem.create({
+            orderID: Number(req.params.id),
+            itemID: item.itemId,
+            number: item.number,
+            orderItemSatusID: item.status,
+            text: item.text
+        });
+
+        res.status(200).json(item);
+    } catch (error) {
+        logger.error(error);
+        res.status(400).send("failed");
+    }
+}
+
+export async function putOrderedItemByID(req: Request, res: Response) {
+    //let id = req.params.id;
+    try {
+        let newItem = req.body; //as IOrderedItemAPI;
+        let orderedItem = await OrderedItem.findOne({
+            where: {
+                orderID: req.params.id,
+                itemID: req.params.itemId
+            }
+        });
+        if (orderedItem) {
+            orderedItem.orderID = newItem.orderID ? newItem.orderID : orderedItem.orderID;
+            orderedItem.itemID = newItem.itemID ? newItem.itemID : orderedItem.itemID;
+            orderedItem.number = newItem.number ? newItem.number : orderedItem.number;
+            orderedItem.orderItemSatusID = newItem.orderItemSatusID ? newItem.orderItemSatusID : orderedItem.orderItemSatusID;
+            orderedItem.text = newItem.text ? newItem.text : orderedItem.text;
+
+        }
+        await orderedItem?.save();
+        res.status(200).json(orderedItem);
+    } catch (error) {
+        logger.error(error);
+        res.status(400).send("failed");
+    }
+}
+
+export async function deleteOrderedItemByID(req: Request, res: Response) {
+    //let id = req.params.id;
+    try {
+        let orderedItem = await OrderedItem.findOne({
+            where: {
+                orderID: req.params.id,
+                itemID: req.params.itemId
+            }
+        });
+        if (orderedItem) {
+            await OrderedItem.destroy;
+        }
+        res.status(200).send("deleted");
+    } catch (error) {
+        logger.error(error);
+        res.status(400).send("failed");
+    }
+}
+
+
+export async function getOrderedItemByID(req: Request, res: Response) {
+    try {
+        let orderedItem = await OrderedItem.findOne({
+            where: {
+                orderID: req.params.id,
+                itemID: req.params.itemId
+            }
+        });
+
+        if (orderedItem) {
+            res.status(200).json(orderedItem);
+        } else {
+            res.status(400).send("OrderedItem not found!");
+        }
+
+    } catch (error) {
+        logger.error(error);
+        res.status(400).send("failed");
+    }
+}
+
+
+
+export async function getOrderedItemStatusList(req: Request, res: Response) {
+    try {
+        let orderedItemStatusList = await OrderItemStatus.findAll();
+        if (orderedItemStatusList) {
+            res.status(200).json(orderedItemStatusList)
+        }
+    } catch (error) {
+        logger.error(error);
+        res.status(400).send("failed");
+    }
+}
+
+
+
+
 
