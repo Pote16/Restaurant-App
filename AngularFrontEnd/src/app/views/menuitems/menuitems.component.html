@@ -1,0 +1,70 @@
+<table cTable hover striped>
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of items">
+      <th scope="row">{{item.itemId}}</th>
+      <td>{{item.title}}</td>
+      <td>{{item.desc}}</td>
+      <td>{{item.price}}</td>
+      <td>{{item.status}}</td>
+      <td>{{item.category}}</td>
+      <td>{{item.allergens}}</td>
+      <td>
+        <button cButton color="primary" (click)="toggleForm()" >Edit</button>
+        <button cButton color="danger" (click)="delteItem()">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+
+<c-modal id="ModalCategories" [visible]="visible" (visibleChange)="handleFormChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Edit Category</h5>
+    <button (click)="toggleForm()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm id="categoryform">
+      <div class="mb-3">
+        <label cLabel for="inputtitle">Title</label>
+        <input cFormControl id="inputtitle" type="text">
+      </div>
+      <div class="mb-3">
+        <label cLabel for="inputdescription">Description</label>
+        <textarea cFormControl id="inputdescription" rows="3"></textarea>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="inputprice">Title</label>
+        <input cFormControl id="inputprice" type="number">
+      </div>
+      <div class="mb-3">
+      <select aria-label="Status" cSelect>
+        <option>Open this select menu</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
+      </div>
+      <div class="mb-3">
+        <c-form-check [inline]="true">
+            <input cFormCheckInput id="inline1" type="checkbox" />
+            <label cFormCheckLabel for="inline1">1</label>
+        </c-form-check>
+      </div>
+
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleForm()" cButton color="secondary">
+      Close
+    </button>
+    <input cButton color="primary" type="submit" form="categoryform" value="Save changes">
+  </c-modal-footer>
+</c-modal>

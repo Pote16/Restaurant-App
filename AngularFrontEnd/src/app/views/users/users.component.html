@@ -1,0 +1,46 @@
+<table cTable hover striped>
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Roles</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <th scope="row">{{user.userID}}</th>
+      <td>{{user.name}}</td>
+      <td>{{user.roles}}</td>
+      <td><button cButton color="primary" (click)="toggleForm()" >Edit</button>  <button cButton color="danger" (click)="delteUser()">Delete</button></td>
+    </tr>
+    </tbody>
+  </table>
+
+
+<c-modal id="userform" [visible]="visible" (visibleChange)="handleFormChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Modal title</h5>
+    <button (click)="toggleForm()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm id="userform">
+      <div class="mb-3">
+        <label cLabel for="inputname">Name</label>
+        <input cFormControl id="inputname" type="text">
+      </div>
+      <div class="mb-3" *ngFor="let userRole of userRoles">
+        <c-form-check [switch]="true">
+            <input cFormCheckInput type="checkbox" />
+            <label cFormCheckLabel>{{userRole.name}}</label>
+          </c-form-check>
+      </div>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleForm()" cButton color="secondary">
+      Close
+    </button>
+    <input cButton color="primary" type="submit" form="userform" value="Save changes">
+  </c-modal-footer>
+</c-modal>
