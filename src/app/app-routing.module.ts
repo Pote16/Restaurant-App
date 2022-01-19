@@ -35,6 +35,18 @@ const routes: Routes = [
         path: 'dashboard',
         loadChildren: () =>
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
+      },      {
+        path: 'users',
+        loadChildren: () =>
+          import('./views/users/users.module').then((m) => m.UsersModule)
+      },      {
+        path: 'categories',
+        loadChildren: () =>
+          import('./views/categories/categories.module').then((m) => m.CategoriesModule)
+      },      {
+        path: 'menuitems',
+        loadChildren: () =>
+          import('./views/menuitems/menuitems.module').then((m) => m.MenuitemsModule)
       },
       {
         path: 'theme',

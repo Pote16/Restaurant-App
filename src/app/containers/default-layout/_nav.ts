@@ -1,5 +1,6 @@
 import { INavData } from '@coreui/angular';
 
+
 export const navItems: INavData[] = [
   {
     name: 'Dashboard',
@@ -9,6 +10,21 @@ export const navItems: INavData[] = [
       color: 'info',
       text: 'NEW'
     }
+  },
+  {
+    name: 'Users',
+    url: '/users',
+    iconComponent: { name: 'cil-user' }
+  },  
+  {
+    name: 'Categories',
+    url: '/categories',
+    iconComponent: { name: 'cil-aperture' }
+  },  
+  {
+    name: 'Menu Items',
+    url: '/menuitems',
+    iconComponent: { name: 'cil-fastfood' }
   },
   {
     title: true,
