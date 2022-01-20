@@ -63,3 +63,8 @@ export interface ITableAPI {
     createdAt: string,
     updatedAt: string
 }
+export interface IAllergensAPI {
+    allergenID: number;
+    name: string;
+
+}
