@@ -1,3 +1,18 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+      <c-card class="mb-4">
+          <div class="d-grid">
+              <button cButton color="success" variant="outline" (click)="toggleForm()" >Create new User</button>
+          </div>
+          </c-card>
+  </c-col>
+<c-col>
+<c-card class="mb-4">
+  <c-card-header>
+    <strong>Userübersicht</strong> <small></small>
+  </c-card-header>
+  <c-card-body>
+
 <table cTable hover striped>
     <thead>
     <tr>
@@ -12,10 +27,18 @@
       <th scope="row">{{user.userID}}</th>
       <td>{{user.name}}</td>
       <td>{{user.roles}}</td>
-      <td><button cButton color="primary" (click)="toggleForm()" >Edit</button>  <button cButton color="danger" (click)="delteUser()">Delete</button></td>
+      <td>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button cButton color="primary" variant="outline" (click)="toggleForm()" >Edit</button>  
+        <button cButton color="danger" variant="outline" (click)="delteUser()">Delete</button>
+      </div>
+    </td>
     </tr>
     </tbody>
   </table>
+</c-card-body>
+</c-card>
+</c-col>
 
 
 <c-modal id="userform" [visible]="visible" (visibleChange)="handleFormChange($event)">
@@ -33,7 +56,7 @@
         <c-form-check [switch]="true">
             <input cFormCheckInput type="checkbox" />
             <label cFormCheckLabel>{{userRole.name}}</label>
-          </c-form-check>
+        </c-form-check>
       </div>
     </form>
   </c-modal-body>

@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BadgeModule, GridModule, ModalModule, TableModule, ButtonModule,
-    FormModule, } from '@coreui/angular';
+    FormModule,CardModule
+} from '@coreui/angular';
 //import { ChartjsModule } from '@coreui/angular-chartjs';
 
 import { UsersComponent } from './users.component';
@@ -20,7 +21,9 @@ import { ComponentsModule } from '../../../components/components.module';
         ComponentsModule,
         ButtonModule,
         FormModule,
-        ModalModule
+        ModalModule,
+        CardModule
+    
     ]
 })
 export class UsersModule {
