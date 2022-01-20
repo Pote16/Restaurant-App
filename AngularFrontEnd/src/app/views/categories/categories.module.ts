@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { BadgeModule, GridModule, TableModule, ButtonModule, FormModule, ModalModule } from '@coreui/angular';
+import { BadgeModule, GridModule, TableModule, ButtonModule, FormModule, ModalModule, CardModule } from '@coreui/angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 
 import { CategoriesComponent } from './categories.component';
@@ -19,7 +19,8 @@ import { ComponentsModule } from '../../../components/components.module';
         ComponentsModule,
         ButtonModule,
         FormModule,
-        ModalModule
+        ModalModule,
+        CardModule
     ]
 })
 export class CategoriesModule { }
