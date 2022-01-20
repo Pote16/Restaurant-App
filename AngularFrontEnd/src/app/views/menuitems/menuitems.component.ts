@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SAMPLEMENUITEMS } from 'src/assets/SampleData/sampledataAPI';
+import { ALLERGENS, SAMPLECATEGORIES, SAMPLEMENUITEMS } from 'src/assets/SampleData/sampledataAPI';
 
 @Component({
   selector: 'app-menuitems',
@@ -9,6 +9,8 @@ import { SAMPLEMENUITEMS } from 'src/assets/SampleData/sampledataAPI';
 export class MenuitemsComponent implements OnInit {
 
   items = SAMPLEMENUITEMS;
+  allergens = ALLERGENS;
+  categories = SAMPLECATEGORIES;
 
   constructor() { }
 

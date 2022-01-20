@@ -1,3 +1,18 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+      <c-card class="mb-4">
+          <div class="d-grid">
+              <button cButton color="success" variant="outline" (click)="toggleForm()" >Create new Menuitem</button>
+          </div>
+          </c-card>
+  </c-col>
+<c-col>
+<c-card class="mb-4">
+  <c-card-header>
+    <strong>Menuitem Overview</strong> <small></small>
+  </c-card-header>
+  <c-card-body>
+
 <table cTable hover striped>
     <thead>
     <tr>
@@ -17,12 +32,17 @@
       <td>{{item.category}}</td>
       <td>{{item.allergens}}</td>
       <td>
-        <button cButton color="primary" (click)="toggleForm()" >Edit</button>
-        <button cButton color="danger" (click)="delteItem()">Delete</button>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button cButton color="primary" variant="outline" (click)="toggleForm()" >Edit</button>
+        <button cButton color="danger" variant="outline" (click)="delteItem()">Delete</button>
+      </div>
       </td>
     </tr>
     </tbody>
   </table>
+</c-card-body>
+</c-card>
+</c-col>
 
 
 <c-modal id="ModalCategories" [visible]="visible" (visibleChange)="handleFormChange($event)">
@@ -41,22 +61,23 @@
         <textarea cFormControl id="inputdescription" rows="3"></textarea>
       </div>
       <div class="mb-3">
-        <label cLabel for="inputprice">Title</label>
-        <input cFormControl id="inputprice" type="number">
+        <label cLabel for="inputprice">Price</label>
+        <input cFormControl id="inputprice" type="number" step="0.01">
       </div>
       <div class="mb-3">
-      <select aria-label="Status" cSelect>
-        <option>Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+      <label cLabel for="selectcategory">Catagories</label>
+      <select id="selectcategory" aria-label="Status" cSelect>
+        <option *ngFor="let category of categories" value="{{category.categoryId}}">{{category.title}}</option>
       </select>
       </div>
       <div class="mb-3">
-        <c-form-check [inline]="true">
-            <input cFormCheckInput id="inline1" type="checkbox" />
-            <label cFormCheckLabel for="inline1">1</label>
+        <label cLabel for="selectcategory">Allergens</label>
+        <div>
+        <c-form-check [inline]="true" *ngFor="let allergen of allergens">
+            <input cFormCheckInput id="{{allergen.allergenID}}" type="checkbox" />
+            <label cFormCheckLabel for="{{allergen.allergenID}}">{{allergen.name}}</label>
         </c-form-check>
+      </div>
       </div>
 
     </form>

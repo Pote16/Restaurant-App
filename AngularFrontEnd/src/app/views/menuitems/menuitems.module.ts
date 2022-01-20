@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import {
     BadgeModule, GridModule, ModalModule, TableModule, ButtonModule,
-    FormModule,
+    FormModule,CardModule
 } from '@coreui/angular';
 //import { ChartjsModule } from '@coreui/angular-chartjs';
 
@@ -22,7 +22,8 @@ import { ComponentsModule } from '../../../components/components.module';
         ComponentsModule,
         ButtonModule,
         FormModule,
-        ModalModule
+        ModalModule,
+        CardModule
     ]
 })
 export class MenuitemsModule {
