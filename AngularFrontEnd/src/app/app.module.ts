@@ -4,6 +4,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
 import {
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface,
@@ -63,6 +64,7 @@ const APP_CONTAINERS = [
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS], //, UsersComponent, MenuitemsComponent, CategoriesComponent,TablesComponent
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

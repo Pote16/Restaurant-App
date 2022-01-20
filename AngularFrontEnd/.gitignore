@@ -49,6 +49,8 @@ Thumbs.db
 /src/environments/secret.environment.ts
 config.index.ts
 
+package-lock.json
+
 
 #Node API App
 /nodeAPI/.env
