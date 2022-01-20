@@ -1,0 +1,70 @@
+<c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+        <c-card class="mb-4">
+            <div class="d-grid">
+                <button cButton color="success" variant="outline" (click)="toggleForm()" >Create new Table</button>
+            </div>
+            </c-card>
+    </c-col>
+<c-col>
+<c-card class="mb-4">
+    <c-card-header>
+      <strong>Tischübersicht</strong> <small>Basic example</small>
+    </c-card-header>
+    <c-card-body>
+
+<table cTable >
+    <thead cTableColor="dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Anzahl Plätze</th>
+      <th scope="col">Description</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let table of tables">
+      <th scope="row">{{table.tableID}}</th>
+      <td>{{table.anzahlPlatz}}</td>
+      <td>{{table.beschreibung}}</td>
+      <td>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button cButton color="info" variant="outline" (click)="createQRCode()">QR-Code</button>
+        <button cButton color="primary" variant="outline" (click)="toggleForm()" >Edit</button>
+        <button cButton color="danger" variant="outline" (click)="deleteTable()">Delete</button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</c-card-body>
+</c-card>
+</c-col>
+
+
+<c-modal id="ModalCategories" [visible]="visible" (visibleChange)="handleFormChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Edit Category</h5>
+    <button (click)="toggleForm()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm id="categoryform">
+      <div class="mb-3">
+        <label cLabel for="inputtitle">Title</label>
+        <input cFormControl id="inputtitle" type="text">
+      </div>
+      <div class="mb-3">
+        <label cLabel for="inputdescription">Description</label>
+        <textarea cFormControl id="inputdescription" rows="3"></textarea>
+      </div>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleForm()" cButton color="secondary">
+      Close
+    </button>
+    <input cButton color="primary" type="submit" form="categoryform" value="Save changes">
+  </c-modal-footer>
+</c-modal>
+</c-row>
+
