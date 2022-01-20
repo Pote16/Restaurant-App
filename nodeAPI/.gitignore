@@ -1,0 +1,10 @@
+#Node API App
+.env
+debugdb.log
+debug.log
+src/debug.log
+debugd.log
+debugdb.log
+dist
+node_modules
+package-lock.json
