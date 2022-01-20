@@ -35,12 +35,10 @@ import { WidgetsModule } from '../widgets/widgets.module';
     ReactiveFormsModule,
     ButtonModule,
     FormModule,
-    ButtonModule,
     ButtonGroupModule,
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule
   ],
   declarations: [DashboardComponent]
 })
