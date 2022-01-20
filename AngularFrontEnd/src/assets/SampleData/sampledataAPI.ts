@@ -1,5 +1,5 @@
 
-import { IMenuCategoryAPI, IMenuItemAPI, IOrderAPI, ITableAPI, IUserAPI, IUserRoleAPI } from "../../app/interfaces/interfacesAPI";
+import { IMenuCategoryAPI, IMenuItemAPI, IAllergensAPI, ITableAPI, IUserAPI, IUserRoleAPI } from "../../app/interfaces/interfacesAPI";
 
 export const SAMPLEUSERS: IUserAPI[] = [
     {
@@ -340,22 +340,54 @@ export const SAMPLEMENUITEMS: IMenuItemAPI[] =
             ]
         }
     ];
-    export const SAMPLEUSEROLES: IUserRoleAPI[] = [
-        {
-            "roleID": 1,
-            "name": "backoffice"
-        },
-        {
-            "roleID": 2,
-            "name": "Waiter"
-        },
-        {
-            "roleID": 3,
-            "name": "kitchen"
-        },
-        {
-            "roleID": 4,
-            "name": "customer"
-        }
-    ];
+export const SAMPLEUSEROLES: IUserRoleAPI[] = [
+    {
+        "roleID": 1,
+        "name": "backoffice"
+    },
+    {
+        "roleID": 2,
+        "name": "Waiter"
+    },
+    {
+        "roleID": 3,
+        "name": "kitchen"
+    },
+    {
+        "roleID": 4,
+        "name": "customer"
+    }
+];
+
+export const ALLERGENS: IAllergensAPI[] = [
+    {
+        allergenID: 1,
+        name: "A"
+    }, {
+        allergenID: 2,
+        name: "B"
+    }, {
+        allergenID: 3,
+        name: "B"
+    }, {
+        allergenID: 4,
+        name: "C"
+    }, {
+        allergenID: 5,
+        name: "D"
+    }, {
+        allergenID: 6,
+        name: "E"
+    }, {
+        allergenID: 7,
+        name: "F"
+    }, {
+        allergenID: 8,
+        name: "G"
+    }, {
+        allergenID: 9,
+        name: "H"
+    }
+];
+
 
