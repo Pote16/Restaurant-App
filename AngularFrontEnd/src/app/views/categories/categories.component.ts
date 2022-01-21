@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { IMenuCategoryAPI } from 'src/app/interfaces/interfacesAPI';
 import { SAMPLECATEGORIES } from 'src/assets/SampleData/sampledataAPI';
+import { CategoriesService } from 'src/app/services/categories.service';
 
 
 @Component({
@@ -9,13 +11,22 @@ import { SAMPLECATEGORIES } from 'src/assets/SampleData/sampledataAPI';
 })
 export class CategoriesComponent implements OnInit {
 
-  categories = SAMPLECATEGORIES;
-  constructor() { 
-    
+  categoriesSample = SAMPLECATEGORIES;
+
+  selectedCategory?: IMenuCategoryAPI;
+  categories: IMenuCategoryAPI[] = [];
+
+  constructor(private categoriesService: CategoriesService) {
+
   }
-  
 
   ngOnInit(): void {
+    this.getCategories();
+  }
+
+  getCategories(): void {
+    this.categoriesService.getCategories()
+    .subscribe(categories => this.categories = categories);
   }
 
   public visible = false;
@@ -24,12 +35,21 @@ export class CategoriesComponent implements OnInit {
     this.visible = !this.visible;
   }
 
+  editCategory(category: IMenuCategoryAPI) {
+    this.selectedCategory = category;
+    this.toggleForm();
+  }
+
   handleFormChange(event: any) {
     this.visible = event;
   }
 
-  delteCategory(){
+  delteCategory(category: IMenuCategoryAPI): void {
+    this.categories = this.categories.filter(h => h !== category);
+    this.categoriesService.deleteCategory(category.categoryId).subscribe();
+  }
 
+  updateCategory(category: IMenuCategoryAPI) {
   }
 
 }

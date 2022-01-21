@@ -30,8 +30,8 @@
       <td>{{category.desc}}</td>
       <td>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button cButton color="primary" variant="outline" (click)="toggleForm()" >Edit</button>
-        <button cButton color="danger" variant="outline" (click)="delteCategory()">Delete</button>
+        <button cButton color="primary" variant="outline" (click)="editCategory(category)" >Edit</button>
+        <button cButton color="danger" variant="outline" (click)="delteCategory(category)">Delete</button>
       </div>
       </td>
     </tr>
@@ -48,22 +48,23 @@
     <button (click)="toggleForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <form cForm id="categoryform">
+    <div *ngIf="selectedCategory">
       <div class="mb-3">
         <label cLabel for="inputtitle">Title</label>
-        <input cFormControl id="inputtitle" type="text">
+        <input cFormControl id="inputtitle" [(ngModel)]="selectedCategory.title" value="{{selectedCategory.title}}">
       </div>
       <div class="mb-3">
         <label cLabel for="inputdescription">Description</label>
-        <textarea cFormControl id="inputdescription" rows="3"></textarea>
+        <textarea cFormControl id="inputdescription" [(ngModel)]="selectedCategory.desc" rows="3" value="{{selectedCategory.desc}}" ></textarea>
       </div>
-    </form>
+    </div>
   </c-modal-body>
   <c-modal-footer>
-    <button (click)="toggleForm()" cButton color="secondary">
+    <button cButton (click)="toggleForm()" color="secondary">
       Close
     </button>
-    <input cButton color="primary" type="submit" form="categoryform" value="Save changes">
+    <button cButton color="primary" (click)="toggleForm()">Save changes</button>
   </c-modal-footer>
 </c-modal>
+
 

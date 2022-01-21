@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { BadgeModule, GridModule, TableModule, ButtonModule, FormModule, ModalModule, CardModule } from '@coreui/angular';
-import { ChartjsModule } from '@coreui/angular-chartjs';
+//import { ChartjsModule } from '@coreui/angular-chartjs';
 
 import { CategoriesComponent } from './categories.component';
 import { CategoriesRoutingModule } from './categories-routing.module';
@@ -14,6 +15,7 @@ import { ComponentsModule } from '../../../components/components.module';
         CommonModule,
         CategoriesRoutingModule,
         GridModule,
+        FormsModule,
         BadgeModule,
         TableModule,
         ComponentsModule,
