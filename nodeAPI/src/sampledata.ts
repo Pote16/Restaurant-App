@@ -91,7 +91,7 @@ export const SamplesOrderItemStatus: IOrderItemStatusDB[] = [
         orderItemStatusID: 2,
         name: "cooked"
     }, {
-        orderItemStatusID: 4,
+        orderItemStatusID: 3,
         name: "ready for pick up"
     }, {
         orderItemStatusID: 4,

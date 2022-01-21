@@ -41,6 +41,15 @@ app.use("/guestrequest", guestRequestsRoutes);
 const reviewsRoutes = require("./reviews/routes")(express.Router());
 app.use("/reviews", reviewsRoutes);
 
+app.use(express.static('../public/admin'))
+app.set('view engine', 'pug');
+
+app.use(express.static('../dist/angular-directory'))
+app.set('view engine', 'pug');
+app.get('/admin', (req, res) => {
+    res.sendFile('index.html', { root: "/public/admin" });
+});
+
 
 
 const PORT = process.env.PORT || 3000;

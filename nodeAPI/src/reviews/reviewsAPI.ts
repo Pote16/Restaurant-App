@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { dblogger } from "../Logger";
-import {ITableDB, Table, Review, IReviewDB} from "../database";
-import {IReviewsAPI} from "../interfaces";
+import { Review, IReviewDB } from "../database";
+import { IReviewsAPI } from "../interfaces";
 
 const logger = dblogger;
 
@@ -10,7 +10,7 @@ export async function getReviews(req: Request, res: Response) {
     let reviews: Review[] = await Review.findAll();
     let retArray = [];
     for (let review of reviews) {
-      let ret : IReviewsAPI = {
+      let ret: IReviewsAPI = {
         id: review.id,
         itemID: review.itemID,
         stars: review.stars,
@@ -28,8 +28,8 @@ export async function getReviews(req: Request, res: Response) {
 export async function getReviewByID(req: Request, res: Response) {
   try {
     let review = await Review.findByPk(req.params.id);
-    if(review) {
-      let ret : IReviewsAPI = {
+    if (review) {
+      let ret: IReviewsAPI = {
         id: review.id,
         itemID: review.itemID,
         stars: review.stars,
