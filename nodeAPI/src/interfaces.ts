@@ -57,3 +57,11 @@ export interface IGuestRequestAPI {
     status: number;
     tableID: number;
 }
+
+export interface IReviewsAPI {
+    id: number;
+    itemID: number;
+    stars: string;
+    usercomment: string;
+}
+

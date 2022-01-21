@@ -70,6 +70,8 @@ MenuItemStatus.init(
     }
 );
 
+
+
 //---------------    User Role   ----------------------------------
 
 export interface IUserRoleDB {
@@ -588,7 +590,7 @@ export class GuestReguest extends Model<IGuestReguestDB, IGuestReguestDBCreation
 
     declare readonly table?: Table;
     declare static associations: {
-        table: Association<Order, Table>;
+        table: Association<GuestReguest, Table>;
     };
 }
 
@@ -617,6 +619,70 @@ GuestReguest.init(
         sequelize,
     }
 );
+
+
+//---------------    Reviews Status  ----------------------------------
+
+export interface IReviewDB {
+    id: number;
+    itemID: number;
+    stars: string;
+    usercomment: string;
+}
+
+interface IReviewDBCreationAttributes extends Optional<IReviewDB, "id"> { }
+
+export class Review extends Model<IReviewDB, IReviewDBCreationAttributes> implements IReviewDB {
+    id!: number;
+    itemID!: number;
+    stars!: string;
+    usercomment!: string;
+
+    // timestamps!
+    declare readonly createdAt: Date;
+    declare readonly updatedAt: Date;
+
+    declare getMenuItem: HasManyGetAssociationsMixin<MenuItem>;
+    declare addMenuItem: HasManyAddAssociationMixin<MenuItem, number>;
+
+    declare readonly table?: MenuItem;
+    declare static associations: {
+        table: Association<Review, MenuItem>;
+    };
+
+}
+
+Review.init(
+    {
+        id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        itemID: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+            references: {
+                model: MenuItem,
+                key: "itemID",
+            }
+        },
+        stars: {
+            type: DataTypes.STRING(2),
+            allowNull: false,
+        },
+        usercomment: {
+            type: DataTypes.STRING(500),
+            allowNull: false,
+        }
+
+    },
+    {
+        tableName: "reviews",
+        sequelize,
+    }
+);
+
 
 
 
@@ -655,6 +721,13 @@ MenuItem.hasOne(MenuItemStatus, {
     foreignKey: "id",
     constraints: false
 });
+
+Review.hasOne(MenuItem, {
+    sourceKey: "id",
+    foreignKey: "itemID",
+    constraints: false
+});
+
 
 GuestReguest.hasOne(Table, {
     sourceKey: "tableID",
