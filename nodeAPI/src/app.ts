@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 app.use(cors()); // allow all origins -> Access-Control-Allow-Origin: *
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -37,6 +37,9 @@ app.use("/userroles", userRolesRoutes);
 
 const guestRequestsRoutes = require("./guestRequest/routes")(express.Router());
 app.use("/guestrequest", guestRequestsRoutes);
+
+const reviewsRoutes = require("./reviews/routes")(express.Router());
+app.use("/reviews", reviewsRoutes);
 
 
 
