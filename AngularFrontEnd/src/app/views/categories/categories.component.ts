@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IMenuCategoryAPI } from 'src/app/interfaces/interfacesAPI';
+import { IMenuCategoryAPI, INewMenuCategoryAPI } from 'src/app/interfaces/interfacesAPI';
 import { SAMPLECATEGORIES } from 'src/assets/SampleData/sampledataAPI';
 import { CategoriesService } from 'src/app/services/categories.service';
 
@@ -14,7 +14,11 @@ export class CategoriesComponent implements OnInit {
   categoriesSample = SAMPLECATEGORIES;
 
   selectedCategory?: IMenuCategoryAPI;
+  newCategory?: INewMenuCategoryAPI;
   categories: IMenuCategoryAPI[] = [];
+
+  public visibleEditForm = false;
+  public visibleAddNewForm = false;
 
   constructor(private categoriesService: CategoriesService) {
 
@@ -26,22 +30,41 @@ export class CategoriesComponent implements OnInit {
 
   getCategories(): void {
     this.categoriesService.getCategories()
-    .subscribe(categories => this.categories = categories);
+      .subscribe(categories => this.categories = categories);
   }
 
-  public visible = false;
-
-  toggleForm() {
-    this.visible = !this.visible;
+  toggleEditForm() {
+    this.visibleEditForm = !this.visibleEditForm;
   }
 
-  editCategory(category: IMenuCategoryAPI) {
+  editForm(category: IMenuCategoryAPI) {
     this.selectedCategory = category;
-    this.toggleForm();
+    this.toggleEditForm();
   }
 
-  handleFormChange(event: any) {
-    this.visible = event;
+  updateCategory(category: IMenuCategoryAPI) {
+    //this.categories = this.categories.filter(h => h !== category);
+    this.categoriesService.updateCategory(category).subscribe();
+    this.toggleEditForm();
+  }
+
+
+  toggleAddNewForm() {
+    this.visibleAddNewForm = !this.visibleAddNewForm;
+  }
+
+  AddNewForm() {
+    this.newCategory = {
+      title: " ",
+      desc: " "
+    };
+    this.toggleAddNewForm();
+    this.ngOnInit();
+  }
+
+  addCategory(category: INewMenuCategoryAPI) {
+    this.toggleAddNewForm();
+    this.categoriesService.addCategory(category).subscribe();
   }
 
   delteCategory(category: IMenuCategoryAPI): void {
@@ -49,7 +72,11 @@ export class CategoriesComponent implements OnInit {
     this.categoriesService.deleteCategory(category.categoryId).subscribe();
   }
 
-  updateCategory(category: IMenuCategoryAPI) {
+  handleFormChange(event: any) {
+    this.visibleEditForm = event;
   }
+
+
+
 
 }

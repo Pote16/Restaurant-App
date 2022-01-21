@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SAMPLETABLES } from 'src/assets/SampleData/sampledataAPI';
+import { TablesService } from 'src/app/services/tables.service';
+import { ITableAPI, INewTableAPI } from 'src/app/interfaces/interfacesAPI';
 
 @Component({
   selector: 'app-tables',
@@ -8,32 +10,72 @@ import { SAMPLETABLES } from 'src/assets/SampleData/sampledataAPI';
 })
 export class TablesComponent implements OnInit {
 
-  tables = SAMPLETABLES;
+  selectedTable?: ITableAPI;
+  newTable?: INewTableAPI;
+  tables: ITableAPI[] = [];
 
-  constructor() { 
-    
+  public visibleEditForm = false;
+  public visibleAddNewForm = false;
+
+  constructor(private tablesService: TablesService) {
+
   }
-  
 
   ngOnInit(): void {
+    this.getTables();
   }
 
-  public visible = false;
+  getTables(): void {
+    this.tablesService.getTables()
+      .subscribe(tables => this.tables = tables);
+  }
 
-  toggleForm() {
-    this.visible = !this.visible;
+  toggleEditForm() {
+    this.visibleEditForm = !this.visibleEditForm;
+  }
+
+  editForm(table: ITableAPI) {
+    this.selectedTable = table;
+    this.toggleEditForm();
+  }
+
+  updateTable(table: ITableAPI) {
+    //this.tables = this.tables.filter(h => h !== table);
+    this.tablesService.updateTable(table).subscribe();
+    this.toggleEditForm();
+  }
+
+
+  toggleAddNewForm() {
+    this.visibleAddNewForm = !this.visibleAddNewForm;
+  }
+
+  AddNewForm() {
+    this.newTable = {
+      anzahlPlatz: 0,
+      beschreibung: "",
+    };
+    this.toggleAddNewForm();
+    this.ngOnInit();
+  }
+
+  addTable(table: INewTableAPI) {
+    this.toggleAddNewForm();
+    this.tablesService.addTable(table).subscribe();
+  }
+
+  deleteTable(table: ITableAPI): void {
+    this.tables = this.tables.filter(h => h !== table);
+    this.tablesService.deleteTable(table.tableID).subscribe();
   }
 
   handleFormChange(event: any) {
-    this.visible = event;
+    this.visibleEditForm = event;
   }
 
-  deleteTable(){
+  createQRCode() {
 
   }
 
-  createQRCode(){
-    
-  }
 
 }

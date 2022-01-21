@@ -16,25 +16,31 @@ export interface IOrderedItemAPI {
     status: number;
 }
 
-export interface IUserAPI {
+export interface IUserAPI extends INewUserAPI {
     userID: number;
+}
+
+export interface INewUserAPI {
     name: string;
     roles: number[];
 }
 
 export interface ISecretUserAPI {
-  name: string;
-  password: string;
-  roles: number[];
+    name: string;
+    password: string;
+    roles: number[];
 }
 
 export interface IUserRoleAPI {
-  roleID: number;
-  name: string;
+    roleID: number;
+    name: string;
 }
 
-export interface IMenuItemAPI {
+export interface IMenuItemAPI extends INewMenuItemAPI {
     itemId: number;
+}
+
+export interface INewMenuItemAPI {
     title: string;
     desc: string;
     price: number;
@@ -44,8 +50,11 @@ export interface IMenuItemAPI {
 }
 
 
-export interface IMenuCategoryAPI {
+export interface IMenuCategoryAPI extends INewMenuCategoryAPI {
     categoryId: number;
+}
+
+export interface INewMenuCategoryAPI {
     title: string;
     desc: string;
 }
@@ -56,13 +65,16 @@ export interface IGuestRequestAPI {
     tableID: number;
 }
 
-export interface ITableAPI {
+export interface ITableAPI extends INewTableAPI {
     tableID: number;
+}
+
+export interface INewTableAPI {
     anzahlPlatz: number;
     beschreibung: string | null; // optinal value
-    createdAt: string,
-    updatedAt: string
 }
+
+
 export interface IAllergensAPI {
     allergenID: number;
     name: string;

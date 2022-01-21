@@ -2,7 +2,7 @@
   <c-col xs="12">
       <c-card class="mb-4">
           <div class="d-grid">
-              <button cButton color="success" variant="outline" (click)="toggleForm()" >Create new User</button>
+              <button cButton color="success" variant="outline" (click)="toggleEditForm()" >Create new User</button>
           </div>
           </c-card>
   </c-col>
@@ -29,8 +29,8 @@
       <td>{{user.roles}}</td>
       <td>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button cButton color="primary" variant="outline" (click)="toggleForm()" >Edit</button>  
-        <button cButton color="danger" variant="outline" (click)="delteUser()">Delete</button>
+        <button cButton color="primary" variant="outline" (click)="editForm(user)" >Edit</button>  
+        <button cButton color="danger" variant="outline" (click)="deleteUser(user)">Delete</button>
       </div>
     </td>
     </tr>
@@ -41,10 +41,10 @@
 </c-col>
 
 
-<c-modal id="userform" [visible]="visible" (visibleChange)="handleFormChange($event)">
+<c-modal id="userform" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
   <c-modal-header>
     <h5 cModalTitle>Modal title</h5>
-    <button (click)="toggleForm()" cButtonClose></button>
+    <button (click)="toggleEditForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
     <form cForm id="userform">
@@ -61,7 +61,7 @@
     </form>
   </c-modal-body>
   <c-modal-footer>
-    <button (click)="toggleForm()" cButton color="secondary">
+    <button (click)="toggleEditForm()" cButton color="secondary">
       Close
     </button>
     <input cButton color="primary" type="submit" form="userform" value="Save changes">

@@ -15,26 +15,26 @@ export const navItems: INavData[] = [
     name: 'Users',
     url: '/users',
     iconComponent: { name: 'cil-user' }
-  },  
+  },
   {
     name: 'Categories',
     url: '/categories',
-    iconComponent: { name: 'cil-aperture' }
-  },  
+    iconComponent: { name: 'cilListNumbered' } //cil-aperture
+  },
   {
     name: 'Menu Items',
     url: '/menuitems',
-    iconComponent: { name: 'cil-fastfood' }
-  },  
+    iconComponent: { name: 'cilFastfood' }
+  },
   {
     name: 'Tables',
     url: '/tables',
-    iconComponent: { name: 'cil-square' }
+    iconComponent: { name: 'cilSquare' }
   },
   {
     name: 'Pages',
     url: '/login',
-    iconComponent: { name: 'cil-star' },
+    iconComponent: { name: 'cilStar' },
     children: [
       {
         name: 'Login',

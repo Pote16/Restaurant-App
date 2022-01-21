@@ -71,8 +71,11 @@ export async function deleteTableByID(req: Request, res: Response) {
         let table = await Table.findByPk(req.params.id);
         if (table) {
             table.destroy();
+            res.status(200).send("deleted table");
+        } else {
+            res.status(200).send("Table not found");
         }
-        res.status(200).send("deleted table");
+
     } catch (error) {
         logger.error(error);
         res.status(400).send("failed");

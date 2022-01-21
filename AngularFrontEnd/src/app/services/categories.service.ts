@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IMenuCategoryAPI } from '../interfaces/interfacesAPI';
+import { IMenuCategoryAPI, INewMenuCategoryAPI } from '../interfaces/interfacesAPI';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class CategoriesService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'AUTHORIZATION': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDI1NDM1NjksImV4cCI6MTY0MjgwMjc2OX0.iqNe-SR0AHS-Qtb_y2cTs0mkYIgz68YQRpLbwrAON-M'
+      'AUTHORIZATION': environment.APIKEY
     })
   };
 
@@ -44,7 +45,7 @@ export class CategoriesService {
   }
 
   /** POST: add a new category to the server */
-  addCategory(category: IMenuCategoryAPI): Observable<IMenuCategoryAPI> {
+  addCategory(category: INewMenuCategoryAPI): Observable<IMenuCategoryAPI> {
     return this.http.post<IMenuCategoryAPI>(this.categoriesUrl, category, this.httpOptions).pipe(
       //tap((newCategory: IMenuCategoryAPI) => this.log(`added hero w/ id=${newCategory.categoryId}`)),
       catchError(this.handleError<IMenuCategoryAPI>('addCategory'))

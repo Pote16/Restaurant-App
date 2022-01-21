@@ -276,7 +276,7 @@ export async function deleteOrderedItemByID(req: Request, res: Response) {
             }
         });
         if (orderedItem) {
-            OrderedItem.destroy;
+            orderedItem.destroy;
         }
         res.status(200).send("deleted");
     } catch (error) {

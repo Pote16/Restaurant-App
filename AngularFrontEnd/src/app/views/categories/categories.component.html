@@ -2,7 +2,7 @@
   <c-col xs="12">
       <c-card class="mb-4">
           <div class="d-grid">
-              <button cButton color="success" variant="outline" (click)="toggleForm()" >Create new Category</button>
+              <button cButton color="success" variant="outline" (click)="AddNewForm()" >Create new Category</button>
           </div>
           </c-card>
   </c-col>
@@ -30,7 +30,7 @@
       <td>{{category.desc}}</td>
       <td>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button cButton color="primary" variant="outline" (click)="editCategory(category)" >Edit</button>
+        <button cButton color="primary" variant="outline" (click)="editForm(category)" >Edit</button>
         <button cButton color="danger" variant="outline" (click)="delteCategory(category)">Delete</button>
       </div>
       </td>
@@ -42,13 +42,14 @@
 </c-col>
 
 
-<c-modal id="ModalCategories" [visible]="visible" (visibleChange)="handleFormChange($event)">
+<c-modal id="EditCategory" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
+  <div *ngIf="selectedCategory">
   <c-modal-header>
     <h5 cModalTitle>Edit Category</h5>
-    <button (click)="toggleForm()" cButtonClose></button>
+    <button (click)="toggleEditForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <div *ngIf="selectedCategory">
+    
       <div class="mb-3">
         <label cLabel for="inputtitle">Title</label>
         <input cFormControl id="inputtitle" [(ngModel)]="selectedCategory.title" value="{{selectedCategory.title}}">
@@ -57,14 +58,41 @@
         <label cLabel for="inputdescription">Description</label>
         <textarea cFormControl id="inputdescription" [(ngModel)]="selectedCategory.desc" rows="3" value="{{selectedCategory.desc}}" ></textarea>
       </div>
-    </div>
   </c-modal-body>
   <c-modal-footer>
-    <button cButton (click)="toggleForm()" color="secondary">
+    <button cButton (click)="toggleEditForm()" color="secondary">
       Close
     </button>
-    <button cButton color="primary" (click)="toggleForm()">Save changes</button>
+    <button cButton color="primary" (click)="updateCategory(selectedCategory)">Save changes</button>
   </c-modal-footer>
+</div>
+</c-modal>
+
+
+<c-modal id="NewCategory" [visible]="visibleAddNewForm" (visibleChange)="handleFormChange($event)">
+  <div *ngIf="newCategory">
+  <c-modal-header>
+    <h5 cModalTitle>Add new Category</h5>
+    <button (click)="toggleAddNewForm()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    
+      <div class="mb-3">
+        <label cLabel for="inputtitle">Title</label>
+        <input cFormControl id="inputtitle" [(ngModel)]="newCategory.title" value="{{newCategory.title}}">
+      </div>
+      <div class="mb-3">
+        <label cLabel for="inputdescription">Description</label>
+        <textarea cFormControl id="inputdescription" [(ngModel)]="newCategory.desc" rows="3" value="{{newCategory.desc}}" ></textarea>
+      </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button cButton (click)="toggleAddNewForm()" color="secondary">
+      Close
+    </button>
+    <button cButton color="primary" (click)="addCategory(newCategory)">Add Category</button>
+  </c-modal-footer>
+</div>
 </c-modal>
 
 

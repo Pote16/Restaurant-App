@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import {ITableDB, IUserRoleDB, MenuCategory, Table, User, UserRole} from "../database";
+import { ITableDB, IUserRoleDB, MenuCategory, Table, User, UserRole } from "../database";
 import { dblogger } from "../Logger";
-import {ISecretUserAPI, IUserAPI, IUserRoleAPI} from "../interfaces";
+import { ISecretUserAPI, IUserAPI, IUserRoleAPI } from "../interfaces";
 
 const logger = dblogger;
 
@@ -13,7 +13,7 @@ export async function getUsers(req: Request, res: Response) {
     let returnUsers: IUserAPI[] = [];
     if (users) {
       for (let user of users) {
-        let roles = await user.getUserRoles({attributes: ['roleID']});
+        let roles = await user.getUserRoles({ attributes: ['roleID'] });
         let roleIds = [];
         for (let role of roles) {
           roleIds.push(role.roleID);
@@ -37,16 +37,16 @@ export async function getUserById(req: Request, res: Response) {
     let user = await User.findByPk(req.params.id);
 
     if (user) {
-        let roles = await user.getUserRoles({attributes: ['roleID']});
-        let roleIds = [];
-        for (let role of roles) {
-          roleIds.push(role.roleID);
-        }
-        let returnUser : IUserAPI = {
-          userID: user.userID,
-          name: user.name,
-          roles: roleIds
-        };
+      let roles = await user.getUserRoles({ attributes: ['roleID'] });
+      let roleIds = [];
+      for (let role of roles) {
+        roleIds.push(role.roleID);
+      }
+      let returnUser: IUserAPI = {
+        userID: user.userID,
+        name: user.name,
+        roles: roleIds
+      };
       res.status(200).json(returnUser);
     }
   } catch (error) {
@@ -81,8 +81,10 @@ export async function deleteUserByID(req: Request, res: Response) {
     let user = await User.findByPk(req.params.id);
     if (user) {
       user.destroy();
+      res.status(200).send("deleted user");
+    } else {
+      res.status(400).send("User not found");
     }
-    res.status(200).send("deleted user");
   } catch (error) {
     logger.error(error);
     res.status(400).send("failed");

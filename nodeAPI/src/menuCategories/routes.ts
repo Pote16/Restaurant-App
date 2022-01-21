@@ -8,6 +8,7 @@ module.exports = (router: Router) => {
 
   router.get('/:id',authenticator.isAuthorized, categoryHandler.getMenuCategoryByID);
   router.put('/:id',authenticator.isAuthorized, categoryHandler.putMenuCategoryByID);
+  router.delete('/:id',authenticator.isAuthorized, categoryHandler.deleteMenuCategoryByID);
 
   return router;
 }

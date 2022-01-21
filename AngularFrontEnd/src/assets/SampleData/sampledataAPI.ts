@@ -24,78 +24,56 @@ export const SAMPLETABLES: ITableAPI[] = [
         "tableID": 1,
         "anzahlPlatz": 4,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     },
     {
         "tableID": 2,
         "anzahlPlatz": 6,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     },
     {
         "tableID": 3,
         "anzahlPlatz": 2,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     },
     {
         "tableID": 4,
         "anzahlPlatz": 4,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     },
     {
         "tableID": 5,
         "anzahlPlatz": 4,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     },
     {
         "tableID": 6,
         "anzahlPlatz": 4,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     },
     {
         "tableID": 7,
         "anzahlPlatz": 4,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     },
     {
         "tableID": 8,
         "anzahlPlatz": 4,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     },
     {
         "tableID": 9,
         "anzahlPlatz": 4,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     },
     {
         "tableID": 10,
         "anzahlPlatz": 4,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     },
     {
         "tableID": 11,
         "anzahlPlatz": 4,
         "beschreibung": "tisch bei theke",
-        "createdAt": "2022-01-14T15:45:30.000Z",
-        "updatedAt": "2022-01-14T15:45:30.000Z"
     }
 ]
 
