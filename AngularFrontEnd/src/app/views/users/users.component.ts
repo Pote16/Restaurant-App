@@ -55,7 +55,7 @@ export class UsersComponent implements OnInit {
   AddNewForm() {
     this.newUser = {
       name: " ",
-      roles: []
+      roles: [1]
     };
     this.toggleAddNewForm();
     this.ngOnInit();

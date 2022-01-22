@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AllergensService {
 
-  private allergensUrl = 'https://webtech.salespool.at/allergens';
+  private allergensUrl = 'https://webtech.salespool.at/allergens/';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

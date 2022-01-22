@@ -2,7 +2,7 @@
   <c-col xs="12">
       <c-card class="mb-4">
           <div class="d-grid">
-              <button cButton color="success" variant="outline" (click)="toggleEditForm()" >Create new User</button>
+              <button cButton color="success" variant="outline" (click)="AddNewForm()" >Create new User</button>
           </div>
           </c-card>
   </c-col>
@@ -41,16 +41,16 @@
 </c-col>
 
 
-<c-modal id="userform" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
+<c-modal id="editUser" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
+  <div *ngIf="selectedUser">
   <c-modal-header>
-    <h5 cModalTitle>Modal title</h5>
+    <h5 cModalTitle>Edit user</h5>
     <button (click)="toggleEditForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <form cForm id="userform">
       <div class="mb-3">
         <label cLabel for="inputname">Name</label>
-        <input cFormControl id="inputname" type="text">
+        <input cFormControl id="inputname" type="text" [(ngModel)]="selectedUser.name" value="{{selectedUser.name}}">
       </div>
       <div class="mb-3" *ngFor="let userRole of userRoles">
         <c-form-check [switch]="true">
@@ -58,12 +58,36 @@
             <label cFormCheckLabel>{{userRole.name}}</label>
         </c-form-check>
       </div>
-    </form>
   </c-modal-body>
   <c-modal-footer>
-    <button (click)="toggleEditForm()" cButton color="secondary">
-      Close
-    </button>
-    <input cButton color="primary" type="submit" form="userform" value="Save changes">
+    <button cButton (click)="toggleEditForm()" color="secondary">Close</button>
+    <button cButton color="primary" (click)="updateUser(selectedUser)">Save changes</button>
   </c-modal-footer>
+</div>
+</c-modal>
+
+
+<c-modal id="newUser" [visible]="visibleAddNewForm" (visibleChange)="handleFormChange($event)">
+  <div *ngIf="newUser">
+  <c-modal-header>
+    <h5 cModalTitle>Add new user</h5>
+    <button (click)="toggleAddNewForm()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+      <div class="mb-3">
+        <label cLabel for="inputname">Name</label>
+        <input cFormControl id="inputname" type="text" [(ngModel)]="newUser.name" value="{{newUser.name}}">
+      </div>
+      <div class="mb-3" *ngFor="let userRole of userRoles">
+        <c-form-check [switch]="true">
+            <input cFormCheckInput type="checkbox" />
+            <label cFormCheckLabel>{{userRole.name}}</label>
+        </c-form-check>
+      </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button cButton (click)="toggleAddNewForm()" color="secondary">Close</button>
+    <button cButton color="primary" (click)="addUser(newUser)">Save changes</button>
+  </c-modal-footer>
+</div>
 </c-modal>

@@ -11,7 +11,7 @@
     <c-card-header>
       <strong>Tischübersicht</strong> <small>Basic example</small>
     </c-card-header>
-    <c-card-body>
+<c-card-body>
 
 <table [responsive]="true" cAlign="middle" cTable >
     <thead cTableColor="dark">
@@ -45,7 +45,7 @@
 <c-modal id="ModalCategories" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
   <div *ngIf="selectedTable">
   <c-modal-header>
-    <h5 cModalTitle>Edit Category</h5>
+    <h5 cModalTitle>Edit Table</h5>
     <button (click)="toggleEditForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
@@ -68,7 +68,7 @@
 <c-modal id="ModalCategories" [visible]="visibleAddNewForm" (visibleChange)="handleFormChange($event)">
   <div *ngIf="newTable">
   <c-modal-header>
-    <h5 cModalTitle>Edit Category</h5>
+    <h5 cModalTitle>Add Table</h5>
     <button (click)="toggleAddNewForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
