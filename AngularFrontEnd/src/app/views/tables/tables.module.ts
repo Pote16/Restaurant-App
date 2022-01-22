@@ -11,6 +11,7 @@ import {
 import { TablesComponent } from './tables.component';
 import { TablesRoutingModule } from './tables-routing.module';
 import { ComponentsModule } from '../../../components/components.module';
+import {QRCodeModule} from "angularx-qrcode";
 
 @NgModule({
     declarations: [TablesComponent],
@@ -25,7 +26,8 @@ import { ComponentsModule } from '../../../components/components.module';
         FormModule,
         ModalModule,
         FormsModule,
-        CardModule
+        CardModule,
+        QRCodeModule
     ]
 })
 export class TablesModule {

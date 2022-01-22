@@ -88,5 +88,18 @@
 </div>
 </c-modal>
 
+<c-modal id="ModalQrCode" [visible]="visibleQrCode" (visibleChange)="handleFormChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Table QRCode</h5>
+    <button (click)="toggleQRCode()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <qrcode [qrdata]="qrCodeURL" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleQRCode()" cButton color="secondary">Close</button>
+  </c-modal-footer>
+</c-modal>
+
 </c-row>
 

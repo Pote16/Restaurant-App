@@ -5,10 +5,12 @@ import {User} from "../database";
 const jwt = require('jsonwebtoken');
 
 export async function login(req: Request, res: Response) {
-  let username = req.body.user;
-  let password = req.body.pass;
-  let user = userHandler.getUser(username, password);
-  if(user instanceof Object) {
+  let username = req.body.username;
+  let password = req.body.password;
+
+  let userID = await userHandler.getUser(username, password);
+
+  if(userID) {
     const token = jwt.sign(
       {
         username: username,
@@ -20,7 +22,7 @@ export async function login(req: Request, res: Response) {
       });
     res.status(200).json({
       message: "login successful",
-      login: username,
+      userID: userID,
       token: token
     });
   } else {

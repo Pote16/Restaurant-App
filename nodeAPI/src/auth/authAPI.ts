@@ -12,7 +12,7 @@ export async function getUser(username: string, password: string) {
       }
     });
     if (user) {
-      return user;
+      return user.userID;
     } else {
       return "No User with this combination";
     }

@@ -14,9 +14,11 @@ export class TablesComponent implements OnInit {
   newTable?: INewTableAPI;
   tables: ITableAPI[] = [];
   public guestviewURL = "https://webtech.salespool.at/guest";
+  public qrCodeURL = "";
 
   public visibleEditForm = false;
   public visibleAddNewForm = false;
+  public visibleQrCode = false;
 
   constructor(private tablesService: TablesService) {
 
@@ -51,6 +53,10 @@ export class TablesComponent implements OnInit {
     this.visibleAddNewForm = !this.visibleAddNewForm;
   }
 
+  toggleQRCode() {
+    this.visibleQrCode = !this.visibleQrCode;
+  }
+
   AddNewForm() {
     this.newTable = {
       anzahlPlatz: 0,
@@ -75,8 +81,8 @@ export class TablesComponent implements OnInit {
   }
 
   createQRCode(id: number) {
-    let qrUrl: string = this.guestviewURL + id;
-    
+    this.qrCodeURL = this.guestviewURL + "/?id=" + id;
+    this.toggleQRCode();
   }
 
 

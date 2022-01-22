@@ -3,8 +3,8 @@ import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@a
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
-import { QRCodeModule } from 'angular2-qrcode';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 import {
