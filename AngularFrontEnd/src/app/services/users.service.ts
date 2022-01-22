@@ -14,7 +14,7 @@ export class UsersService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'AUTHORIZATION': environment.APIKEY
+      'AUTHORIZATION': String(localStorage.getItem("id_token"))
     })
   };
 
@@ -92,10 +92,10 @@ export class UsersService {
   }
 
   /** Log a HeroService message with the MessageService */
-  /*   
+  /*
   private log(message: string) {
     this.messageService.add(`HeroService: ${message}`);
-  } 
+  }
   */
 
 }
