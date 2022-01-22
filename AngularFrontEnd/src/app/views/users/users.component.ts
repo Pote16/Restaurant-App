@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SAMPLEUSEROLES, SAMPLEUSERS } from 'src/assets/SampleData/sampledataAPI';
 import { UsersService } from 'src/app/services/users.service';
-import { IUserAPI, INewUserAPI } from 'src/app/interfaces/interfacesAPI';
+import { IUserAPI, INewUserAPI, IUserRoleAPI } from 'src/app/interfaces/interfacesAPI';
+import { UserrolesService } from 'src/app/services/userroles.service';
 
 @Component({
   selector: 'app-users',
@@ -10,26 +11,32 @@ import { IUserAPI, INewUserAPI } from 'src/app/interfaces/interfacesAPI';
 })
 export class UsersComponent implements OnInit {
 
-  userRoles = SAMPLEUSEROLES;
-
   selectedUser?: IUserAPI;
   newUser?: INewUserAPI;
   users: IUserAPI[] = [];
+  userRoles: IUserRoleAPI[] = [];
 
   public visibleEditForm = false;
   public visibleAddNewForm = false;
 
-  constructor(private usersService: UsersService) {
-
-  }
+  constructor(
+    private usersService: UsersService,
+    private userRolesService: UserrolesService,
+  ) { }
 
   ngOnInit(): void {
     this.getUsers();
+    this.getUserRoles();
   }
 
   getUsers(): void {
     this.usersService.getUsers()
       .subscribe(users => this.users = users);
+  }
+  
+  getUserRoles(): void{
+    this.userRolesService.getUserRoles()
+    .subscribe(userRoles => this.userRoles = userRoles);
   }
 
   toggleEditForm() {
