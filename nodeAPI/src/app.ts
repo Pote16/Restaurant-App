@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 app.use(urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+const router = express.Router({ strict: false })
+
 const authentication_routes = require("./auth/routes")(express.Router());
 app.use("/authentication", authentication_routes);
 
