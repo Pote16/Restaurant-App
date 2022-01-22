@@ -8,23 +8,19 @@
               <form cForm>
                 <h1>Login</h1>
                 <p class="text-medium-emphasis">Sign In to your account</p>
-                <c-input-group class="mb-3">
-                  <span cInputGroupText>
-                    <svg cIcon name="cilUser"></svg>
-                  </span>
-                  <input autoComplete="username" cFormControl placeholder="Username" id="username"/>
-                </c-input-group>
-                <c-input-group class="mb-4">
-                  <span cInputGroupText>
-                    <svg cIcon name="cilLockLocked"></svg>
-                  </span>
-                  <input
-                    autoComplete="current-password"
-                    cFormControl
-                    placeholder="Password"
-                    type="password"
-                  />
-                </c-input-group>
+                <form [formGroup]="form">
+                  <fieldset>
+                    <div class="form-field">
+                      <label>Username:</label>
+                      <input name="username" formControlName="username">
+                    </div>
+                    <div class="form-field">
+                      <label>Password:</label>
+                      <input name="password" formControlName="password"
+                             type="password">
+                    </div>
+                  </fieldset>
+                </form>
                 <c-row>
                   <c-col xs="6">
                     <button cButton class="px-4" color="primary" (click)="login()">

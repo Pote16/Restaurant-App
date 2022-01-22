@@ -3,7 +3,7 @@ import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@a
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 
 import {
@@ -47,6 +47,7 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
+import {AuthInterceptor} from "./views/pages/login/authInterceptor";
 //import { TablesComponent } from './views/tables/tables.component';
 //import { UsersComponent } from './views/users/users.component';
 //import { MenuitemsComponent } from './views/menuitems/menuitems.component';
@@ -103,6 +104,11 @@ const APP_CONTAINERS = [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
     },
     IconSetService,
     Title
