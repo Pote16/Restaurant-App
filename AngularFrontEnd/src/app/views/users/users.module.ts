@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { BadgeModule, GridModule, ModalModule, TableModule, ButtonModule,
     FormModule,CardModule
@@ -16,6 +17,7 @@ import { ComponentsModule } from '../../../components/components.module';
         CommonModule,
         UsersRoutingModule,
         GridModule,
+        FormsModule,
         BadgeModule,
         TableModule,
         ComponentsModule,

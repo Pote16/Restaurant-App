@@ -29,7 +29,7 @@
       <td>{{table.beschreibung}}</td>
       <td>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button cButton color="info" variant="outline" (click)="createQRCode()">QR-Code</button>
+        <button cButton color="info" variant="outline" (click)="createQRCode(table.tableID)">QR-Code</button>
         <button cButton color="primary" variant="outline" (click)="editForm(table)" >Edit</button>
         <button cButton color="danger" variant="outline" (click)="deleteTable(table)">Delete</button>
         </div>
@@ -43,28 +43,50 @@
 
 
 <c-modal id="ModalCategories" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
+  <div *ngIf="selectedTable">
   <c-modal-header>
     <h5 cModalTitle>Edit Category</h5>
     <button (click)="toggleEditForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <form cForm id="categoryform">
       <div class="mb-3">
         <label cLabel for="inputplaetze">Anzahl Plätze</label>
-        <input cFormControl id="inputplaetze" type="number">
+        <input cFormControl id="inputplaetze" type="number" [(ngModel)]="selectedTable.anzahlPlatz" value="{{selectedTable.anzahlPlatz}}">
       </div>
       <div class="mb-3">
         <label cLabel for="inputdescription">Description</label>
-        <textarea cFormControl id="inputdescription" rows="3"></textarea>
+        <textarea cFormControl id="inputdescription" rows="3" [(ngModel)]="selectedTable.beschreibung" value="{{selectedTable.beschreibung}}"></textarea>
       </div>
-    </form>
   </c-modal-body>
   <c-modal-footer>
-    <button (click)="toggleEditForm()" cButton color="secondary">
-      Close
-    </button>
-    <input cButton color="primary" type="submit" form="categoryform" value="Save changes">
+    <button (click)="toggleEditForm()" cButton color="secondary">Close</button>
+    <button cButton color="primary" (click)="updateTable(selectedTable)">Save changes</button>
   </c-modal-footer>
+</div>
 </c-modal>
+
+<c-modal id="ModalCategories" [visible]="visibleAddNewForm" (visibleChange)="handleFormChange($event)">
+  <div *ngIf="newTable">
+  <c-modal-header>
+    <h5 cModalTitle>Edit Category</h5>
+    <button (click)="toggleAddNewForm()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+      <div class="mb-3">
+        <label cLabel for="inputplaetze">Anzahl Plätze</label>
+        <input cFormControl id="inputplaetze" type="number" [(ngModel)]="newTable.anzahlPlatz" value="{{newTable.anzahlPlatz}}">
+      </div>
+      <div class="mb-3">
+        <label cLabel for="inputdescription">Description</label>
+        <textarea cFormControl id="inputdescription" rows="3" [(ngModel)]="newTable.beschreibung" value="{{newTable.beschreibung}}"></textarea>
+      </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleAddNewForm()" cButton color="secondary">Close</button>
+    <button cButton color="primary" (click)="addTable(newTable)">Save changes</button>
+  </c-modal-footer>
+</div>
+</c-modal>
+
 </c-row>
 

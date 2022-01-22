@@ -65,3 +65,8 @@ export interface IReviewsAPI {
     usercomment: string;
 }
 
+export interface IAllergensAPI {
+    allergenID: number;
+    name: string;
+}
+

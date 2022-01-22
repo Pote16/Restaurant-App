@@ -46,46 +46,45 @@
 
 
 <c-modal id="ModalCategories" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
+  <div *ngIf="selectedMenuItem">
   <c-modal-header>
     <h5 cModalTitle>Edit Category</h5>
     <button (click)="toggleEditForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <form cForm id="categoryform">
       <div class="mb-3">
         <label cLabel for="inputtitle">Title</label>
-        <input cFormControl id="inputtitle" type="text">
+        <input cFormControl id="inputtitle" [(ngModel)]="selectedMenuItem.title" value="{{selectedMenuItem.title}}">
       </div>
       <div class="mb-3">
         <label cLabel for="inputdescription">Description</label>
-        <textarea cFormControl id="inputdescription" rows="3"></textarea>
+        <textarea cFormControl id="inputdescription" [(ngModel)]="selectedMenuItem.desc" rows="3" value="{{selectedMenuItem.desc}}"></textarea>
       </div>
       <div class="mb-3">
         <label cLabel for="inputprice">Price</label>
-        <input cFormControl id="inputprice" type="number" step="0.01">
+        <input cFormControl id="inputprice" type="number" step="0.01" [(ngModel)]="selectedMenuItem.price" rows="3" value="{{selectedMenuItem.price}}">
       </div>
       <div class="mb-3">
       <label cLabel for="selectcategory">Catagories</label>
       <select id="selectcategory" aria-label="Status" cSelect>
-        <option *ngFor="let category of categories" value="{{category.categoryId}}">{{category.title}}</option>
+        <option *ngFor="let menuCategory of menuCategories" value="{{menuCategory.categoryId}}">{{menuCategory.title}}</option>
       </select>
       </div>
       <div class="mb-3">
-        <label cLabel for="selectcategory">Allergens</label>
+        <label cLabel>Allergens</label>
         <div>
         <c-form-check [inline]="true" *ngFor="let allergen of allergens">
-            <input cFormCheckInput id="{{allergen.allergenID}}" type="checkbox" />
+            <input cFormCheckInput id="{{allergen.allergenID}}" type="checkbox" >
             <label cFormCheckLabel for="{{allergen.allergenID}}">{{allergen.name}}</label>
         </c-form-check>
       </div>
       </div>
-
-    </form>
   </c-modal-body>
   <c-modal-footer>
     <button (click)="toggleEditForm()" cButton color="secondary">
       Close
     </button>
-    <input cButton color="primary" type="submit" form="categoryform" value="Save changes">
+    <button cButton color="primary" (click)="updateMenuItem(selectedMenuItem)">Save changest</button>
   </c-modal-footer>
+</div>
 </c-modal>
