@@ -13,6 +13,7 @@ export class TablesComponent implements OnInit {
   selectedTable?: ITableAPI;
   newTable?: INewTableAPI;
   tables: ITableAPI[] = [];
+  public guestviewURL = "https://webtech.salespool.at/guest";
 
   public visibleEditForm = false;
   public visibleAddNewForm = false;
@@ -73,8 +74,9 @@ export class TablesComponent implements OnInit {
     this.visibleEditForm = event;
   }
 
-  createQRCode() {
-
+  createQRCode(id: number) {
+    let qrUrl: string = this.guestviewURL + id;
+    
   }
 
 

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IMenuItemAPI, INewMenuItemAPI } from 'src/app/interfaces/interfacesAPI';
+import { IAllergensAPI, IMenuCategoryAPI, IMenuItemAPI, INewMenuItemAPI } from 'src/app/interfaces/interfacesAPI';
 import { MenuItemsService } from 'src/app/services/menuitems.service';
+import { CategoriesService } from 'src/app/services/categories.service';
+import { AllergensService } from 'src/app/services/allergens.service';
+
 import { ALLERGENS, SAMPLECATEGORIES, SAMPLEMENUITEMS } from 'src/assets/SampleData/sampledataAPI';
 
 @Component({
@@ -10,28 +13,46 @@ import { ALLERGENS, SAMPLECATEGORIES, SAMPLEMENUITEMS } from 'src/assets/SampleD
 })
 export class MenuitemsComponent implements OnInit {
 
-  items = SAMPLEMENUITEMS;
-  allergens = ALLERGENS;
-  categories = SAMPLECATEGORIES;
+  //items = SAMPLEMENUITEMS;
+  //allergens = ALLERGENS;
+  //categories = SAMPLECATEGORIES;
 
   selectedMenuItem?: IMenuItemAPI;
   newMenuItem?: INewMenuItemAPI;
   menuItems: IMenuItemAPI[] = [];
+  menuCategories: IMenuCategoryAPI[] = [];
+  allergens: IAllergensAPI[] = [];
 
   public visibleEditForm = false;
   public visibleAddNewForm = false;
 
-  constructor(private menuItemsService: MenuItemsService) {
+  constructor(
+    private menuItemsService: MenuItemsService,
+    private categoriesService: CategoriesService,
+    private allergensService: AllergensService
+    ) {
 
   }
 
   ngOnInit(): void {
     this.getMenuItems();
+    this.getMenuCategories();
+    this.getAllergens();
   }
 
   getMenuItems(): void {
     this.menuItemsService.getMenuItems()
       .subscribe(menuItems => this.menuItems = menuItems);
+  }
+
+  getMenuCategories(): void {
+    this.categoriesService.getCategories()
+      .subscribe(menuCategories => this.menuCategories = menuCategories);
+  }
+
+  getAllergens(): void {
+    this.allergensService.getAllergens()
+      .subscribe(allergens => this.allergens = allergens);
   }
 
   toggleEditForm() {
@@ -44,7 +65,6 @@ export class MenuitemsComponent implements OnInit {
   }
 
   updateMenuItem(menuItem: IMenuItemAPI) {
-    //this.menuItems = this.menuItems.filter(h => h !== menuItem);
     this.menuItemsService.updateMenuItem(menuItem).subscribe();
     this.toggleEditForm();
   }
