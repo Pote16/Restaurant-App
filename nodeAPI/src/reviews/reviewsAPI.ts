@@ -12,6 +12,7 @@ export async function getReviews(req: Request, res: Response) {
     for (let review of reviews) {
       let ret: IReviewsAPI = {
         id: review.id,
+        username: review.username,
         itemID: review.itemID,
         stars: review.stars,
         usercomment: review.usercomment
@@ -31,6 +32,7 @@ export async function getReviewByID(req: Request, res: Response) {
     if (review) {
       let ret: IReviewsAPI = {
         id: review.id,
+        username: review.username,
         itemID: review.itemID,
         stars: review.stars,
         usercomment: review.usercomment
@@ -47,6 +49,7 @@ export async function postReview(req: Request, res: Response) {
   try {
     let review = req.body as IReviewsAPI;
     let newreview = await Review.create({
+      username: review.username,
       itemID: review.itemID,
       stars: review.stars,
       usercomment: review.usercomment
@@ -64,6 +67,7 @@ export async function putReviewByID(req: Request, res: Response) {
     let review = await Review.findByPk(req.params.id);
 
     if (review) {
+      review.username = newreview.username ? newreview.username : review.username;
       review.stars = newreview.stars ? newreview.stars : review.stars;
       review.usercomment = newreview.usercomment ? newreview.usercomment : review.usercomment;
     }

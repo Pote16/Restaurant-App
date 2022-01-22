@@ -60,6 +60,7 @@ export interface IGuestRequestAPI {
 
 export interface IReviewsAPI {
     id: number;
+    username: string;
     itemID: number;
     stars: string;
     usercomment: string;

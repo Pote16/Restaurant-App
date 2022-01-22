@@ -625,6 +625,7 @@ GuestReguest.init(
 
 export interface IReviewDB {
     id: number;
+    username: string;
     itemID: number;
     stars: string;
     usercomment: string;
@@ -634,6 +635,7 @@ interface IReviewDBCreationAttributes extends Optional<IReviewDB, "id"> { }
 
 export class Review extends Model<IReviewDB, IReviewDBCreationAttributes> implements IReviewDB {
     id!: number;
+    username!: string;
     itemID!: number;
     stars!: string;
     usercomment!: string;
@@ -659,6 +661,10 @@ Review.init(
             autoIncrement: true,
             primaryKey: true,
         },
+        username: {
+            type: DataTypes.STRING(30),
+            allowNull: false,
+        },
         itemID: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
@@ -675,15 +681,12 @@ Review.init(
             type: DataTypes.STRING(500),
             allowNull: false,
         }
-
     },
     {
         tableName: "reviews",
         sequelize,
     }
 );
-
-
 
 
 
