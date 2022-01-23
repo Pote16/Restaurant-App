@@ -381,12 +381,12 @@ export class MenuItem extends Model<IMenuItemDB, IMenuItemDBCreationAttributes> 
     // actively include a relation.
     declare readonly allergens?: Allergens[]; // Note this is optional since it's only populated when explicitly requested in code
     declare readonly menuCategorys?: MenuCategory[]; // Note this is optional since it's only populated when explicitly requested in code
-    declare readonly menuitemstatus?: MenuItemStatus;
+    declare readonly menuItemStatus?: MenuItemStatus;
 
     declare static associations: {
         allergens: Association<MenuItem, Allergens>;
         menuCategorys: Association<MenuItem, MenuCategory>;
-        menuitemstatus: Association<MenuItem, MenuItemStatus>;
+        menuItemStatus: Association<MenuItem, MenuItemStatus>;
     };
 }
 
@@ -407,7 +407,12 @@ MenuItem.init(
             type: DataTypes.DOUBLE, allowNull: false
         },
         status: {
-            type: DataTypes.INTEGER.UNSIGNED, allowNull: false
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+            references: {
+                model: MenuItemStatus,
+                key: "id",
+            }
         }
     },
     {
@@ -479,7 +484,7 @@ Order.init(
             }
         },
         orderDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false
         },
         tableID: {
