@@ -4,7 +4,7 @@ import { MenuItemsService } from 'src/app/services/menuitems.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { AllergensService } from 'src/app/services/allergens.service';
 
-import { ALLERGENS, SAMPLECATEGORIES, SAMPLEMENUITEMS } from 'src/assets/SampleData/sampledataAPI';
+//import { ALLERGENS, SAMPLECATEGORIES, SAMPLEMENUITEMS } from 'src/assets/SampleData/sampledataAPI';
 
 @Component({
   selector: 'app-menuitems',
@@ -30,7 +30,7 @@ export class MenuitemsComponent implements OnInit {
     private menuItemsService: MenuItemsService,
     private categoriesService: CategoriesService,
     private allergensService: AllergensService
-    ) {
+  ) {
 
   }
 

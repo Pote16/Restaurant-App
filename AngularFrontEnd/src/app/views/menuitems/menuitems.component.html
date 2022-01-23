@@ -2,7 +2,7 @@
   <c-col xs="12">
       <c-card class="mb-4">
           <div class="d-grid">
-              <button cButton color="success" variant="outline" (click)="toggleEditForm()" >Create new Menuitem</button>
+              <button cButton color="success" variant="outline" (click)="AddNewForm()" >Create new Menuitem</button>
           </div>
           </c-card>
   </c-col>
@@ -49,7 +49,7 @@
 </c-col>
 
 
-<c-modal id="ModalCategories" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
+<c-modal id="ModalEditMenuItem" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
   <div *ngIf="selectedMenuItem">
   <c-modal-header>
     <h5 cModalTitle>Edit Category</h5>
@@ -89,6 +89,51 @@
       Close
     </button>
     <button cButton color="primary" (click)="updateMenuItem(selectedMenuItem)">Save changest</button>
+  </c-modal-footer>
+</div>
+</c-modal>
+
+
+<c-modal id="ModalAddNewMenuItem" [visible]="visibleAddNewForm" (visibleChange)="handleFormChange($event)">
+  <div *ngIf="newMenuItem">
+  <c-modal-header>
+    <h5 cModalTitle>Edit Category</h5>
+    <button (click)="toggleAddNewForm()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+      <div class="mb-3">
+        <label cLabel for="inputtitle">Title</label>
+        <input cFormControl id="inputtitle" [(ngModel)]="newMenuItem.title" value="{{newMenuItem.title}}">
+      </div>
+      <div class="mb-3">
+        <label cLabel for="inputdescription">Description</label>
+        <textarea cFormControl id="inputdescription" [(ngModel)]="newMenuItem.desc" rows="3" value="{{newMenuItem.desc}}"></textarea>
+      </div>
+      <div class="mb-3">
+        <label cLabel for="inputprice">Price</label>
+        <input cFormControl id="inputprice" type="number" step="0.01" [(ngModel)]="newMenuItem.price" rows="3" value="{{newMenuItem.price}}">
+      </div>
+      <div class="mb-3">
+      <label cLabel for="selectcategory">Catagories</label>
+      <select id="selectcategory" aria-label="Status" cSelect>
+        <option *ngFor="let menuCategory of menuCategories" value="{{menuCategory.categoryId}}">{{menuCategory.title}}</option>
+      </select>
+      </div>
+      <div class="mb-3">
+        <label cLabel>Allergens</label>
+        <div>
+        <c-form-check [inline]="true" *ngFor="let allergen of allergens">
+            <input cFormCheckInput id="{{allergen.allergenID}}" type="checkbox" >
+            <label cFormCheckLabel for="{{allergen.allergenID}}">{{allergen.name}}</label>
+        </c-form-check>
+      </div>
+      </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleAddNewForm()" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary" (click)="addMenuItem(newMenuItem)">Save changest</button>
   </c-modal-footer>
 </div>
 </c-modal>
