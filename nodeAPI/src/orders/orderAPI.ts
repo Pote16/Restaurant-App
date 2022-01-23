@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { isForInStatement } from "typescript";
 import { Order, OrderedItem, IOrderDB, OrderStatus, OrderItemStatus } from "../database";
 import { IOrderAPI, IMenuCategoryAPI, IMenuItemAPI, IOrderedItemAPI, IUserAPI, } from "../interfaces"
 import { dblogger } from "../Logger";
@@ -59,9 +60,13 @@ export async function postOrders(req: Request, res: Response) {
     try {
         let order = req.body as IOrderAPI;
 
+        if (!order.orderDate) {
+            order.orderDate = Date.now();
+        }
+
         let neworder = await Order.create({
             orderStatusID: req.body.status,
-            orderDate: order.orderDate | Date.now(),
+            orderDate: order.orderDate,
             tableID: order.tableId,
             paymentReference: order.paymentReference,
             paymentToken: order.paymentToken,

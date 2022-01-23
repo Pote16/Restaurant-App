@@ -2,7 +2,7 @@
 export interface IOrderAPI {
     orderId: number;
     status: number;
-    orderDate: number;
+    orderDate?: number;
     tableId: number;
     paymentReference: string;
     paymentToken: string;
