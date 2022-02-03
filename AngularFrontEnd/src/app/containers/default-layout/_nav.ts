@@ -31,6 +31,8 @@ export const navItems: INavData[] = [
     url: '/tables',
     iconComponent: { name: 'cilSquare' }
   },
+  /*
+  This are the links to the addition pages Login, Register, Errors, for fast testing in Nav Menu
   {
     name: 'Pages',
     url: '/login',
@@ -54,4 +56,5 @@ export const navItems: INavData[] = [
       }
     ]
   },
+  */
 ];
