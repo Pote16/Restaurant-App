@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "src/environments/environment";
 @Injectable({
   providedIn: "root"
 })
@@ -9,7 +10,8 @@ export class AuthService {
   }
 
   login(username:string, password:string ) {
-    return this.http.post('https://webtech.salespool.at/authentication/login/', {username, password})
+    let authURL = environment.WEBAPIURL + 'authentication/login/';
+    return this.http.post(authURL, {username, password})
       .subscribe(data => {
         this.setSession(data);
       })
