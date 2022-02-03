@@ -46,6 +46,10 @@ app.use("/reviews", reviewsRoutes);
 const allergensRoutes = require("./allergens/routes")(express.Router());
 app.use("/allergens", allergensRoutes);
 
+const resourcesRoutes = require("./resources/routes")(express.Router());
+app.use("/resources", resourcesRoutes);
+
+
 app.set('view engine', 'pug');
 app.use(express.static('../public/admin'));
 app.use(express.static('../public/kitchen'));
