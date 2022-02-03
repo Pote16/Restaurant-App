@@ -70,6 +70,7 @@ export interface ITableAPI extends INewTableAPI {
 }
 
 export interface INewTableAPI {
+    tischNummer: number,
     anzahlPlatz: number;
     beschreibung: string | null; // optinal value
 }
@@ -79,4 +80,9 @@ export interface IAllergensAPI {
     allergenID: number;
     name: string;
 
+}
+
+export interface IMenuItemStatusAPI {
+    id: number;
+    name: number;
 }

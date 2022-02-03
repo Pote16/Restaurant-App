@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IAllergensAPI, IMenuCategoryAPI, IMenuItemAPI, INewMenuItemAPI } from 'src/app/interfaces/interfacesAPI';
+import { IAllergensAPI, IMenuCategoryAPI, IMenuItemAPI, IMenuItemStatusAPI, INewMenuItemAPI } from 'src/app/interfaces/interfacesAPI';
 import { MenuItemsService } from 'src/app/services/menuitems.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { AllergensService } from 'src/app/services/allergens.service';
+import { MenuitemsstatusService } from 'src/app/services/menuitemsstatus.service';
 
 //import { ALLERGENS, SAMPLECATEGORIES, SAMPLEMENUITEMS } from 'src/assets/SampleData/sampledataAPI';
 
@@ -22,6 +23,7 @@ export class MenuitemsComponent implements OnInit {
   menuItems: IMenuItemAPI[] = [];
   menuCategories: IMenuCategoryAPI[] = [];
   allergens: IAllergensAPI[] = [];
+  menuItemStatusList: IMenuItemStatusAPI[] =[];
 
   public visibleEditForm = false;
   public visibleAddNewForm = false;
@@ -29,7 +31,8 @@ export class MenuitemsComponent implements OnInit {
   constructor(
     private menuItemsService: MenuItemsService,
     private categoriesService: CategoriesService,
-    private allergensService: AllergensService
+    private allergensService: AllergensService,
+    private menuItemStatusListService: MenuitemsstatusService
   ) {
 
   }
@@ -38,6 +41,7 @@ export class MenuitemsComponent implements OnInit {
     this.getMenuItems();
     this.getMenuCategories();
     this.getAllergens();
+    this.getMenuItemStatusList();
   }
 
   getMenuItems(): void {
@@ -53,6 +57,11 @@ export class MenuitemsComponent implements OnInit {
   getAllergens(): void {
     this.allergensService.getAllergens()
       .subscribe(allergens => this.allergens = allergens);
+  }
+
+  getMenuItemStatusList(): void {
+    this.menuItemStatusListService.getMenuItemsStatusList()
+    .subscribe(menuItemStatusList => this.menuItemStatusList = menuItemStatusList);
   }
 
   toggleEditForm() {

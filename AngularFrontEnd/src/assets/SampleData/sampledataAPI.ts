@@ -21,60 +21,61 @@ export const SAMPLEUSERS: IUserAPI[] = [
 
 export const SAMPLETABLES: ITableAPI[] = [
     {
-        "tableID": 1,
-        "anzahlPlatz": 4,
-        "beschreibung": "tisch bei theke",
+        tableID: 1,
+        tischNummer: 1,
+        anzahlPlatz: 4,
+        beschreibung: "tisch bei theke"
+    }, {
+        tableID: 2,
+        tischNummer: 2,
+        anzahlPlatz: 6,
+        beschreibung: "tisch bei theke"
+    }, {
+        tableID: 3,
+        tischNummer: 3,
+        anzahlPlatz: 2,
+        beschreibung: "tisch bei theke"
+    }, {
+        tableID: 4,
+        tischNummer: 4,
+        anzahlPlatz: 4,
+        beschreibung: "tisch bei theke"
+    }, {
+        tableID: 5,
+        tischNummer: 5,
+        anzahlPlatz: 4,
+        beschreibung: "tisch bei theke"
+    }, {
+        tableID: 6,
+        tischNummer: 6,
+        anzahlPlatz: 4,
+        beschreibung: "tisch bei theke"
+    }, {
+        tableID: 7,
+        tischNummer: 10,
+        anzahlPlatz: 4,
+        beschreibung: "tisch bei theke"
+    }, {
+        tableID: 8,
+        tischNummer: 11,
+        anzahlPlatz: 4,
+        beschreibung: "tisch bei theke"
+    }, {
+        tableID: 9,
+        tischNummer: 12,
+        anzahlPlatz: 4,
+        beschreibung: "tisch bei theke"
+    }, {
+        tableID: 10,
+        tischNummer: 20,
+        anzahlPlatz: 4,
+        beschreibung: "tisch bei theke"
+    }, {
+        tableID: 11,
+        tischNummer: 21,
+        anzahlPlatz: 4,
+        beschreibung: "tisch bei theke"
     },
-    {
-        "tableID": 2,
-        "anzahlPlatz": 6,
-        "beschreibung": "tisch bei theke",
-    },
-    {
-        "tableID": 3,
-        "anzahlPlatz": 2,
-        "beschreibung": "tisch bei theke",
-    },
-    {
-        "tableID": 4,
-        "anzahlPlatz": 4,
-        "beschreibung": "tisch bei theke",
-    },
-    {
-        "tableID": 5,
-        "anzahlPlatz": 4,
-        "beschreibung": "tisch bei theke",
-    },
-    {
-        "tableID": 6,
-        "anzahlPlatz": 4,
-        "beschreibung": "tisch bei theke",
-    },
-    {
-        "tableID": 7,
-        "anzahlPlatz": 4,
-        "beschreibung": "tisch bei theke",
-    },
-    {
-        "tableID": 8,
-        "anzahlPlatz": 4,
-        "beschreibung": "tisch bei theke",
-    },
-    {
-        "tableID": 9,
-        "anzahlPlatz": 4,
-        "beschreibung": "tisch bei theke",
-    },
-    {
-        "tableID": 10,
-        "anzahlPlatz": 4,
-        "beschreibung": "tisch bei theke",
-    },
-    {
-        "tableID": 11,
-        "anzahlPlatz": 4,
-        "beschreibung": "tisch bei theke",
-    }
 ]
 
 export const SAMPLECATEGORIES: IMenuCategoryAPI[] = [

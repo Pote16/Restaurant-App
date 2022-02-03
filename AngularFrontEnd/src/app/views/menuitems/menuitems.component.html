@@ -32,9 +32,9 @@
       <td>{{item.title}}</td>
       <td>{{item.desc}}</td>
       <td>{{item.price}}</td>
-      <td>{{item.status}}</td>
-      <td>{{item.category}}</td>
-      <td>{{item.allergens}}</td>
+      <td>{{menuItemStatusList[item.status-1].name}}</td>
+      <td><span *ngFor="let cid of item.category">{{menuCategories[cid-1].title}}, </span></td>
+      <td><span *ngFor="let aid of item.allergens">{{allergens[aid-1].name}}, </span></td>
       <td>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button cButton color="primary" variant="outline" (click)="editForm(item)" >Edit</button>

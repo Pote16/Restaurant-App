@@ -2,8 +2,8 @@
 export const environment = {
   production: false,
   APIKEY: "",
-  WEBAPIURL: "https://webtech.salespool.at/", // if you would like to test it on local host change URL here
-
+  WEBAPIURL: "http://localhost:3000/", 
+  //WEBAPIURL: "https://webtech.salespool.at/",  // if you would like to test it on local host change URL here
 };
 
 /*

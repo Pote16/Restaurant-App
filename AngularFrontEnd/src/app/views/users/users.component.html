@@ -26,7 +26,7 @@
     <tr *ngFor="let user of users">
       <th scope="row">{{user.userID}}</th>
       <td>{{user.name}}</td>
-      <td>{{user.roles}}</td>
+      <td><span *ngFor="let rid of user.roles">{{userRoles[rid-1].name}}</span></td>
       <td>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button cButton color="primary" variant="outline" (click)="editForm(user)" >Edit</button>  
@@ -42,7 +42,7 @@
 
 
 <c-modal id="editUser" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
-  <div *ngIf="selectedUser">
+  <c-form *ngIf="selectedUser" [formGroup]="editUserForm"  (ngSubmit)="updateUser(selectedUser)">
   <c-modal-header>
     <h5 cModalTitle>Edit user</h5>
     <button (click)="toggleEditForm()" cButtonClose></button>
@@ -50,7 +50,7 @@
   <c-modal-body>
       <div class="mb-3">
         <label cLabel for="inputname">Name</label>
-        <input cFormControl id="inputname" type="text" [(ngModel)]="selectedUser.name" value="{{selectedUser.name}}">
+        <input cFormControl id="inputname" type="text" value="{{selectedUser.name}}">
       </div>
       <div class="mb-3" *ngFor="let userRole of userRoles">
         <c-form-check [switch]="true">
@@ -61,9 +61,9 @@
   </c-modal-body>
   <c-modal-footer>
     <button cButton (click)="toggleEditForm()" color="secondary">Close</button>
-    <button cButton color="primary" (click)="updateUser(selectedUser)">Save changes</button>
+    <button cButton color="primary" type="submit">Save changes</button>
   </c-modal-footer>
-</div>
+</c-form>
 </c-modal>
 
 

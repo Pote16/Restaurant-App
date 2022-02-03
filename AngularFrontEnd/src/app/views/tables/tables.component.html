@@ -24,12 +24,12 @@
     </thead>
     <tbody>
     <tr *ngFor="let table of tables">
-      <th scope="row">{{table.tableID}}</th>
+      <th scope="row">{{table.tischNummer}}</th>
       <td>{{table.anzahlPlatz}}</td>
       <td>{{table.beschreibung}}</td>
       <td>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button cButton color="info" variant="outline" (click)="createQRCode(table.tableID)">QR-Code</button>
+        <button cButton color="info" variant="outline" (click)="createQRCode(table.tischNummer)">QR-Code</button>
         <button cButton color="primary" variant="outline" (click)="editForm(table)" >Edit</button>
         <button cButton color="danger" variant="outline" (click)="deleteTable(table)">Delete</button>
         </div>
@@ -49,6 +49,10 @@
     <button (click)="toggleEditForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
+    <div class="mb-3">
+      <label cLabel for="inputtischnummer">Tischnummer</label>
+      <input cFormControl id="inputtischnummer" type="number" [(ngModel)]="selectedTable.tischNummer" value="{{selectedTable.tischNummer}}">
+    </div>
       <div class="mb-3">
         <label cLabel for="inputplaetze">Anzahl Plätze</label>
         <input cFormControl id="inputplaetze" type="number" [(ngModel)]="selectedTable.anzahlPlatz" value="{{selectedTable.anzahlPlatz}}">
@@ -72,6 +76,10 @@
     <button (click)="toggleAddNewForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
+    <div class="mb-3">
+      <label cLabel for="inputtischnummer">Tischnummer</label>
+      <input cFormControl id="inputtischnummer" type="number" [(ngModel)]="newTable.tischNummer" value="{{newTable.tischNummer}}">
+    </div>
       <div class="mb-3">
         <label cLabel for="inputplaetze">Anzahl Plätze</label>
         <input cFormControl id="inputplaetze" type="number" [(ngModel)]="newTable.anzahlPlatz" value="{{newTable.anzahlPlatz}}">

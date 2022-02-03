@@ -59,6 +59,7 @@ export class TablesComponent implements OnInit {
 
   AddNewForm() {
     this.newTable = {
+      tischNummer: 0,
       anzahlPlatz: 0,
       beschreibung: "",
     };
