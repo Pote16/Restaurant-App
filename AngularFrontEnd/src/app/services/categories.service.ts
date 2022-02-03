@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class CategoriesService {
 
-  private categoriesUrl = 'https://webtech.salespool.at/categories';
+  private categoriesUrl = environment.WEBAPIURL + 'categories';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

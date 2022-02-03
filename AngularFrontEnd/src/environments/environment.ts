@@ -1,10 +1,9 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
 
 export const environment = {
   production: false,
-  APIKEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDI4NTM0MTgsImV4cCI6MTY0MzExMjYxOH0.BfbFDu4UaKOcOgIaTXMza5jMl2rVqlxWeHmtJf85rvY"
+  APIKEY: "",
+  WEBAPIURL: "https://webtech.salespool.at/", // if you would like to test it on local host change URL here
+
 };
 
 /*

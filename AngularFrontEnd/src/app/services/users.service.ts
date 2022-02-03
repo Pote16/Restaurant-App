@@ -10,7 +10,8 @@ import { environment } from 'src/environments/environment';
 })
 export class UsersService {
 
-  private usersUrl = 'https://webtech.salespool.at/users';
+  private usersUrl = environment.WEBAPIURL + 'users';
+
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

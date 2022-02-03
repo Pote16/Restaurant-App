@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class MenuItemsService {
 
-  private menuItemsUrl = 'https://webtech.salespool.at/menuItems';
+  private menuItemsUrl = environment.WEBAPIURL + 'menuItems';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

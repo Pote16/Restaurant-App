@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserrolesService {
 
-  private userRolesUrl = 'https://webtech.salespool.at/userroles';
+  private userRolesUrl = environment.WEBAPIURL + 'userroles';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

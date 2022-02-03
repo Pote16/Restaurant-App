@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TablesService {
 
-  private tablesUrl = 'https://webtech.salespool.at/tables';
+  private tablesUrl = environment.WEBAPIURL + 'tables';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
