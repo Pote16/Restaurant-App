@@ -48,7 +48,8 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
-import {AuthInterceptor} from "./views/pages/login/authInterceptor";
+import {AuthInterceptor} from "./auth/authInterceptor";
+import {AuthGuard} from "./auth/authGuard";
 //import { TablesComponent } from './views/tables/tables.component';
 //import { UsersComponent } from './views/users/users.component';
 //import { MenuitemsComponent } from './views/menuitems/menuitems.component';
@@ -99,6 +100,7 @@ const APP_CONTAINERS = [
     QRCodeModule
   ],
   providers: [
+    AuthGuard,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,

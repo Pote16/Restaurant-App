@@ -18,11 +18,12 @@ import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 
+import { AuthGuard } from './auth/authGuard';
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '',
@@ -33,26 +34,32 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },      {
         path: 'users',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/users/users.module').then((m) => m.UsersModule)
       },      {
         path: 'categories',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/categories/categories.module').then((m) => m.CategoriesModule)
       },      {
         path: 'tables',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/tables/tables.module').then((m) => m.TablesModule)
       },      {
         path: 'menuitems',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/menuitems/menuitems.module').then((m) => m.MenuitemsModule)
       },      {
         path: 'pages',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./views/pages/pages.module').then((m) => m.PagesModule)
       },
