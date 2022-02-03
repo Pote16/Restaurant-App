@@ -22,6 +22,7 @@ const DB_NAME = process.env.DB_NAME as string;
 const DB_PORT = Number(process.env.DB_PORT) || 3306;
 const PORT = process.env.PORT || 3000;
 const DOMAIN = process.env.DOMAIN || `localhost:${PORT}`;
+const { Op } = require("sequelize");
 
 const logger = dblogger;
 function log(sql: string, timing?: number): boolean {
@@ -772,18 +773,21 @@ export async function init(): Promise<void> {
 
 export async function uploadSampleData(): Promise<void> {
     let u: number;
+    let n: number;
 
     await OrderItemStatus.bulkCreate(sample.SamplesOrderItemStatus, { returning: false });
     await OrderStatus.bulkCreate(sample.SamplesOrderStatus, { returning: false });
     await Table.bulkCreate(sample.SamplesTable, { returning: false });
     await MenuItemStatus.bulkCreate(sample.SamplesMenuItemStatus, { returning: false });
     let menucategories = await MenuCategory.bulkCreate(sample.SamplesMenuCategory, { returning: true });
-    let allergens = await Allergens.bulkCreate(sample.SampleAllergens, { returning: true });
+    await Allergens.bulkCreate(sample.SampleAllergens, { returning: true });
     let menuItems = await MenuItem.bulkCreate(sample.SampleMenuItems, { returning: true });
 
     for (let i = 0; i < menuItems.length; i++) {
-        menuItems[i].addAllergens(allergens);
+        n = 3 + Math.floor(Math.random() * 11);
         u = Math.floor(Math.random() * 2);
+        let allergensrandom = await Allergens.findAll({ where: { allergenID: { [Op.lt]: n } } });
+        menuItems[i].addAllergens(allergensrandom);
         menuItems[i].addMenuCategories([menucategories[u], menucategories[u + 1],]);
     }
 

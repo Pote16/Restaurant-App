@@ -311,24 +311,39 @@ export const SampleAllergens: IAllergensDB[] = [
         name: "B"
     }, {
         allergenID: 3,
-        name: "B"
-    }, {
-        allergenID: 4,
         name: "C"
     }, {
-        allergenID: 5,
+        allergenID: 4,
         name: "D"
     }, {
-        allergenID: 6,
+        allergenID: 5,
         name: "E"
     }, {
-        allergenID: 7,
+        allergenID: 6,
         name: "F"
     }, {
-        allergenID: 8,
+        allergenID: 7,
         name: "G"
     }, {
-        allergenID: 9,
+        allergenID: 8,
         name: "H"
+    }, {
+        allergenID: 9,
+        name: "L"
+    }, {
+        allergenID: 10,
+        name: "M"
+    }, {
+        allergenID: 11,
+        name: "N"
+    }, {
+        allergenID: 12,
+        name: "O"
+    }, {
+        allergenID: 13,
+        name: "P"
+    }, {
+        allergenID: 14,
+        name: "R"
     }
 ];
