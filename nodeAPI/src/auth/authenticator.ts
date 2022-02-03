@@ -1,6 +1,5 @@
 import {Request, Response} from "express";
 import * as userHandler from "./authAPI";
-import {User} from "../database";
 
 const jwt = require('jsonwebtoken');
 
