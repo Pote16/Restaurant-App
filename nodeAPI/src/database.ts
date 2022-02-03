@@ -170,6 +170,7 @@ User.init(
 //---------------    Table  ----------------------------------
 export interface ITableDB {
     tableID: number;
+    tischNummer: number;
     anzahlPlatz: number;
     beschreibung: string | null; // optinal value
 }
@@ -177,6 +178,7 @@ interface ITableDBCreationAttributes extends Optional<ITableDB, "tableID"> { }
 
 export class Table extends Model<ITableDB, ITableDBCreationAttributes> implements ITableDB {
     tableID!: number;
+    tischNummer!: number;
     anzahlPlatz!: number;
     beschreibung!: string | null;
 }
@@ -187,6 +189,10 @@ Table.init(
             type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
             primaryKey: true,
+        },
+        tischNummer: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            unique: true
         },
         anzahlPlatz: {
             type: DataTypes.INTEGER.UNSIGNED,

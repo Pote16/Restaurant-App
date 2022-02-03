@@ -24,6 +24,7 @@ export async function postTable(req: Request, res: Response) {
     try {
         let table = req.body as ITableDB;
         let newtable = await Table.create({
+            tischNummer: table.tischNummer,
             anzahlPlatz: table.anzahlPlatz,
             beschreibung: table.beschreibung
         });
@@ -55,6 +56,7 @@ export async function putTableByID(req: Request, res: Response) {
         let table = await Table.findByPk(req.params.id);
 
         if (table) {
+            table.tischNummer = newTable.tischNummer ? newTable.tischNummer : table.tischNummer;
             table.anzahlPlatz = newTable.anzahlPlatz ? newTable.anzahlPlatz : table.anzahlPlatz;
             table.beschreibung = newTable.beschreibung ? newTable.beschreibung : table.beschreibung;
         }
