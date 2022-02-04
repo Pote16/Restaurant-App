@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { MenuItemStatus, OrderItemStatus, OrderStatus } from "../database";
+import { GuestRequestStatus, MenuItemStatus, OrderItemStatus, OrderStatus } from "../database";
 import { dblogger } from "../Logger";
 
 const logger = dblogger;
@@ -28,12 +28,23 @@ export async function getOrderStatusList(req: Request, res: Response) {
   }
 }
 
-
 export async function getMenuItemStatusList(req: Request, res: Response) {
   try {
     let menuItemStatusList = await MenuItemStatus.findAll();
     if (menuItemStatusList) {
       res.status(200).json(menuItemStatusList)
+    }
+  } catch (error) {
+    logger.error(error);
+    res.status(400).send("failed");
+  }
+}
+
+export async function getGuestRequestStatusList(req: Request, res: Response) {
+  try {
+    let guestRequestStatusList = await GuestRequestStatus.findAll();
+    if (guestRequestStatusList) {
+      res.status(200).json(guestRequestStatusList)
     }
   } catch (error) {
     logger.error(error);
