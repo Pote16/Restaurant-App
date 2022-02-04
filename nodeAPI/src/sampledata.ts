@@ -1,5 +1,5 @@
 
-import { IAllergensDB, IMenuCategoryDB, IMenuItemDB, IMenuItemStatusDB, IOrderDB, IOrderedItemDB, IOrderItemStatusDB, IOrderStatusDB, ITableDB, IUserDB, IUserRoleDB } from "./database";
+import { IAllergensDB, IGuestReguestDB, IGuestRequestStatusDB, IMenuCategoryDB, IMenuItemDB, IMenuItemStatusDB, IOrderDB, IOrderedItemDB, IOrderItemStatusDB, IOrderStatusDB, ITableDB, IUserDB, IUserRoleDB } from "./database";
 
 export const SamplesMenuCategory: IMenuCategoryDB[] = [
     {
@@ -133,6 +133,26 @@ export const SamplesOrderStatus: IOrderStatusDB[] = [
     }
 ];
 
+export const SamplesGuestRequestStatus: IGuestRequestStatusDB[] = [
+    {
+        id: 1,
+        name: "open"
+    }, {
+        id: 2,
+        name: "waiter comming"
+    }, {
+        id: 3,
+        name: "collect payment"
+    }, {
+        id: 4,
+        name: "manager needed"
+    }, {
+        id: 5,
+        name: "done"
+    }
+];
+
+
 export const SamplesMenuItemStatus: IMenuItemStatusDB[] = [
     {
         id: 1,
@@ -224,6 +244,31 @@ export const SampleUser: IUserDB[] = [
         userID: 3,
         name: "Franco",
         password: "password"
+    },
+];
+
+
+export const SamplesGuestRequest: IGuestReguestDB[] = [
+    {
+        guestReguestID: 1,
+        status: 1,
+        tableID: 1
+    }, {
+        guestReguestID: 2,
+        status: 2,
+        tableID: 2
+    }, {
+        guestReguestID: 3,
+        status: 3,
+        tableID: 3
+    }, {
+        guestReguestID: 4,
+        status: 4,
+        tableID: 4
+    }, {
+        guestReguestID: 5,
+        status: 5,
+        tableID: 5
     },
 ];
 
@@ -347,3 +392,5 @@ export const SampleAllergens: IAllergensDB[] = [
         name: "R"
     }
 ];
+
+

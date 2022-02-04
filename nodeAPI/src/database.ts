@@ -167,6 +167,39 @@ User.init(
     }
 );
 
+//---------------    Guest Request Status  ----------------------------------
+
+export interface IGuestRequestStatusDB {
+    id: number;
+    name: string;
+}
+
+interface IGuestRequestStatusDBCreationAttributes extends Optional<IGuestRequestStatusDB, "id"> { }
+
+export class GuestRequestStatus extends Model<IGuestRequestStatusDB, IGuestRequestStatusDBCreationAttributes> implements IGuestRequestStatusDB {
+    id!: number;
+    name!: string;
+}
+
+GuestRequestStatus.init(
+    {
+        id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        name: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+        }
+    },
+    {
+        tableName: "guestrequest_status",
+        sequelize,
+    }
+);
+
+
 
 //---------------    Table  ----------------------------------
 export interface ITableDB {
@@ -532,6 +565,23 @@ export class OrderedItem
     public number!: number;
     public orderItemSatusID!: number;
     public text!: string;
+
+    // timestamps!
+    declare readonly createdAt: Date;
+    declare readonly updatedAt: Date;
+
+    declare getMenuItem: HasManyGetAssociationsMixin<MenuItem>;
+    declare addMenuItem: HasManyAddAssociationMixin<MenuItem, number>;
+    declare getOrderItemStatus: HasManyGetAssociationsMixin<OrderItemStatus>;
+    declare addOrderItemStatus: HasManyAddAssociationMixin<OrderItemStatus, number>;
+
+    declare readonly guestRequestStatus?: OrderItemStatus;
+    declare readonly menuItem?: MenuItem;
+    declare static associations: {
+        guestRequestStatus: Association<OrderedItem, OrderItemStatus>;
+        menuItem: Association<OrderedItem ,MenuItem>;
+    };
+
 }
 
 
@@ -600,9 +650,14 @@ export class GuestReguest extends Model<IGuestReguestDB, IGuestReguestDBCreation
     declare getTable: HasManyGetAssociationsMixin<Table>;
     declare addTable: HasManyAddAssociationMixin<Table, number>;
 
+    declare getGuestRequestStatus: HasManyGetAssociationsMixin<GuestRequestStatus>;
+    declare addGuestRequestStatus: HasManyAddAssociationMixin<GuestRequestStatus, number>;
+
     declare readonly table?: Table;
+    declare readonly guestRequestStatus?: GuestRequestStatus;
     declare static associations: {
         table: Association<GuestReguest, Table>;
+        guestRequestStatus: Association<GuestReguest, GuestRequestStatus>;
     };
 }
 
@@ -616,6 +671,10 @@ GuestReguest.init(
         status: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
+            references: {
+                model: GuestRequestStatus,
+                key: "id",
+            }
         },
         tableID: {
             type: DataTypes.INTEGER.UNSIGNED,
@@ -725,6 +784,12 @@ Order.hasOne(OrderStatus, {
     constraints: false
 });
 
+OrderedItem.hasOne(OrderItemStatus, {
+    sourceKey: "orderItemSatusID",
+    foreignKey: "orderItemStatusID",
+    constraints: false
+});
+
 Order.hasOne(Table, {
     sourceKey: "tableID",
     foreignKey: "tableID",
@@ -747,6 +812,12 @@ Review.hasOne(MenuItem, {
 GuestReguest.hasOne(Table, {
     sourceKey: "tableID",
     foreignKey: "tableID",
+    constraints: false
+});
+
+GuestReguest.hasOne(GuestRequestStatus, {
+    sourceKey: "status",
+    foreignKey: "id",
     constraints: false
 });
 
@@ -776,11 +847,12 @@ export async function uploadSampleData(): Promise<void> {
     let n: number;
 
     await OrderItemStatus.bulkCreate(sample.SamplesOrderItemStatus, { returning: false });
+    await GuestRequestStatus.bulkCreate(sample.SamplesGuestRequestStatus, { returning: false });
     await OrderStatus.bulkCreate(sample.SamplesOrderStatus, { returning: false });
     await Table.bulkCreate(sample.SamplesTable, { returning: false });
     await MenuItemStatus.bulkCreate(sample.SamplesMenuItemStatus, { returning: false });
     let menucategories = await MenuCategory.bulkCreate(sample.SamplesMenuCategory, { returning: true });
-    await Allergens.bulkCreate(sample.SampleAllergens, { returning: true });
+    await Allergens.bulkCreate(sample.SampleAllergens, { returning: false });
     let menuItems = await MenuItem.bulkCreate(sample.SampleMenuItems, { returning: true });
 
     for (let i = 0; i < menuItems.length; i++) {
@@ -801,4 +873,5 @@ export async function uploadSampleData(): Promise<void> {
 
     await Order.bulkCreate(sample.SampleOrders, { returning: true });
     await OrderedItem.bulkCreate(sample.SampleOrderedItem, { returning: true });
+    await GuestReguest.bulkCreate(sample.SamplesGuestRequest, {returning: false});
 }
