@@ -26,7 +26,7 @@
     <tr *ngFor="let user of users">
       <th scope="row">{{user.userID}}</th>
       <td>{{user.name}}</td>
-      <td><span *ngFor="let rid of user.roles">{{userRoles[rid-1].name}}</span></td>
+      <td><span *ngFor="let i of user.roles">{{userRoles[i-1].name}}, </span></td>
       <td>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button cButton color="primary" variant="outline" (click)="editForm(user)" >Edit</button>  
@@ -42,7 +42,7 @@
 
 
 <c-modal id="editUser" [visible]="visibleEditForm" (visibleChange)="handleFormChange($event)">
-  <c-form *ngIf="selectedUser" [formGroup]="editUserForm"  (ngSubmit)="updateUser(selectedUser)">
+  <c-form *ngIf="selectedUser" [formGroup]="editUserForm" novalidate>
   <c-modal-header>
     <h5 cModalTitle>Edit user</h5>
     <button (click)="toggleEditForm()" cButtonClose></button>
@@ -50,18 +50,23 @@
   <c-modal-body>
       <div class="mb-3">
         <label cLabel for="inputname">Name</label>
-        <input cFormControl id="inputname" type="text" value="{{selectedUser.name}}">
+        <input cFormControl id="inputname" name="inputname" type="text" value="{{selectedUser.name}}" formControlName="inputname">
       </div>
-      <div class="mb-3" *ngFor="let userRole of userRoles">
+      <div class="mb-3" *ngFor="let userRole of userRoles; let i=index">
         <c-form-check [switch]="true">
-            <input cFormCheckInput type="checkbox" />
-            <label cFormCheckLabel>{{userRole.name}}</label>
+          <label cFormCheckLabel>
+          <input cFormCheckInput type="checkbox" formArrayName="checkUserRolesArray" [checked]="this.checkUserHasRole(selectedUser, userRole.roleID)" value={{userRole.roleID}} (change)="onCheckboxChange($event)" />
+          {{userRole.name}}
+        </label>
         </c-form-check>
       </div>
+      <p class="error" *ngIf="this.editUserForm.controls['checkUserRolesArray'].errors?.['required']">
+        Checkbox is required, select atleast one value.
+      </p>
   </c-modal-body>
   <c-modal-footer>
     <button cButton (click)="toggleEditForm()" color="secondary">Close</button>
-    <button cButton color="primary" type="submit">Save changes</button>
+    <button cButton color="primary" (click)="updateUser()">Save changes</button>
   </c-modal-footer>
 </c-form>
 </c-modal>

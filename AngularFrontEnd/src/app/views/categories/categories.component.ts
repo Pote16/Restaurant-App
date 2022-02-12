@@ -65,6 +65,7 @@ export class CategoriesComponent implements OnInit {
   addCategory(category: INewMenuCategoryAPI) {
     this.toggleAddNewForm();
     this.categoriesService.addCategory(category).subscribe();
+    this.getCategories();
   }
 
   delteCategory(category: IMenuCategoryAPI): void {
@@ -75,8 +76,4 @@ export class CategoriesComponent implements OnInit {
   handleFormChange(event: any) {
     this.visibleEditForm = event;
   }
-
-
-
-
 }

@@ -99,6 +99,7 @@ export class MenuitemsComponent implements OnInit {
   addMenuItem(menuItem: INewMenuItemAPI) {
     this.toggleAddNewForm();
     this.menuItemsService.addMenuItem(menuItem).subscribe();
+    this.getMenuItems();
   }
 
   deleteMenuItem(menuItem: IMenuItemAPI): void {

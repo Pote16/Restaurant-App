@@ -14,7 +14,7 @@ export class TablesComponent implements OnInit {
   newTable?: INewTableAPI;
   tables: ITableAPI[] = [];
   public guestviewURL = "https://webtech.salespool.at/guest";
-  public qrCodeURL = "";
+  public qrCodeURL = "-";
 
   public visibleEditForm = false;
   public visibleAddNewForm = false;
@@ -64,12 +64,12 @@ export class TablesComponent implements OnInit {
       beschreibung: "",
     };
     this.toggleAddNewForm();
-    this.ngOnInit();
   }
 
   addTable(table: INewTableAPI) {
     this.toggleAddNewForm();
     this.tablesService.addTable(table).subscribe();
+    this.getTables();
   }
 
   deleteTable(table: ITableAPI): void {
