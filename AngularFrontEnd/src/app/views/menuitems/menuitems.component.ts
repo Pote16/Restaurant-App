@@ -4,6 +4,7 @@ import { MenuItemsService } from 'src/app/services/menuitems.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { AllergensService } from 'src/app/services/allergens.service';
 import { MenuitemsstatusService } from 'src/app/services/menuitemsstatus.service';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 //import { ALLERGENS, SAMPLECATEGORIES, SAMPLEMENUITEMS } from 'src/assets/SampleData/sampledataAPI';
 
@@ -23,7 +24,8 @@ export class MenuitemsComponent implements OnInit {
   menuItems: IMenuItemAPI[] = [];
   menuCategories: IMenuCategoryAPI[] = [];
   allergens: IAllergensAPI[] = [];
-  menuItemStatusList: IMenuItemStatusAPI[] =[];
+  menuItemStatusList: IMenuItemStatusAPI[] = [];
+  addMenuItemForm: FormGroup;
 
   public visibleEditForm = false;
   public visibleAddNewForm = false;
@@ -32,9 +34,17 @@ export class MenuitemsComponent implements OnInit {
     private menuItemsService: MenuItemsService,
     private categoriesService: CategoriesService,
     private allergensService: AllergensService,
-    private menuItemStatusListService: MenuitemsstatusService
+    private menuItemStatusListService: MenuitemsstatusService,
+    fb: FormBuilder
   ) {
-
+    this.addMenuItemForm = fb.group({
+      title: new FormControl(),
+      desc: new FormControl(),
+      price: new FormControl(),
+      status: new FormControl(),
+      categories: new FormArray([]),
+      allergens: new FormArray([]),
+    });
   }
 
   ngOnInit(): void {
@@ -61,7 +71,7 @@ export class MenuitemsComponent implements OnInit {
 
   getMenuItemStatusList(): void {
     this.menuItemStatusListService.getMenuItemsStatusList()
-    .subscribe(menuItemStatusList => this.menuItemStatusList = menuItemStatusList);
+      .subscribe(menuItemStatusList => this.menuItemStatusList = menuItemStatusList);
   }
 
   toggleEditForm() {
@@ -98,8 +108,16 @@ export class MenuitemsComponent implements OnInit {
 
   addMenuItem(menuItem: INewMenuItemAPI) {
     this.toggleAddNewForm();
+    console.log(this.addMenuItemForm.value);
+    menuItem.title = this.addMenuItemForm.value.title;
+    menuItem.desc = this.addMenuItemForm.value.desc;
+    menuItem.price = this.addMenuItemForm.value.price;
+    menuItem.status = this.addMenuItemForm.value.status;
+    menuItem.category = this.addMenuItemForm.value.categories;
+    menuItem.allergens = this.addMenuItemForm.value.allergens;
     this.menuItemsService.addMenuItem(menuItem).subscribe();
     this.getMenuItems();
+    console.log(menuItem);
   }
 
   deleteMenuItem(menuItem: IMenuItemAPI): void {
@@ -109,6 +127,44 @@ export class MenuitemsComponent implements OnInit {
 
   handleFormChange(event: any) {
     this.visibleEditForm = event;
+  }
+
+  onCheckboxChangeAddFormAllergens(e: any) {
+    console.log(this.addMenuItemForm.get('allergens'));
+    const selectedCategories
+     = this.addMenuItemForm.get('allergens') as FormArray;
+    if (e.target.checked) {
+      selectedCategories
+      .push(new FormControl(e.target.value));
+    } else {
+      const index = selectedCategories
+      .controls
+        .findIndex(x => x.value === e.target.value);
+      selectedCategories
+      .removeAt(index);
+    }
+  }
+
+  onCheckboxChangeAddFormCategories(e: any) {
+    console.log(this.addMenuItemForm.get('categories'));
+    const selectedCategories
+     = this.addMenuItemForm.get('categories') as FormArray;
+    if (e.target.checked) {
+      selectedCategories
+      .push(new FormControl(e.target.value));
+    } else {
+      const index = selectedCategories
+      .controls
+        .findIndex(x => x.value === e.target.value);
+      selectedCategories
+      .removeAt(index);
+    }
+  }
+
+  changeStatusAddForm(e:any){
+    if (this.newMenuItem){
+      this.newMenuItem.status = e.target.value;
+    }
   }
 
 }

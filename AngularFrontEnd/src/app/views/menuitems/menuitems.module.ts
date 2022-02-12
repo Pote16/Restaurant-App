@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
     BadgeModule, GridModule, ModalModule, TableModule, ButtonModule,
@@ -25,7 +25,8 @@ import { ComponentsModule } from '../../../components/components.module';
         ButtonModule,
         FormModule,
         ModalModule,
-        CardModule
+        CardModule,
+        ReactiveFormsModule 
     ]
 })
 export class MenuitemsModule {

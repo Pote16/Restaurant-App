@@ -18,6 +18,7 @@ export class UsersComponent implements OnInit {
   users: IUserAPI[] = [];
   userRoles: IUserRoleAPI[] = [];
   editUserForm: FormGroup;
+  addUserForm: FormGroup;
 
 
   public visibleEditForm = false;
@@ -31,6 +32,11 @@ export class UsersComponent implements OnInit {
     this.editUserForm = fb.group({
       inputname: new FormControl(),
       checkUserRolesArray: new FormArray([]),
+    });
+    this.addUserForm = fb.group({
+      inputnameAdd: new FormControl(),
+      checkUserRolesArrayAdd: new FormArray([]),
+      passwordAdd: new FormControl()
     });
   }
 
@@ -49,8 +55,6 @@ export class UsersComponent implements OnInit {
     this.userRolesService.getUserRoles()
       .subscribe(userRoles => this.userRoles = userRoles);
   }
-
-
 
   toggleEditForm() {
     this.visibleEditForm = !this.visibleEditForm;
@@ -91,14 +95,20 @@ export class UsersComponent implements OnInit {
   AddNewForm() {
     this.newUser = {
       name: " ",
-      roles: [1]
+      roles: [1],
+      password: ""
     };
     this.toggleAddNewForm();
     this.ngOnInit();
   }
 
   addUser(user: INewUserAPI) {
+    console.log(this.addUserForm.value);
     this.toggleAddNewForm();
+    user.roles = this.addUserForm.value.checkUserRolesArrayAdd;
+    user.name = this.addUserForm.value.inputnameAdd;
+    user.password = this.addUserForm.value.passwordAdd;
+    console.log(user);
     this.usersService.addUser(user).subscribe();
     this.getUsers();
   }
@@ -121,6 +131,18 @@ export class UsersComponent implements OnInit {
       const index = checkUserRolesArray.controls
         .findIndex(x => x.value === e.target.value);
       checkUserRolesArray.removeAt(index);
+    }
+  }
+
+  onCheckboxChangeAddForm(e: any) {
+    console.log(this.addUserForm.get('checkUserRolesArrayAdd'));
+    const checkUserRolesArrayAdd = this.addUserForm.get('checkUserRolesArrayAdd') as FormArray;
+    if (e.target.checked) {
+      checkUserRolesArrayAdd.push(new FormControl(e.target.value));
+    } else {
+      const index = checkUserRolesArrayAdd.controls
+        .findIndex(x => x.value === e.target.value);
+      checkUserRolesArrayAdd.removeAt(index);
     }
   }
 }

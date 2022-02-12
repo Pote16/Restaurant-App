@@ -16,13 +16,16 @@ export interface IOrderedItemAPI {
     status: number;
 }
 
-export interface IUserAPI extends INewUserAPI {
+export interface IUserAPI {
     userID: number;
+    name: string;
+    roles: number[];
 }
 
 export interface INewUserAPI {
     name: string;
     roles: number[];
+    password: string;
 }
 
 export interface ISecretUserAPI {

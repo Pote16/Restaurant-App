@@ -73,20 +73,25 @@
 
 
 <c-modal id="newUser" [visible]="visibleAddNewForm" (visibleChange)="handleFormChange($event)">
-  <div *ngIf="newUser">
+  <div *ngIf="newUser" [formGroup]="addUserForm" novalidate>
   <c-modal-header>
     <h5 cModalTitle>Add new user</h5>
     <button (click)="toggleAddNewForm()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
       <div class="mb-3">
-        <label cLabel for="inputname">Name</label>
-        <input cFormControl id="inputname" type="text" [(ngModel)]="newUser.name" value="{{newUser.name}}">
+        <label cLabel for="inputnameAdd">Name</label>
+        <input cFormControl id="inputnameAdd" name="inputnameAdd" type="text" value="{{newUser.name}}" formControlName="inputnameAdd">
       </div>
-      <div class="mb-3" *ngFor="let userRole of userRoles">
+      <div class="mb-3">
+        <label cLabel for="passwordAdd">Password</label>
+        <input cFormControl id="passwordAdd" name="passwordAdd" type="password" value="{{newUser.password}}" formControlName="passwordAdd">
+      </div>
+      <div class="mb-3" *ngFor="let userRole of userRoles; let i=index">
         <c-form-check [switch]="true">
-            <input cFormCheckInput type="checkbox" />
-            <label cFormCheckLabel>{{userRole.name}}</label>
+          <label cFormCheckLabel>
+            <input cFormCheckInput type="checkbox" formArrayName="checkUserRolesArrayAdd" value={{userRole.roleID}} (change)="onCheckboxChangeAddForm($event)"/>
+            {{userRole.name}}</label>
         </c-form-check>
       </div>
   </c-modal-body>
