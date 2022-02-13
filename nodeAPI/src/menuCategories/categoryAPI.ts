@@ -76,7 +76,7 @@ export async function deleteMenuCategoryByID(req: Request, res: Response) {
     let menuCategory = await MenuCategory.findByPk(req.params.id);
 
     if (menuCategory) {
-      menuCategory.destroy;
+      menuCategory.destroy();
       res.status(200).send("Category deleted");
     } else {
       res.status(400).send("Category not found");

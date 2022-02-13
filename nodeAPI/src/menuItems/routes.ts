@@ -1,6 +1,6 @@
 import * as authenticator from "../auth/authenticator";
 import * as menuItemHandler from "./menuItemAPI";
-import {Router} from "express";
+import { Router } from "express";
 
 module.exports = (router: Router) => {
   router.get('/', authenticator.isAuthorized, menuItemHandler.getMenuItems);

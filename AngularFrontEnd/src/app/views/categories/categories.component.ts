@@ -43,7 +43,6 @@ export class CategoriesComponent implements OnInit {
   }
 
   updateCategory(category: IMenuCategoryAPI) {
-    //this.categories = this.categories.filter(h => h !== category);
     this.categoriesService.updateCategory(category).subscribe();
     this.toggleEditForm();
   }
