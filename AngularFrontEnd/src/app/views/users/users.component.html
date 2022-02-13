@@ -50,7 +50,7 @@
   <c-modal-body>
       <div class="mb-3">
         <label cLabel for="inputname">Name</label>
-        <input cFormControl id="inputname" name="inputname" type="text" value="{{selectedUser.name}}" formControlName="inputname">
+        <input cFormControl id="inputname" name="inputname" type="text" formControlName="inputname">
       </div>
       <div class="mb-3" *ngFor="let userRole of userRoles; let i=index">
         <c-form-check [switch]="true">

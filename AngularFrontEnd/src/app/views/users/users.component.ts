@@ -30,13 +30,13 @@ export class UsersComponent implements OnInit {
     fb: FormBuilder
   ) {
     this.editUserForm = fb.group({
-      inputname: new FormControl(),
+      inputname: new FormControl(''),
       checkUserRolesArray: new FormArray([]),
     });
     this.addUserForm = fb.group({
-      inputnameAdd: new FormControl(),
+      inputnameAdd: new FormControl(''),
       checkUserRolesArrayAdd: new FormArray([]),
-      passwordAdd: new FormControl()
+      passwordAdd: new FormControl('')
     });
   }
 
@@ -62,11 +62,13 @@ export class UsersComponent implements OnInit {
   }
 
   editForm(user: IUserAPI) {
-    //const checkUserRolesArray = this.editUserForm.get('checkUserRolesArray') as FormArray;
-    //checkUserRolesArray.push(new FormControl(user.roles));
     this.selectedUser = user;
-    this.editUserForm.value.checkUserRolesArray = user.roles;
-    this.editUserForm.value.inputname = user.name;
+    const inputname = this.editUserForm.get('inputname')?.setValue(this.selectedUser.name);
+    const checkUserRolesArray = this.editUserForm.get('checkUserRolesArray') as FormArray;
+    checkUserRolesArray.clear();
+    for (let i = 0; i < this.selectedUser.roles.length; i++) {
+      checkUserRolesArray.push(new FormControl(this.selectedUser.roles[i]));
+    }
     console.log(this.selectedUser);
     this.toggleEditForm();
   }
@@ -80,10 +82,10 @@ export class UsersComponent implements OnInit {
       this.selectedUser.roles = this.editUserForm.value.checkUserRolesArray;
       this.selectedUser.name = this.editUserForm.value.inputname;
       this.usersService.updateUser(this.selectedUser).subscribe();
-      this.toggleEditForm();
       console.log(this.selectedUser);
       console.log(this.editUserForm.value);
     }
+    this.toggleEditForm();
   }
 
 
@@ -125,6 +127,9 @@ export class UsersComponent implements OnInit {
   onCheckboxChange(e: any) {
     console.log(this.editUserForm.get('checkUserRolesArray'));
     const checkUserRolesArray = this.editUserForm.get('checkUserRolesArray') as FormArray;
+    /*     if (this.selectedUser) {
+          checkUserRolesArray.setValue(this.selectedUser.roles);
+        } */
     if (e.target.checked) {
       checkUserRolesArray.push(new FormControl(e.target.value));
     } else {
@@ -139,6 +144,7 @@ export class UsersComponent implements OnInit {
     const checkUserRolesArrayAdd = this.addUserForm.get('checkUserRolesArrayAdd') as FormArray;
     if (e.target.checked) {
       checkUserRolesArrayAdd.push(new FormControl(e.target.value));
+      console.log(e.target.value);
     } else {
       const index = checkUserRolesArrayAdd.controls
         .findIndex(x => x.value === e.target.value);
