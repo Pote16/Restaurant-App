@@ -83,7 +83,7 @@ export class MenuItemsService {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      // console.error(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       //this.log(`${operation} failed: ${error.message}`);
@@ -92,12 +92,4 @@ export class MenuItemsService {
       return of(result as T);
     };
   }
-
-  /** Log a HeroService message with the MessageService */
-  /*
-  private log(message: string) {
-    this.messageService.add(`HeroService: ${message}`);
-  }
-  */
-
 }

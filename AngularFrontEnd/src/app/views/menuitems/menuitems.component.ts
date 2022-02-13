@@ -154,7 +154,7 @@ export class MenuitemsComponent implements OnInit {
   }
 
   deleteMenuItem(menuItem: IMenuItemAPI): void {
-    this.menuItems = this.menuItems.filter(h => h !== menuItem);
+    menuItem.status = 2;
     this.menuItemsService.deleteMenuItem(menuItem.itemId).subscribe();
   }
 
@@ -197,9 +197,10 @@ export class MenuitemsComponent implements OnInit {
   }
 
   changeStatusAddForm(e: any) {
-    if (this.newMenuItem) {
-      this.newMenuItem.status = e.target.value;
-    }
+    this.editMenuItemForm.get('status')?.setValue(e.target.value);
+    /*     if (this.newMenuItem) {
+          this.newMenuItem.status = e.target.value;
+        } */
   }
 
 

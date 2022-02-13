@@ -117,7 +117,8 @@ export class UsersComponent implements OnInit {
 
   deleteUser(user: IUserAPI): void {
     this.users = this.users.filter(h => h !== user);
-    this.usersService.deleteUser(user.userID).subscribe();
+    let ob = this.usersService.deleteUser(user.userID).subscribe(() => console.log("test"));
+    console.log(ob);
   }
 
   handleFormChange(event: any) {
