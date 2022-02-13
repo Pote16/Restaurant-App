@@ -26,6 +26,7 @@ export class MenuitemsComponent implements OnInit {
   allergens: IAllergensAPI[] = [];
   menuItemStatusList: IMenuItemStatusAPI[] = [];
   addMenuItemForm: FormGroup;
+  editMenuItemForm: FormGroup;
 
   public visibleEditForm = false;
   public visibleAddNewForm = false;
@@ -38,6 +39,14 @@ export class MenuitemsComponent implements OnInit {
     fb: FormBuilder
   ) {
     this.addMenuItemForm = fb.group({
+      title: new FormControl(),
+      desc: new FormControl(),
+      price: new FormControl(),
+      status: new FormControl(),
+      categories: new FormArray([]),
+      allergens: new FormArray([]),
+    });
+    this.editMenuItemForm = fb.group({
       title: new FormControl(),
       desc: new FormControl(),
       price: new FormControl(),
@@ -80,11 +89,35 @@ export class MenuitemsComponent implements OnInit {
 
   editForm(menuItem: IMenuItemAPI) {
     this.selectedMenuItem = menuItem;
+    const title = this.editMenuItemForm.get('title')?.setValue(this.selectedMenuItem.title);
+    const desc = this.editMenuItemForm.get('desc')?.setValue(this.selectedMenuItem.desc);
+    const price = this.editMenuItemForm.get('price')?.setValue(this.selectedMenuItem.price);
+    const status = this.editMenuItemForm.get('status')?.setValue(this.selectedMenuItem.status);
+    const categories = this.editMenuItemForm.get('categories') as FormArray;
+    categories.clear();
+    for (let i = 0; i < this.selectedMenuItem.category.length; i++) {
+      categories.push(new FormControl(this.selectedMenuItem.category[i]));
+    }
+    const allergens = this.editMenuItemForm.get('allergens') as FormArray;
+    allergens.clear();
+    for (let i = 0; i < this.selectedMenuItem.allergens.length; i++) {
+      allergens.push(new FormControl(this.selectedMenuItem.allergens[i]));
+    }
+    console.log(this.selectedMenuItem);
+    console.log(this.editMenuItemForm);
     this.toggleEditForm();
   }
 
-  updateMenuItem(menuItem: IMenuItemAPI) {
-    this.menuItemsService.updateMenuItem(menuItem).subscribe();
+  updateMenuItem() {
+    if (this.selectedMenuItem) {
+      this.selectedMenuItem.title = this.editMenuItemForm.value.title;
+      this.selectedMenuItem.desc = this.editMenuItemForm.value.desc;
+      this.selectedMenuItem.price = this.editMenuItemForm.value.price;
+      this.selectedMenuItem.status = this.editMenuItemForm.value.status;
+      this.selectedMenuItem.category = this.editMenuItemForm.value.categories;
+      this.selectedMenuItem.allergens = this.editMenuItemForm.value.allergens;
+      this.menuItemsService.updateMenuItem(this.selectedMenuItem).subscribe();
+    }
     this.toggleEditForm();
   }
 
@@ -129,42 +162,93 @@ export class MenuitemsComponent implements OnInit {
     this.visibleEditForm = event;
   }
 
+
+  //---------Add-Form-----------------
   onCheckboxChangeAddFormAllergens(e: any) {
     console.log(this.addMenuItemForm.get('allergens'));
     const selectedCategories
-     = this.addMenuItemForm.get('allergens') as FormArray;
+      = this.addMenuItemForm.get('allergens') as FormArray;
     if (e.target.checked) {
       selectedCategories
-      .push(new FormControl(e.target.value));
+        .push(new FormControl(e.target.value));
     } else {
       const index = selectedCategories
-      .controls
+        .controls
         .findIndex(x => x.value === e.target.value);
       selectedCategories
-      .removeAt(index);
+        .removeAt(index);
     }
   }
 
   onCheckboxChangeAddFormCategories(e: any) {
     console.log(this.addMenuItemForm.get('categories'));
     const selectedCategories
-     = this.addMenuItemForm.get('categories') as FormArray;
+      = this.addMenuItemForm.get('categories') as FormArray;
     if (e.target.checked) {
       selectedCategories
-      .push(new FormControl(e.target.value));
+        .push(new FormControl(e.target.value));
     } else {
       const index = selectedCategories
-      .controls
+        .controls
         .findIndex(x => x.value === e.target.value);
       selectedCategories
-      .removeAt(index);
+        .removeAt(index);
     }
   }
 
-  changeStatusAddForm(e:any){
-    if (this.newMenuItem){
+  changeStatusAddForm(e: any) {
+    if (this.newMenuItem) {
       this.newMenuItem.status = e.target.value;
     }
+  }
+
+
+  //---------Edit-Form-----------------
+
+  onCheckboxChangeEditFormAllergens(e: any) {
+    console.log(this.editMenuItemForm.get('allergens'));
+    const selectedCategories
+      = this.editMenuItemForm.get('allergens') as FormArray;
+    if (e.target.checked) {
+      selectedCategories
+        .push(new FormControl(e.target.value));
+    } else {
+      const index = selectedCategories
+        .controls
+        .findIndex(x => x.value === e.target.value);
+      selectedCategories
+        .removeAt(index);
+    }
+  }
+
+  onCheckboxChangeEditFormCategories(e: any) {
+    console.log(this.editMenuItemForm.get('categories'));
+    const selectedCategories
+      = this.editMenuItemForm.get('categories') as FormArray;
+    if (e.target.checked) {
+      selectedCategories
+        .push(new FormControl(e.target.value));
+    } else {
+      const index = selectedCategories
+        .controls
+        .findIndex(x => x.value === e.target.value);
+      selectedCategories
+        .removeAt(index);
+    }
+  }
+
+  changeStatusEditForm(e: any) {
+    if (this.selectedMenuItem) {
+      this.selectedMenuItem.status = e.target.value;
+    }
+  }
+
+  checkAllergen(menuItem: IMenuItemAPI, i: number): boolean {
+    return menuItem.allergens.includes(i);
+  }
+
+  checkMenuCategory(menuItem: IMenuItemAPI, i: number): boolean {
+    return menuItem.category.includes(i);
   }
 
 }
