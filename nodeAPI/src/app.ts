@@ -68,9 +68,10 @@ app.get('/guest', (req, res) => {
     res.sendFile('index.html', { root: "/public/guest" });
 });
 
+var parseArgs = require('minimist')(process.argv.slice(2));
+console.log(parseArgs.p);
 
-
-const PORT = process.env.PORT || 3000;
+const PORT = parseArgs.p || 3000;
 const DOMAIN = process.env.DOMAIN || `localhost:${PORT}`;
 
 if (
@@ -86,6 +87,7 @@ async function startDBCon() {
 }
 
 startDBCon();
+
 
 app.listen(PORT, () =>
     applogger.info(`=== Starting Node-API on http://${DOMAIN}:${PORT}===`)
