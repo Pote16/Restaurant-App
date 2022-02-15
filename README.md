@@ -23,3 +23,12 @@ If there is any need of further help please don't hesitate to contact us direct 
 
 ## GitHub Repo
 https://github.com/Pote16/restaurant-app/
+
+## Video Instructions
+01-Installation: https://share.vidyard.com/watch/SGcpwN18LvU6xJoxGVNTm8?
+02-FrontEnd-UserDemo: https://share.vidyard.com/watch/6XLAUghxTtuNxfe7N3Ae7v?
+03-NodeApi-Code: https://share.vidyard.com/watch/Yr6hgMmsRH9QvQRhYBTkd4?
+04-Angular-Code: https://share.vidyard.com/watch/9KShrDzVahoY1WmRnNLsSZ?
+
+## URL Application on LiveServer 
+https://webtech.salespool.at/admin/
